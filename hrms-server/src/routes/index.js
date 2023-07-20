@@ -1,6 +1,8 @@
 // setup routes 
 const employeeRouter = require('./employeeRouter.js');
 
+const BASE_PATH = "/bff";
+
 module.exports = (app) => {
 	
 	// health check 
@@ -8,6 +10,6 @@ module.exports = (app) => {
 	  res.send('PING')
 	});
 
-	app.use('/employee' , employeeRouter );
+	app.use(`${BASE_PATH}/employees` , employeeRouter );
 	
 }

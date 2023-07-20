@@ -32,7 +32,10 @@ module.exports = {
         devMiddleware : {            
             //publicPath : '/dist/'
         },
-        port:3000,
-        hot:"only"
+        port:3001,
+        hot:"only",
+        proxy : {
+            '/bff':'http://localhost:3000'
+        }
     }
 }

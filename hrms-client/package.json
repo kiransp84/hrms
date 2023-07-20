@@ -4,13 +4,15 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "axios": "^1.4.0",
     "formik": "^2.4.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.2",
     "yup": "^1.2.0"
   },
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --port 3001",
     "build-bundle": "webpack --mode=development"
   },
   "devDependencies": {
