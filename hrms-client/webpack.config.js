@@ -22,7 +22,10 @@ module.exports = {
                         loader:"style-loader",
                         options : { injectType : "styleTag"}
                     },
-                    "css-loader"
+                    {
+                        loader:"css-loader",
+                        options : { modules : true }
+                    }
                 ]
             },
         ]
