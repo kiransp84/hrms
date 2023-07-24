@@ -25,6 +25,20 @@ const ListEmployees = ({employees}) => {
                 </RowCell>
             </Cell>
         </HColumn>
+        <HColumn dataKey="empid" label="EmployeeId" width={160} >
+            <Cell>
+                <HeadCell>
+                    {(cellProps) => (
+                        <Content>{cellProps.label}</Content>)
+                    }
+                </HeadCell>
+                <RowCell>
+                    {(cellProps) => (
+                        <Content>{cellProps.cellData}</Content>)
+                    }
+                </RowCell>
+            </Cell>
+        </HColumn>        
     </Columns>        
         </HGrid>
         </>
