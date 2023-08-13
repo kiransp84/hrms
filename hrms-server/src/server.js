@@ -1,10 +1,4 @@
-////
-const dotenv = require('dotenv');
-const myEnv = dotenv.config();
-const dotenvExpand = require('dotenv-expand');
-dotenvExpand.expand(myEnv);
-console.log(' SERVER ENVIRONMENT : ',process.env);
-/////
+require('./environment')();
 
 ///////////
 const express = require('express');
