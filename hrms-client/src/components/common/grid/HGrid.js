@@ -14,6 +14,7 @@ import {
   ContentBox
 } from './ContentBox';
 import styles from './Grid.example.css';
+import '!style-loader!css-loader!react-virtualized/styles.css';
 
 export default class GridExample extends React.PureComponent {
 
