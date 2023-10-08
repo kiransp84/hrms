@@ -1,19 +1,23 @@
 require('./environment')();
 
+const {initConnection,disconnectConnection} = require('./database/init');
+
 ///////////
-const express = require('express');
-const app = express();
-////////////
+const app = require('express')();
+app.use(require('body-parser').urlencoded({ extended: false }));
+require('./routes')(app); 
 
-///
-const bodyParser = require('body-parser')
-app.use(bodyParser.urlencoded({ extended: false }))
-////
+// database connnectivity 
+initConnection();
 
-// moving to a router 
-const approuter = require('./routes'); 
-approuter(app);
+// If the Node process ends, close the Mongoose connection
+process.on('SIGINT', async () => {
+  console.log('Shutting down the server Closing all db connections');
+  await disconnectConnection();
+  console.log('Shut Down Complete');
+  process.exit(0);
+});
 
-app.listen( process.env.PORT , () => {
+app.listen( process.env.PORT , async () => {
   console.log(`Example app listening on port ${process.env.PORT}`)
 });
