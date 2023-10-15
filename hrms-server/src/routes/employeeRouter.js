@@ -16,8 +16,11 @@ router.get('/listEmployees', async (req, res, next) => {
     console.log('dateOfBirth -- ',result.dateOfBirth);
     console.log('dateOfBirth in local string -- ',result.dateOfBirth.toLocaleString());
   })
-  console.log(' results ',results );
-  res.send(`OK`);
+  const listEmployeeResponse = {
+    statusCode:"OK",
+    results
+  };
+  res.send(listEmployeeResponse);
 })
 
 

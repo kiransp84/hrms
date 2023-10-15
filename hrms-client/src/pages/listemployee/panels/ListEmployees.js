@@ -15,8 +15,8 @@ class ListEmployees extends React.PureComponent {
         const sortDirection = SortDirection.ASC;
         const sortedList = this._sortList({ sortBy, sortDirection });
         const rowCount = sortedList.size;
-        console.log(' sortedList constructor ',sortedList);
-        console.log(' rowCount  constructor ',rowCount);
+        console.log(' sortedList constructor ', sortedList);
+        console.log(' rowCount  constructor ', rowCount);
 
         this.state = {
             disableHeader: false,
@@ -46,7 +46,7 @@ class ListEmployees extends React.PureComponent {
 
     _sortList({ sortBy, sortDirection }) {
         const list = this.props.employees;
-        console.log('list _sortList ',list);
+        console.log('list _sortList ', list);
 
         return list
             .sortBy(item => item[sortBy])
@@ -62,24 +62,26 @@ class ListEmployees extends React.PureComponent {
     }
 
     _getDatum(list, index) {
-        return list.get(index % list.size);
+        const datum = list.get(index % list.size);
+        console.log(`  row data for index : ${index} is ${JSON.stringify(datum)} `);
+        return datum;
     }
 
-    _headerRenderer({ dataKey, sortBy, sortDirection , label }) {
+    _headerRenderer({ dataKey, sortBy, sortDirection, label }) {
         return (
-            <div className={styles.columnHeader}>
-            {label}
-            {sortBy === dataKey && <SortIndicator sortDirection={sortDirection} />}
+            <div>
+                {label}
+                {sortBy === dataKey && <SortIndicator sortDirection={sortDirection} />}
             </div>
         );
     }
 
     _isSortEnabled() {
         const list = this.props.employees;
-        const {rowCount} = this.state;
-    
+        const { rowCount } = this.state;
+
         return rowCount <= list.size;
-      }
+    }
 
     _noRowsRenderer() {
         return <div className={styles.noRows}>No rows</div>;
@@ -162,28 +164,171 @@ class ListEmployees extends React.PureComponent {
                                 />
                             )}
                             <Column
-                                dataKey="empId"
+                                dataKey="employeeCode"
                                 label="Employee Id"
                                 disableSort={!this._isSortEnabled()}
                                 headerRenderer={this._headerRenderer}
                                 width={90}
                             />
                             <Column
-                                dataKey="firstName"
-                                label="First Name"
+                                dataKey="employeeName"
+                                label="Employee Name"
                                 disableSort={!this._isSortEnabled()}
                                 headerRenderer={this._headerRenderer}
                                 width={90}
-                            />                            
-                            <Column
-                                width={210}
-                                disableSort
-                                label="The description label is really long so that it will be truncated"
-                                dataKey="empid"
-                                className={styles.exampleColumn}
-                                cellRenderer={({ cellData }) => cellData}
-                                flexGrow={1}
                             />
+                            <Column
+                                width={120}
+                                label="Name of father / husband"
+                                dataKey="guardian"
+                                headerRenderer={this._headerRenderer}
+                            />
+                            <Column
+                                width={90}
+                                label="Gender"
+                                dataKey="gender"
+                                headerRenderer={this._headerRenderer}
+                            />
+                            <Column
+                                width={200}
+                                label="Date of Birth"
+                                dataKey="dateOfBirth"
+                                className={styles.exampleColumn}
+                                headerRenderer={this._headerRenderer}
+                                cellRenderer={({ cellData }) => {
+                                    console.log('cellData', cellData);
+                                    return cellData.toLocaleString();
+                                }}
+                            />
+                            <Column
+                                width={90}
+                                label="Designation"
+                                dataKey="designation"
+                                headerRenderer={this._headerRenderer}
+                            />
+                            <Column
+                                width={90}
+                                label="Date of joining"
+                                dataKey="designation"
+                                headerRenderer={this._headerRenderer}
+                            />
+
+                            <Column
+                                width={90}
+                                label="Status"
+                                dataKey="designation"
+                                headerRenderer={this._headerRenderer}
+                            />
+
+                            <Column
+                                width={90}
+                                label="Mobile Number"
+                                dataKey="designation"
+                                headerRenderer={this._headerRenderer}
+                            />
+
+                            <Column
+                                width={90}
+                                label="UAN (EPF)"
+                                dataKey="designation"
+                                headerRenderer={this._headerRenderer}
+                            />
+
+                            <Column
+                                width={90}
+                                label="EPF No"
+                                dataKey="designation"
+                                headerRenderer={this._headerRenderer}
+                            />
+
+                            <Column
+                                width={90}
+                                label="ESI Number"
+                                dataKey="designation"
+                                headerRenderer={this._headerRenderer}
+                            />
+
+                            <Column
+                                width={90}
+                                label="Welfare Fund Number"
+                                dataKey="designation"
+                                headerRenderer={this._headerRenderer}
+                            />
+
+                            <Column
+                                width={90}
+                                label="EPF"
+                                dataKey="designation"
+                                headerRenderer={this._headerRenderer}
+                            />
+
+                            <Column
+                                width={90}
+                                label="Nominee	Relation"
+                                dataKey="designation"
+                                headerRenderer={this._headerRenderer}
+                            />
+
+
+                            <Column
+                                width={90}
+                                label="ESI Nominee	Relation"
+                                dataKey="designation"
+                                headerRenderer={this._headerRenderer}
+                            />
+
+
+                            <Column
+                                width={90}
+                                label="GPAIP Nominee"
+                                dataKey="designation"
+                                headerRenderer={this._headerRenderer}
+                            />
+
+
+                            <Column
+                                width={90}
+                                label="Relation"
+                                dataKey="designation"
+                                headerRenderer={this._headerRenderer}
+                            />
+
+                            <Column
+                                width={90}
+                                label="Gratuity Nominee"
+                                dataKey="designation"
+                                headerRenderer={this._headerRenderer}
+                            />
+
+                            <Column
+                                width={90}
+                                label="Relation"
+                                dataKey="designation"
+                                headerRenderer={this._headerRenderer}
+                            />
+
+                            <Column
+                                width={90}
+                                label="Last Working Date"
+                                dataKey="designation"
+                                headerRenderer={this._headerRenderer}
+                            />
+
+                            <Column
+                                width={90}
+                                label="Date of Releaving"
+                                dataKey="designation"
+                                headerRenderer={this._headerRenderer}
+                            />
+
+                            <Column
+                                width={90}
+                                label="Remarks"
+                                dataKey="designation"
+                                headerRenderer={this._headerRenderer}
+                            />
+
+
                         </Table>
                     )}
                 </AutoSizer>

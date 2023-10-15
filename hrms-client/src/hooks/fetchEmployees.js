@@ -20,7 +20,9 @@ export const useFetchEmployees = () => {
           })
             .then(function (response) {
                 console.log(' Got list from server ',response.data );
-                setEmployees(Immutable.List(response.data));
+                if( response.data && response.data.statusCode === 'OK'){
+                    setEmployees(Immutable.List(response.data.results));
+                }                
                 /*const mockResponse = mockSingleResponse;
                 console.log(' Showing Mock Response ',mockResponse );
                 setEmployees(mockResponse);*/
