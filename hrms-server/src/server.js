@@ -19,5 +19,6 @@ process.on('SIGINT', async () => {
 });
 
 app.listen( process.env.PORT , async () => {
-  console.log(`Example app listening on port ${process.env.PORT}`)
+  console.log(`Server listening on port ${process.env.PORT}`);
+  console.log(`To test the front end hit the webpack server using url http://localhost:3001/ `);
 });

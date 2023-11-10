@@ -3,7 +3,25 @@ import React from 'react';
 import SortDirection from './SortDirection';
 import SortIndicator from './SortIndicator';
 import styles from './Table.example.css';
-import { Table, AutoSizer, Column } from 'react-virtualized';
+import { MultiGrid, AutoSizer, CellMeasurer, CellMeasurerCache } from 'react-virtualized';
+import { columnMap } from './ListEmployeesColumnMap';
+
+const STYLE = {
+    border: '1px solid #ddd',
+};
+const STYLE_BOTTOM_LEFT_GRID = {
+    borderRight: '2px solid #aaa',
+    backgroundColor: '#f7f7f7',
+};
+const STYLE_TOP_LEFT_GRID = {
+    borderBottom: '2px solid #aaa',
+    borderRight: '2px solid #aaa',
+    fontWeight: 'bold',
+};
+const STYLE_TOP_RIGHT_GRID = {
+    borderBottom: '2px solid #aaa',
+    fontWeight: 'bold',
+};
 
 
 //employees
@@ -14,7 +32,7 @@ class ListEmployees extends React.PureComponent {
         const sortBy = 'empid';
         const sortDirection = SortDirection.ASC;
         const sortedList = this._sortList({ sortBy, sortDirection });
-        const rowCount = sortedList.size;
+        const rowCount = sortedList.size + 1;
         console.log(' sortedList constructor ', sortedList);
         console.log(' rowCount  constructor ', rowCount);
 
@@ -36,10 +54,16 @@ class ListEmployees extends React.PureComponent {
         this._getRowHeight = this._getRowHeight.bind(this);
         this._headerRenderer = this._headerRenderer.bind(this);
         this._noRowsRenderer = this._noRowsRenderer.bind(this);
-        //this._onRowCountChange = this._onRowCountChange.bind(this);
         this._onScrollToRowChange = this._onScrollToRowChange.bind(this);
         this._rowClassName = this._rowClassName.bind(this);
         this._sort = this._sort.bind(this);
+
+        this.cache = new CellMeasurerCache({
+            defaultWidth: 100,
+            minWidth: 75,
+            fixedHeight: true
+        });
+
 
         console.log(' constructor EXIT ');
     }
@@ -115,18 +139,63 @@ class ListEmployees extends React.PureComponent {
         this.setState({ sortBy, sortDirection, sortedList });
     }
 
+    _cellRenderer = (args) => {
+        console.log(' args ', args);
+        const { columnIndex, key, rowIndex, style, parent } = args;
+        const columnProperty = columnMap[columnIndex];
+        if (rowIndex === 0) {
+            const label = columnProperty.label;
+
+            return (
+                <CellMeasurer
+                    cache={this.cache}
+                    columnIndex={columnIndex}
+                    key={key}
+                    parent={parent}
+                    rowIndex={rowIndex}
+                >
+                    <div className={styles.Cell} key={key} style={{
+                        ...style,
+                        height: 35,
+                        whiteSpace: 'nowrap',
+                        padding: '2px'
+                    }}>
+                        {label}
+                    </div>
+                </CellMeasurer>
+            );
+        } else {
+            const dataKey = columnProperty.dataKey;
+            const rowData = this._getDatum(this.state.sortedList, rowIndex);
+
+            return (
+                <CellMeasurer
+                    cache={this.cache}
+                    columnIndex={columnIndex}
+                    key={key}
+                    parent={parent}
+                    rowIndex={rowIndex}
+                >
+                    <div className={styles.Cell} key={key} style={{
+                        ...style,
+                        height: 35,
+                        whiteSpace: 'nowrap',
+                        padding: '2px'
+                    }}>
+                        {rowData[dataKey]}
+                    </div>
+                </CellMeasurer>
+
+            );
+        }
+
+    }
+
     render() {
         const {
-            disableHeader,
-            headerHeight,
             height,
-            hideIndexRow,
-            overscanRowCount,
             rowHeight,
             rowCount,
-            scrollToIndex,
-            sortBy,
-            sortDirection,
             sortedList,
             useDynamicRowHeight,
         } = this.state;
@@ -137,199 +206,28 @@ class ListEmployees extends React.PureComponent {
             <div className={styles.employeeContainer}>
                 <AutoSizer disableHeight>
                     {({ width }) => (
-                        <Table
-                            ref="Table"
-                            disableHeader={disableHeader}
-                            headerClassName={styles.headerColumn}
-                            headerHeight={headerHeight}
+                        <MultiGrid
+                            fixedColumnCount={1}
+                            fixedRowCount={1}
+                            scrollToColumn={0}
+                            scrollToRow={0}
+                            columnCount={columnMap.length}
+                            enableFixedColumnScroll
                             height={height}
-                            noRowsRenderer={this._noRowsRenderer}
-                            overscanRowCount={overscanRowCount}
-                            rowClassName={this._rowClassName}
                             rowHeight={useDynamicRowHeight ? this._getRowHeight : rowHeight}
-                            rowGetter={rowGetter}
                             rowCount={rowCount}
-                            scrollToIndex={scrollToIndex}
-                            sort={this._sort}
-                            sortBy={sortBy}
-                            sortDirection={sortDirection}
-                            width={width}>
-                            {!hideIndexRow && (
-                                <Column
-                                    label="Index"
-                                    cellDataGetter={({ rowData }) => rowData.index}
-                                    dataKey="empid"
-                                    disableSort={!this._isSortEnabled()}
-                                    width={60}
-                                />
-                            )}
-                            <Column
-                                dataKey="employeeCode"
-                                label="Employee Id"
-                                disableSort={!this._isSortEnabled()}
-                                headerRenderer={this._headerRenderer}
-                                width={90}
-                            />
-                            <Column
-                                dataKey="employeeName"
-                                label="Employee Name"
-                                disableSort={!this._isSortEnabled()}
-                                headerRenderer={this._headerRenderer}
-                                width={90}
-                            />
-                            <Column
-                                width={120}
-                                label="Name of father / husband"
-                                dataKey="guardian"
-                                headerRenderer={this._headerRenderer}
-                            />
-                            <Column
-                                width={90}
-                                label="Gender"
-                                dataKey="gender"
-                                headerRenderer={this._headerRenderer}
-                            />
-                            <Column
-                                width={200}
-                                label="Date of Birth"
-                                dataKey="dateOfBirth"
-                                className={styles.exampleColumn}
-                                headerRenderer={this._headerRenderer}
-                                cellRenderer={({ cellData }) => {
-                                    console.log('cellData', cellData);
-                                    return cellData.toLocaleString();
-                                }}
-                            />
-                            <Column
-                                width={90}
-                                label="Designation"
-                                dataKey="designation"
-                                headerRenderer={this._headerRenderer}
-                            />
-                            <Column
-                                width={90}
-                                label="Date of joining"
-                                dataKey="designation"
-                                headerRenderer={this._headerRenderer}
-                            />
-
-                            <Column
-                                width={90}
-                                label="Status"
-                                dataKey="designation"
-                                headerRenderer={this._headerRenderer}
-                            />
-
-                            <Column
-                                width={90}
-                                label="Mobile Number"
-                                dataKey="designation"
-                                headerRenderer={this._headerRenderer}
-                            />
-
-                            <Column
-                                width={90}
-                                label="UAN (EPF)"
-                                dataKey="designation"
-                                headerRenderer={this._headerRenderer}
-                            />
-
-                            <Column
-                                width={90}
-                                label="EPF No"
-                                dataKey="designation"
-                                headerRenderer={this._headerRenderer}
-                            />
-
-                            <Column
-                                width={90}
-                                label="ESI Number"
-                                dataKey="designation"
-                                headerRenderer={this._headerRenderer}
-                            />
-
-                            <Column
-                                width={90}
-                                label="Welfare Fund Number"
-                                dataKey="designation"
-                                headerRenderer={this._headerRenderer}
-                            />
-
-                            <Column
-                                width={90}
-                                label="EPF"
-                                dataKey="designation"
-                                headerRenderer={this._headerRenderer}
-                            />
-
-                            <Column
-                                width={90}
-                                label="Nominee	Relation"
-                                dataKey="designation"
-                                headerRenderer={this._headerRenderer}
-                            />
-
-
-                            <Column
-                                width={90}
-                                label="ESI Nominee	Relation"
-                                dataKey="designation"
-                                headerRenderer={this._headerRenderer}
-                            />
-
-
-                            <Column
-                                width={90}
-                                label="GPAIP Nominee"
-                                dataKey="designation"
-                                headerRenderer={this._headerRenderer}
-                            />
-
-
-                            <Column
-                                width={90}
-                                label="Relation"
-                                dataKey="designation"
-                                headerRenderer={this._headerRenderer}
-                            />
-
-                            <Column
-                                width={90}
-                                label="Gratuity Nominee"
-                                dataKey="designation"
-                                headerRenderer={this._headerRenderer}
-                            />
-
-                            <Column
-                                width={90}
-                                label="Relation"
-                                dataKey="designation"
-                                headerRenderer={this._headerRenderer}
-                            />
-
-                            <Column
-                                width={90}
-                                label="Last Working Date"
-                                dataKey="designation"
-                                headerRenderer={this._headerRenderer}
-                            />
-
-                            <Column
-                                width={90}
-                                label="Date of Releaving"
-                                dataKey="designation"
-                                headerRenderer={this._headerRenderer}
-                            />
-
-                            <Column
-                                width={90}
-                                label="Remarks"
-                                dataKey="designation"
-                                headerRenderer={this._headerRenderer}
-                            />
-
-
-                        </Table>
+                            style={STYLE}
+                            styleBottomLeftGrid={STYLE_BOTTOM_LEFT_GRID}
+                            styleTopLeftGrid={STYLE_TOP_LEFT_GRID}
+                            styleTopRightGrid={STYLE_TOP_RIGHT_GRID}
+                            width={width}
+                            hideBottomLeftGridScrollbar
+                            rowGetter={rowGetter}
+                            columnWidth={this.cache.columnWidth}
+                            deferredMeasurementCache={this.cache}
+                            cellRenderer={this._cellRenderer}
+                        >
+                        </MultiGrid>
                     )}
                 </AutoSizer>
             </div>
