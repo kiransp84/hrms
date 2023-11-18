@@ -1,9 +1,11 @@
 const XLSX = require('xlsx');
 const {readFile} = require('./FileUtils');
-const Employees = require('../../../../schema/employee/EmployeeSchema');
+const EmployeesModel = require('../../../../schema/employee/EmployeeSchema');
 const {fieldNameMaping} = require('./EmployeeDataValidator');
 const {initConnection,disconnectConnection} = require('../../../../database/init');
 const moment = require('moment');
+//
+const {Error}= require('mongoose');
 
 const DATEONLYFORMAT = 'DD-MMM-YYYY';
 
@@ -29,22 +31,24 @@ class EmployeeDataImporter {
     }
 
     mapRows( dataRows ,headerRow ) {
-        // To-Do validation before creating model 
-        const models = dataRows.map((row,index)=> {
-            const employeeModel = new Employees();
+        const employeeDTOs = dataRows.filter((row)=>{
+            // skip empty rows 
+            return row[headerRow.findIndex((header) => header === 'Employee code')];
+        }).map((row,index)=> {
+            const employeeDTO = new Object();
             row.forEach((datum,index)=> { 
                 const headerColumnName = headerRow[index];
                 const {fieldName} = fieldNameMaping[headerColumnName] ? fieldNameMaping[headerColumnName] : {} ;
                 if( fieldName ) {
-                    employeeModel[fieldName]=this.setField(fieldNameMaping[headerColumnName], datum );
-                    console.log(`IMPORT_DEBUG: mapped fieldName ${fieldName} with value ${employeeModel[fieldName]}`,)
+                    employeeDTO[fieldName]=this.setField(fieldNameMaping[headerColumnName], datum );
+                    console.log(`IMPORT_DEBUG: mapped fieldName ${fieldName} with value ${employeeDTO[fieldName]}`,)
                 }
                 else    
                     console.log('IMPORT_DEBUG: unmapped column read from sheet ',headerColumnName)
             });
-            return employeeModel;
+            return employeeDTO;
         })
-        return models;
+        return employeeDTOs;
     }
 
     async import() {
@@ -78,7 +82,31 @@ class EmployeeDataImporter {
 
         return Promise.all(
             models.map( 
-                employeeModel => employeeModel.save())
+                async employeeDTO => {
+                    console.log(' read one employee with employeeCode ',employeeDTO.employeeCode);
+                    const lookUp = { employeeCode : employeeDTO.employeeCode };
+                    const optional = await EmployeesModel.findOne( lookUp ).exec();                    
+                    try{
+                        if( optional ) {
+                            await EmployeesModel.replaceOne( lookUp , employeeDTO  );
+                        }else{
+                            let employeeModel = new EmployeesModel();
+                            Object.keys(employeeDTO).map( src =>{
+                                employeeModel[src] = employeeDTO[src];       
+                            });
+                            await employeeModel.save();
+                        }
+                    } catch (err) {
+                        console.error(' Got error ');
+                        if( err instanceof Error.ValidationError)
+                            console.error(' Validation Error : In Fields ',Object.keys(err.errors));
+                        else 
+                            console.error(' Error Info  ',err);
+                        //To-Do should we roll back the whole import even if one record has issue 
+                        throw err;
+                    }                    
+                }
+            )
         );
 
     }

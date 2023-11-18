@@ -128,5 +128,5 @@ const employeeSchema = new Schema({
 });
 
 //module.exports = employeeSchema;
-const Employees = mongoose.model('employees',employeeSchema);
-module.exports = Employees;
+const EmployeesModel = mongoose.model('employees',employeeSchema);
+module.exports = EmployeesModel;

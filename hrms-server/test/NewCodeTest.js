@@ -16,7 +16,7 @@ const EmployeeDataSource = require('../src/documents/types/xlsx/importer/Employe
         importer.cleanup();
         process.exit();
     }catch(e) {
-        console.log(' Import Failure ',e);
+        console.log(' Import Failure . Check logs for details');
         importer.cleanup();
         process.exit();
     }
