@@ -20,6 +20,19 @@ import {
 } from 'reactstrap';
 
 import {saveEmployees} from '../hooks/saveEmployees';
+import { Alert } from 'reactstrap';
+
+function AlertExample(props) {
+  const [visible, setVisible] = useState(true);
+
+  const onDismiss = () => setVisible(false);
+
+  return (
+    <Alert color="info" isOpen={visible} toggle={onDismiss}>
+      {props.message}
+    </Alert>
+  );
+}
 
 const initialValues = {
   firstName: '',
@@ -39,11 +52,17 @@ const initialValues = {
 // And now we can use these
 const CreateEmployeeForm = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const [message, setMessage] = useState(null);
   const isActive = (index) => {
     return activeTab === index;
   }
-  const saveEmployee = ()=>{
-    useSaveEmployees();
+  const processResponse = (response)=>{
+    console.log('handle the UI side action for response ',response);
+    if( response && response.data && response.status === 200  ) {
+        if( response.data.statusCode &&  "OK" === response.data.statusCode ) {
+          setMessage(` An employee with employee code ${response.data.results[0].employeeCode} is created `);
+        }
+    }
   }
 
   const renderPanel = () => {
@@ -82,12 +101,9 @@ const CreateEmployeeForm = () => {
         initialValues={initialValues}
         validationSchema={schema}
         onSubmit={ async (values, { setSubmitting }) => {
-          /*setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);*/
           const response = await saveEmployees(values);
-          //setSubmitting(false);
+          setSubmitting(false);
+          processResponse(response);
         }}
       >
         <Form>
@@ -162,29 +178,9 @@ const CreateEmployeeForm = () => {
           </Container>
         </Form>
       </Formik>
+      {message? <AlertExample message={message} /> : null  }      
     </>
   );
 }
-const CreateEmployeeFormBefore = () => {
-  return (
-    <>
-      <h1>Create Employee Screen</h1>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={schema}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
-        }}
-      >
-        <Form>
-
-        </Form>
-      </Formik>
-    </>
-  );
-};
 
 export default CreateEmployeeForm;
