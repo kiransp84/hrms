@@ -29,7 +29,7 @@ class ListEmployees extends React.PureComponent {
     constructor(props, context) {
         console.log(' Inside constructor ');
         super(props, context);
-        const sortBy = 'empid';
+        const sortBy = 'employeeCode';
         const sortDirection = SortDirection.ASC;
         const sortedList = this._sortList({ sortBy, sortDirection });
         const rowCount = sortedList.size + 1;

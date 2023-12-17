@@ -5,6 +5,8 @@ const {initConnection,disconnectConnection} = require('./database/init');
 ///////////
 const app = require('express')();
 app.use(require('body-parser').urlencoded({ extended: false }));
+app.use(require('body-parser').json());
+app.use(require('cors')());
 require('./routes')(app); 
 
 // database connnectivity 

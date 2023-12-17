@@ -1,30 +1,171 @@
-import React from 'react';
-import { Formik, Form, useField } from 'formik';
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
 
 import schema from '../schema/employee';
-import MyTextField from './common/html/MyTextField'; 
-import MySelectField from './common/html/MySelectField'; 
-import MyCheckboxField from './common/html/MyCheckboxField'; 
+import MyTextField from './common/html/MyTextField';
 import MyButton from './common/html/MyButton';
-import MyTextArea from './common/html/MyTextArea';
+
+import ContactPanel from './ContactInformation';
+import EmploymentDetailsPanel from './EmploymentDetailsPanel';
+import PersonalDetailsPanel from './PersonalDetailsPanel'
+import BankInfoPanel from './BankInfoPanel';
+import IdentityInfoPanel from './IdentityInfoPanel';
+import NomineeDetailsPanel from './NomineeDetailsPanel';
+
+
+import {
+  Container, Row, Col, Nav,
+  NavItem,
+  NavLink
+} from 'reactstrap';
+
+import {saveEmployees} from '../hooks/saveEmployees';
 
 const initialValues = {
-    firstName: '',
-    lastName: '',
-    offemail: '',
-    acceptedTerms: false, // added for our checkbox
-    designation: '', // added for our select
-    empId:'',
-    jobLocation:'',
-    dob:'',
-    addressofficial:'',
-    addresspersonal:'',
-    phoneofficialone:'',
-    phonePersonal:''
+  firstName: '',
+  lastName: '',
+  offemail: '',
+  acceptedTerms: false, // added for our checkbox
+  designation: '', // added for our select
+  employeeCode: '',
+  jobLocation: '',
+  dob: '',
+  addressofficial: '',
+  addresspersonal: '',
+  phoneofficialone: '',
+  phonePersonal: ''
 };
 
 // And now we can use these
 const CreateEmployeeForm = () => {
+  const [activeTab, setActiveTab] = useState(0);
+  const isActive = (index) => {
+    return activeTab === index;
+  }
+  const saveEmployee = ()=>{
+    useSaveEmployees();
+  }
+
+  const renderPanel = () => {
+    switch (activeTab) {
+      case 0:
+        return (
+          <ContactPanel />
+        );
+      case 1:
+        return (
+          <EmploymentDetailsPanel />
+        );
+      case 2:
+        return (
+          <PersonalDetailsPanel />
+        );
+      case 3:
+        return (
+          <BankInfoPanel />
+        );
+      case 4:
+        return (
+          <IdentityInfoPanel />
+        );
+      case 5:
+        return (
+          <NomineeDetailsPanel />
+        );
+    }
+  }
+
+  return (
+    <>
+      <h1>Create Employee</h1>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={schema}
+        onSubmit={ async (values, { setSubmitting }) => {
+          /*setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            setSubmitting(false);
+          }, 400);*/
+          const response = await saveEmployees(values);
+          //setSubmitting(false);
+        }}
+      >
+        <Form>
+          <Container fluid>
+            <Row>
+              <Col xs="3">
+                <MyTextField
+                  label="Employee Code"
+                  name="employeeCode"
+                  type="text"
+                  placeholder=""
+                  title="Enter Employee Code / Employee Id"
+                />
+              </Col>
+              <Col xs="3">
+                <MyTextField
+                  label="Name"
+                  name="employeeName"
+                  type="text"
+                  placeholder=""
+                />
+              </Col>
+              <Col xs="2">
+                <MyButton type="submit" label="Submit" />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs="6">
+                <Nav tabs>
+
+                  <NavItem>
+                    <NavLink href="#" active={isActive(0)} onClick={() => { setActiveTab(0); }}>
+                      Contact Information
+                    </NavLink>
+                  </NavItem>
+
+                  <NavItem>
+                    <NavLink href="#" active={isActive(1)} onClick={() => { setActiveTab(1); }}>
+                      Employment Info
+                    </NavLink>
+                  </NavItem>
+
+                  <NavItem>
+                    <NavLink href="#" active={isActive(2)} onClick={() => { setActiveTab(2); }}>
+                      Personal Info
+                    </NavLink>
+                  </NavItem>
+
+                  <NavItem>
+                    <NavLink href="#" active={isActive(3)} onClick={() => { setActiveTab(3); }}>
+                      Bank Info
+                    </NavLink>
+                  </NavItem>
+
+                  <NavItem>
+                    <NavLink href="#" active={isActive(4)} onClick={() => { setActiveTab(4); }}>
+                      Identitiy Info
+                    </NavLink>
+                  </NavItem>
+
+                  <NavItem>
+                    <NavLink href="#" active={isActive(5)} onClick={() => { setActiveTab(5); }}>
+                      Nominees Info
+                    </NavLink>
+                  </NavItem>
+                </Nav>
+              </Col>
+            </Row>
+            {
+              renderPanel()
+            }
+          </Container>
+        </Form>
+      </Formik>
+    </>
+  );
+}
+const CreateEmployeeFormBefore = () => {
   return (
     <>
       <h1>Create Employee Screen</h1>
@@ -40,96 +181,6 @@ const CreateEmployeeForm = () => {
       >
         <Form>
 
-        <MyTextField
-            label="Employee Id"
-            name="empId"
-            type="text"
-            placeholder=""
-          />
-
-          <MyTextField
-            label="First Name"
-            name="firstName"
-            type="text"
-            placeholder=""
-          />
-
-          <MyTextField
-            label="Last Name"
-            name="lastName"
-            type="text"
-            placeholder=""
-          />
-
-          <MyTextField
-            label="Official Email Address"
-            name="offemail"
-            type="email"
-            placeholder=""
-          />
-
-          <MySelectField label="Designation" name="designation">
-            <option value="">Select a Designation</option>
-            <option value="designer">Designer</option>
-            <option value="development">Developer</option>
-            <option value="product">Product Manager</option>
-            <option value="other">Other</option>
-          </MySelectField>
-
-          <MySelectField label="Job Location" name="jobLocation">
-            <option value="">Select a Location</option>
-            <option value="TRV">Trivandrum</option>
-            <option value="COK">Cochin</option>
-          </MySelectField>
-
-          <MyTextField
-            label="Date of Birth"
-            name="dob"
-            type="date"
-            id="dob"
-            placeholder=""
-          />
-
-          <MyTextArea
-                      label="Official Address"
-                      name="addressofficial"
-                      id="addressofficial"
-                      placeholder=""
-                      rows="4"
-                      cols="50"
-                    />
-
-          <MyTextField
-                      label="Contact No ( Official )"
-                      name="phoneofficial"
-                      type="text"
-                      id="phoneofficial"
-                      placeholder=""
-                    />
-
-
-          <MyTextArea
-                      label="Personal Address"
-                      name="addresspersonal"
-                      id="addresspersonal"
-                      placeholder=""
-                      rows="4"
-                      cols="50"
-                    />
-
-          <MyTextField
-                      label="Contact No ( Personal )"
-                      name="phonePersonal"
-                      type="text"
-                      id="phonePersonal"
-                      placeholder=""
-                    />
-
-          <MyCheckboxField name="acceptedTerms">
-            I accept the terms and conditions
-          </MyCheckboxField>
-
-          <MyButton type="submit" label="Submit"/>
         </Form>
       </Formik>
     </>

@@ -10,16 +10,18 @@ const phoneNumberSchema = ()=>{
 }
 
 const employee = Yup.object({
-  empId: Yup.number()
+  employeeCode: Yup.string()
     .required("Required")
-    .positive("Must be an integer ")
-    .integer("Must be a positive integer "),
-  firstName: Yup.string()
-    .max(15, "Must be 15 characters or less")
+    .max(7, "Must be 7 characters or less"),
+  employeeName: Yup.string()
+    .max(35, "Must be 35 characters or less")
     .required("Required"),
-  lastName: Yup.string()
-    .max(20, "Must be 20 characters or less")
-    .required("Required"),
+    guardian: Yup.string()
+    .max(35, "Must be 15 characters or less")
+    .required("Required")
+});
+
+const moved = Yup.object({
   offemail: Yup.string().email("Invalid email address").required("Required"),
   acceptedTerms: Yup.boolean()
     .required("Required")

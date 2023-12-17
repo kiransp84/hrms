@@ -338,7 +338,7 @@ export default class GridExample extends React.PureComponent {
         content = datum.name;
         break;
       case 2:
-        content = datum.empid;
+        content = datum.employeeCode;
         break;
       default:
         content = `r:${rowIndex}, c:${columnIndex}`;
