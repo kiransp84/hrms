@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Immutable from 'immutable'; //ListEmployees component expect a immutable list now 
-import {useState,useEffect} from 'react'
+import { useState, useEffect } from 'react'
 
 /*const mockSingleResponse = Immutable.List([
     {
@@ -10,24 +10,54 @@ import {useState,useEffect} from 'react'
 ]); */
 
 export const useFetchEmployees = () => {
-    const [employees,setEmployees] = useState(Immutable.List([]));
+    const [employees, setEmployees] = useState(Immutable.List([]));
 
-    useEffect(()=>{
+    useEffect(() => {
         axios({
             method: 'get',
             url: '/bff/employees/listEmployees',
             responseType: 'json'
-          })
+        })
             .then(function (response) {
-                console.log(' Got list from server ',response.data );
-                if( response.data && response.data.statusCode === 'OK'){
+                console.log(' Got list from server ', response.data);
+                if (response.data && response.data.statusCode === 'OK') {
                     setEmployees(Immutable.List(response.data.results));
-                }                
+                }
                 /*const mockResponse = mockSingleResponse;
                 console.log(' Showing Mock Response ',mockResponse );
                 setEmployees(mockResponse);*/
-          });
-    },[]);
-    console.log('employees useFetchEmployees ',employees);
+            });
+    }, []);
+    console.log('employees useFetchEmployees ', employees);
     return employees;
+}
+
+export const usefindOneEmployee = (id) => {
+    if (!id) return;
+
+    const [employee, setEmployee] = useState(null);
+    const [error, setError] = useState(null);
+    const [isLoading, setLoading ]  = useState(true);
+
+    useEffect(() => {
+        axios({
+            method: 'get',
+            url: '/bff/employees/findOne',
+            responseType: 'json',
+            params: {
+                id
+            }
+        })
+            .then(function (response) {
+                console.log(' Got data from server ', response.data);
+                setLoading(false);
+                if (response.data && response.data.statusCode === 'OK'
+                    && response.data.results[0]) {
+                    setEmployee(response.data.results[0]);
+                }else {
+                    setError("Unexpected Error Occured while fetching employee record ");
+                }
+            });
+    }, []);    
+    return {employee,error,isLoading};
 }

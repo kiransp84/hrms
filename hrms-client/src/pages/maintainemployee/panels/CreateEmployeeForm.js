@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
+import {
+  Container, Row, Col, Nav,
+  NavItem,
+  NavLink,
+  Alert
+} from 'reactstrap';
 
-import schema from '../schema/employee';
-import MyTextField from './common/html/MyTextField';
-import MyButton from './common/html/MyButton';
+import schema from '../../../schema/employee';
+
+import MyTextField from '../../../components/common/html/MyTextField';
+import MyButton from '../../../components/common/html/MyButton';
 
 import ContactPanel from './ContactInformation';
 import EmploymentDetailsPanel from './EmploymentDetailsPanel';
@@ -12,15 +19,7 @@ import BankInfoPanel from './BankInfoPanel';
 import IdentityInfoPanel from './IdentityInfoPanel';
 import NomineeDetailsPanel from './NomineeDetailsPanel';
 
-
-import {
-  Container, Row, Col, Nav,
-  NavItem,
-  NavLink
-} from 'reactstrap';
-
-import {saveEmployees} from '../hooks/saveEmployees';
-import { Alert } from 'reactstrap';
+import {saveEmployees} from '../../../hooks/saveEmployees';
 
 function AlertExample(props) {
   const [visible, setVisible] = useState(true);
@@ -34,7 +33,7 @@ function AlertExample(props) {
   );
 }
 
-const initialValues = {
+const initialValuesDef = {
   firstName: '',
   lastName: '',
   offemail: '',
@@ -46,11 +45,19 @@ const initialValues = {
   addressofficial: '',
   addresspersonal: '',
   phoneofficialone: '',
-  phonePersonal: ''
+  phonePersonal: '',
+  aadhaar:'TEST'
 };
 
 // And now we can use these
-const CreateEmployeeForm = () => {
+const CreateEmployeeForm = ({employeeData = {}}) => {
+
+  const initialValues = {
+    ...initialValuesDef,
+    ...employeeData
+  }
+
+  console.log(' initialValues ',initialValues);
   const [activeTab, setActiveTab] = useState(0);
   const [message, setMessage] = useState(null);
   const isActive = (index) => {
@@ -117,6 +124,7 @@ const CreateEmployeeForm = () => {
                   placeholder=""
                   title="Enter Employee Code / Employee Id"
                 />
+
               </Col>
               <Col xs="3">
                 <MyTextField

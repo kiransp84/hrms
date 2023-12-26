@@ -4,7 +4,7 @@ import {
     RouterProvider,
 } from "react-router-dom";
 
-import CreateEmployeeForm from './components/CreateEmployeeForm'
+import CreateEmployeeForm from './pages/maintainemployee'
 import ListEmployees from './pages/listemployee';
 
 import Menu from './components/Menu'
@@ -13,14 +13,14 @@ const router = createBrowserRouter([
     {
         path: "/",
         element: <Menu />,
-      },
+    },
     {
       path: "/employee/create",
       element: <CreateEmployeeForm />,
     },
     {
         path: "/employee/modify",
-        element: <CreateEmployeeForm />,
+        element: <CreateEmployeeForm />
     },
     {
         path: "/employee/list",

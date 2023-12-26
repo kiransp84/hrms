@@ -3,7 +3,7 @@ import {
     Row, Col
 } from 'reactstrap';
 
-import MyTextField from './common/html/MyTextField';
+import MyTextField from '../../../components/common/html/MyTextField';
 
 const BankInfoPanel = () => {
     return (

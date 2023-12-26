@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import {
     Row, Col
 } from 'reactstrap';
-import MyTextField from './common/html/MyTextField';
-import MySelectField from './common/html/MySelectField';
+import MyTextField from '../../../components/common/html/MyTextField';
+import MySelectField from '../../../components/common/html/MySelectField';
 
 const PersonalDetailsPanel = () => {
     return (

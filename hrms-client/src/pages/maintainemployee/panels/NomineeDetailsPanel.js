@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import {
     ListGroup, ListGroupItem
 } from 'reactstrap';
-import MyTextArea from './common/html/MyTextArea';
-import MyTextField from './common/html/MyTextField';
+import MyTextArea from '../../../components/common/html/MyTextArea';
+import MyTextField from '../../../components/common/html/MyTextField';
 
 const NomineeDetailsPanel = () => {
     return (
