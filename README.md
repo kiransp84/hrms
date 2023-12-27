@@ -12,12 +12,16 @@ Below steps assume that you have copied the source code to C:\HRMS\
 
 -- booting the server up 
 1)cd C:\HRMS\hrms\hrms-server
+
 2)npm install
+
 3)npm run dev
 
 -- starting the website up  
 1)C:\HRMS\hrms\hrms-client
+
 2)npm install 
+
 3)npm run dev
  
 Application URL - http://<SERVER_MACHINE_IP>:3001/
