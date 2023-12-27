@@ -5,6 +5,7 @@ import SortIndicator from './SortIndicator';
 import styles from './Table.example.css';
 import { MultiGrid, AutoSizer, CellMeasurer, CellMeasurerCache } from 'react-virtualized';
 import { columnMap } from './ListEmployeesColumnMap';
+import { Link } from '../../../../node_modules/react-router-dom';
 
 const STYLE = {
     border: '1px solid #ddd',
@@ -167,7 +168,7 @@ class ListEmployees extends React.PureComponent {
         } else {
             const dataKey = columnProperty.dataKey;
             const rowData = this._getDatum(this.state.sortedList, rowIndex);
-
+            console.log(' columnIndex ',columnIndex);
             return (
                 <CellMeasurer
                     cache={this.cache}
@@ -182,7 +183,15 @@ class ListEmployees extends React.PureComponent {
                         whiteSpace: 'nowrap',
                         padding: '2px'
                     }}>
-                        {rowData[dataKey]}
+                        {
+                            ( columnIndex !== 0 ) ? 
+                            rowData[dataKey] :
+                            (
+                            <Link to="/employee/modify" state={{id:rowData['_id']}}>
+                                {rowData[dataKey]}
+                            </Link>
+                            )
+                        }                        
                     </div>
                 </CellMeasurer>
 
