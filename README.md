@@ -1,6 +1,7 @@
 Software Installation on the server machine 
 --------------------------------------------
 Nodejs software - mandatory - https://nodejs.org/en/download/current 
+
 Git             - optional 
 
 Application Source Code download and build 
