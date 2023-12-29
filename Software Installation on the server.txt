@@ -1,0 +1,43 @@
+Software Installation on the server machine 
+--------------------------------------------
+Nodejs software - https://nodejs.org/en/download/current 
+
+Application Source Code download and build 
+-------------------------------------------
+	https://github.com/kiransp84/hrms
+
+C:\HRMS\hrms\hrms-server
+-- first time
+npm install  
+-- starting the server
+npm run dev 
+-- starting the client 
+C:\HRMS\hrms\hrms-client
+npm install 
+npm run dev 
+URL of the application - http://localhost:3001/ 
+Network URL - http://192.168.1.102:3001/
+
+=====================
+
+Database Setup 
+--------------------------------
+Added new database 
+Added new collection - employees
+Added new user for accessing the database from application 
+https://www.mongodb.com/atlas/database
+.env file we have mapped the username , password and database name 
+
+
+Data loading 
+=============
+C:\HRMS\hrms\hrms-dataloader
+npm install -- first time 
+npm run import-employees 
+
+Application 
+==================
+Create Employee 
+View Employees 
+
+Data Separation achieved - how ?

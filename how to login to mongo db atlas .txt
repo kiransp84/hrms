@@ -1,0 +1,26 @@
+how to login to mongo db atlas 
+--------------------------------------
+info.sunflowertvm@gmail.com
+admin@123
+
+how to create a database 
+----------------------------------
+globaladmin
+global123
+
+how to create a company database 
+ashtapadidb
+reflectionsdb
+
+
+how to create a company database user 
+--------------------------------------------
+
+ashtapadiuser 			-- ashtapadidb 
+
+reflectionsuser 		-- reflectionsdb
+
+how to use this company database in our application 
+-----------------------------------------------
+
+mongodb+srv://globaladmin:<password>@cluster0.aoyllgk.mongodb.net/?retryWrites=true&w=majority
