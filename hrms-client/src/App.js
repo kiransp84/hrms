@@ -6,6 +6,7 @@ import {
 
 import CreateEmployeeForm from './pages/maintainemployee'
 import ListEmployees from './pages/listemployee';
+import CreatePayroll from './pages/payroll'
 
 import Menu from './components/Menu'
 
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
         path: "/employee/list",
         element: <ListEmployees />,
     },
+    {
+        path: "/employee/payroll",
+        element: <CreatePayroll />,
+    },    
                 
   ]);
 

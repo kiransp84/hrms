@@ -8,7 +8,8 @@ const employeeSchema = new Schema({
     employeeCode:{
         type: String,
         required: true,
-        unique:true
+        unique:true,
+        immutable:true 
     },
     employeeName:{
         type: String,

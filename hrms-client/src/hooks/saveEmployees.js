@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const SERVER = 'http://localhost:3000';
+import {SERVER} from '../contants';
 
 export const saveEmployees = (formData) => {
     console.log(' formData to send to server ',formData);

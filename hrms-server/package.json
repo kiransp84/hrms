@@ -20,7 +20,7 @@
     "lodash.clone": "^4.5.0",
     "moment": "^2.29.4",
     "mongodb": "^5.7.0",
-    "mongoose": "^7.5.2",
+    "mongoose": "^8.0.3",
     "mongoose-connect-db": "^1.4.4",
     "xlsx": "^0.18.5"
   }

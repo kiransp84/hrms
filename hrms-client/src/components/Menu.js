@@ -10,5 +10,8 @@ export default () => (
         <li>
             <Link to="/employee/list">View Employees</Link>
         </li>
+        <li>
+            <Link to="/employee/payroll">View Payroll</Link>
+        </li>        
     </ul>
 )
