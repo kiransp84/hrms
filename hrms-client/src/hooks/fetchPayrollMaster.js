@@ -14,9 +14,10 @@ export const fetchPayrollMaster = (employeeCode) => {
     })
     .then(function (response) {
         console.log(' Got list from server ', response.data);
-        if (response.data && response.data.statusCode === 'OK') {
-            return response.data.results;
-        }
+        //if (response.data && response.data.statusCode === 'OK') {
+          //  return response.data.results;
+        //}
+        return response.data;
     });
 }
 
@@ -32,8 +33,9 @@ export const savePayrollMaster = (values) => {
     })
     .then(function (response) {
         console.log(' Got response from server ', response.data);
-        if (response.data && response.data.statusCode === 'OK') {
-            return response.data.results;
-        }
+        //if (response.data && response.data.statusCode === 'OK') {
+          //  return response.data.results;
+        //}
+        return response.data;
     });
 }

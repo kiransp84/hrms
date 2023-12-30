@@ -4,15 +4,18 @@ import formik from 'formik';
 import {
     Container, Row, Col, Nav,
     NavItem,
-    NavLink,
-    Alert
+    NavLink
 } from 'reactstrap';
 
 import MyTextField from '../../../components/common/html/MyTextField';
 import MyButton from '../../../components/common/html/MyButton';
 import {fetchPayrollMaster,savePayrollMaster} from '../../../hooks/fetchPayrollMaster';
+import {HistoryPanel} from './HistoryPanel';
 
 import schema from '../../../schema/payrollmaster';
+
+import {AlertPanel} from "../../../components/common/alerts/AlertPanel";
+
 
 const initialValuesDef = {
     employeeCode:'',
@@ -25,11 +28,10 @@ const initialValuesDef = {
     riskAllowances:''
 };
 
-
-
 const CreateEmployeePayrollForm = () => {
 
     const [payrollDetails,setPayrollDetails] = useState({});
+    const [message, setMessage] = useState(null);
 
     const disableFields = payrollDetails.activepayroll ? false : true;
 
@@ -39,10 +41,18 @@ const CreateEmployeePayrollForm = () => {
     }
 
     const fetchPayroll = async (values) => {
-        const payrollDetails = await fetchPayrollMaster(values.employeeCode);
-        if( payrollDetails ){
-            setPayrollDetails(payrollDetails);        
-        }        
+        const {statusCode,results,message} = await fetchPayrollMaster(values.employeeCode);
+        if( results ){
+            setPayrollDetails(results);        
+        }
+        if(message){
+          setMessage(message);        
+        }
+    }
+
+    const clear = () => {
+      setPayrollDetails({});        
+      setMessage(null);      
     }
 
     return (
@@ -53,9 +63,15 @@ const CreateEmployeePayrollForm = () => {
             enableReinitialize={true}
             validationSchema={schema}
             onSubmit={ async (values, { setSubmitting }) => {
-              const response = await savePayrollMaster(values);
+              const {statusCode,results,message} = await savePayrollMaster(values);
               setSubmitting(false);
               //processResponse(response);
+              if( results ){
+                setPayrollDetails(results);        
+            }
+            if(message){
+              setMessage(message);        
+            }
             }}
           >
             <Form>
@@ -72,6 +88,7 @@ const CreateEmployeePayrollForm = () => {
                   </Col>
                   <Col xs="3">
                     <MyButton type="button" label="List" onClick={fetchPayroll} />
+                    <MyButton type="button" label="Clear" onClick={clear} />
                   </Col>
                 </Row>   
 
@@ -144,6 +161,9 @@ const CreateEmployeePayrollForm = () => {
               <MyButton type="submit" label="Save"  />
             </Form>
           </Formik>
+          {message? <AlertPanel message={message} /> : null  }      
+          <HistoryPanel history={payrollDetails.history} /> 
+
           </>);
 }
 

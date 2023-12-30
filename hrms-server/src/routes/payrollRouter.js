@@ -5,21 +5,39 @@ const EmployeePayrollModel = require('../schema/payroll/EmployeePayrollSchema');
 const EmployeePayrollHistoryModel = require('../schema/payroll/EmployeePayrollHistorySchema');
 const EmployeesModel = require('../schema/employee/EmployeeSchema');
 
+const validateEmployee = async (employeeCode, res ) =>{
+    const employeeExists = await EmployeesModel.findOne({ employeeCode: employeeCode }).lean();
+    if (!employeeExists) {
+        res.send({
+            statusCode: 'NOK',
+            results: null,
+            message: "Invalid Employee Code"
+        });
+        throw Error("Invalid Employee Code");
+    }
+}
+
+
+
 router.get('/fetch', async (req, res) => {
 
-    if (!req.query.employeeCode) {
+    const employeeCode = req.query.employeeCode;
+
+    if (!employeeCode) {
         res.send(null);
         return;
     }
 
-    const employeeExists = await EmployeesModel.findOne({ employeeCode: req.query.employeeCode }).lean();
-    if (!employeeExists) {
-        res.send(null);
+    try {
+        await validateEmployee(employeeCode, res)
+    }catch( err ) {
         return;
     }
+    
 
     console.log(' fetching payroll master for requested employeeCode ', req.query.employeeCode);
     let activepayroll = await EmployeePayrollModel.findOne({ employeeCode: req.query.employeeCode }).lean();
+    let showCreationMessage = false;
     if (!activepayroll) {
         activepayroll = {
             employeeCode: req.query.employeeCode,
@@ -30,6 +48,7 @@ router.get('/fetch', async (req, res) => {
             otherAllowances: '',
             riskAllowances: ''
         }
+        showCreationMessage = true;
     }
 
     console.log(' fetching payroll history for requested employeeCode ', req.query.employeeCode);
@@ -46,6 +65,7 @@ router.get('/fetch', async (req, res) => {
     res.send({
         statusCode: 'OK',
         results: response,
+        message: showCreationMessage ? "Enter the payroll details and click to save": null 
     });
 
 });
@@ -53,9 +73,9 @@ router.get('/fetch', async (req, res) => {
 router.post('/save', async (req, res) => {
     const lookUp = { employeeCode: req.body.employeeCode };
 
-    const employeeExists = await EmployeesModel.findOne(lookUp).lean();
-    if (!employeeExists) {
-        res.send(null);
+    try {
+        await validateEmployee(req.body.employeeCode, res)
+    }catch( err ) {
         return;
     }
 
@@ -65,9 +85,16 @@ router.post('/save', async (req, res) => {
             req.body
         );
         console.log(document);
+        let activepayrollAfterSave = await EmployeePayrollModel.findOne({ employeeCode: req.body.employeeCode }).lean();
+        const historyAfterSave = await EmployeePayrollHistoryModel.find({ employeeCode: req.body.employeeCode }).lean();
+        const response = {
+            activepayroll : activepayrollAfterSave,
+            history : historyAfterSave
+        }
         res.send({
             statusCode: 'OK',
-            results: document,
+            results: response,
+            message: "Payroll info saved successfully"
         });
         return;
     }
@@ -83,9 +110,19 @@ router.post('/save', async (req, res) => {
 
     await employeePayrollModel.save(); 
 
+    let activepayrollAfterSave = await EmployeePayrollModel.findOne({ employeeCode: req.body.employeeCode }).lean();
+    const historyAfterSave = await EmployeePayrollHistoryModel.find({ employeeCode: req.body.employeeCode }).lean();
+
+    const response = {
+        activepayroll : activepayrollAfterSave,
+        history : historyAfterSave
+    }
+
+
     res.send({
         statusCode: 'OK',
-        results: employeePayrollModel,
+        results: response,
+        message: "Payroll info saved successfully"
     });
     return;
 

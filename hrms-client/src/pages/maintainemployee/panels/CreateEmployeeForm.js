@@ -3,8 +3,7 @@ import { Formik, Form } from 'formik';
 import {
   Container, Row, Col, Nav,
   NavItem,
-  NavLink,
-  Alert
+  NavLink
 } from 'reactstrap';
 
 import schema from '../../../schema/employee';
@@ -21,17 +20,8 @@ import NomineeDetailsPanel from './NomineeDetailsPanel';
 
 import {saveEmployees} from '../../../hooks/saveEmployees';
 
-function AlertExample(props) {
-  const [visible, setVisible] = useState(true);
+import {AlertPanel} from "../../../components/common/alerts/AlertPanel";
 
-  const onDismiss = () => setVisible(false);
-
-  return (
-    <Alert color="info" isOpen={visible} toggle={onDismiss}>
-      {props.message}
-    </Alert>
-  );
-}
 
 const initialValuesDef = {
   firstName: '',
@@ -46,7 +36,7 @@ const initialValuesDef = {
   addresspersonal: '',
   phoneofficialone: '',
   phonePersonal: '',
-  aadhaar:'TEST'
+  aadhaar:''
 };
 
 // And now we can use these
@@ -186,7 +176,7 @@ const CreateEmployeeForm = ({employeeData = {}}) => {
           </Container>
         </Form>
       </Formik>
-      {message? <AlertExample message={message} /> : null  }      
+      {message? <AlertPanel message={message} /> : null  }      
     </>
   );
 }
