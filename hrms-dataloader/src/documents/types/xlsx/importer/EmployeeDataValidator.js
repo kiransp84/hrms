@@ -7,6 +7,9 @@ const fieldNameMaping = {
     "Employee code":{
         "fieldName" : "employeeCode"
     },
+    "Company":{
+        "fieldName" : "companyCode"
+    },
     "Employee Name":{
         "fieldName" : "employeeName"
     },

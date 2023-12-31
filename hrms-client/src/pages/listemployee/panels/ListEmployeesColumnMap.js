@@ -5,6 +5,10 @@ export const columnMap = [
         label: 'Employee Code '
     },
     {
+        dataKey: 'companyCode',
+        label: 'Company Code'
+    },    
+    {
         dataKey: 'employeeName',
         label: 'Employee Name '
     },
