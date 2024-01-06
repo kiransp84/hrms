@@ -6,7 +6,8 @@ import {
 
 import CreateEmployeeForm from './pages/maintainemployee'
 import ListEmployees from './pages/listemployee';
-import CreatePayroll from './pages/payroll'
+import CreatePayroll from './pages/payroll';
+import GenerateSalary from './pages/generatesalary';
 
 import Menu from './components/Menu'
 
@@ -31,7 +32,10 @@ const router = createBrowserRouter([
         path: "/employee/payroll",
         element: <CreatePayroll />,
     },    
-                
+    {
+        path: "/employee/generatesalary",
+        element: <GenerateSalary />,
+    },                    
   ]);
 
 export default function App() {
