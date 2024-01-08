@@ -7,7 +7,8 @@ import MyTextField from '../../../components/common/html/MyTextField';
 
 const IdentityInfoPanel = () => {
     return (
-        <Row>
+		<>
+        <Row className="detailspanel">
             <Col xs="12">
                 <MyTextField
                     label="PAN"
@@ -17,41 +18,46 @@ const IdentityInfoPanel = () => {
                 />
 
                 <MyTextField
-                    label="aadhaar"
+                    label="Aadhaar"
                     name="aadhaar"
                     type="text"
                     placeholder=""
                 />
 
                 <MyTextField
-                    label="uan"
+                    label="UAN"
                     name="uan"
                     type="text"
                     placeholder=""
                 />
 
+            </Col>
+        </Row>
+		<Row className="detailspanel">
+			<Col xs="12">
                 <MyTextField
-                    label="epfNumber"
+                    label="EPFNumber"
                     name="epfNumber"
                     type="text"
                     placeholder=""
                 />
 
                 <MyTextField
-                    label="esiNumber"
+                    label="ESINumber"
                     name="esiNumber"
                     type="text"
                     placeholder=""
                 />
 
                 <MyTextField
-                    label="welfareFundNumber"
+                    label="WelfareFundNumber"
                     name="welfareFundNumber"
                     type="text"
                     placeholder=""
                 />
-            </Col>
-        </Row>
+			</Col>
+		</Row>
+		</>
     );
 }
 

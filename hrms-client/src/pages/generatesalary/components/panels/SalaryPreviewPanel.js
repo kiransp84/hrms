@@ -1,13 +1,12 @@
-import React , {useState,useCallback} from 'react';
 
-import {Container} from "reactstrap";
-
+import React from 'react';
 import SortDirection from './SortDirection';
 import SortIndicator from './SortIndicator';
 import styles from './SalaryPreview.css';
 import { MultiGrid, AutoSizer, CellMeasurer, CellMeasurerCache } from 'react-virtualized';
 import { columnMap } from './SalaryPreviewColumnMap';
 import { Link } from 'react-router-dom';
+import {Container} from "reactstrap";
 
 const STYLE = {
     border: '1px solid #ddd',
@@ -27,30 +26,19 @@ const STYLE_TOP_RIGHT_GRID = {
 };
 
 
-export default ({salaryData}) => {
-    const sortBy = 'salaryMonth';
-    const sortDirection = SortDirection.ASC;
+//employees
+class SalaryPreviewPanel extends React.PureComponent {
+    constructor(props, context) {
+        console.log(' Inside constructor ');
+        super(props, context);
+        const sortBy = 'employeeCode';
+        const sortDirection = SortDirection.ASC;
+        const sortedList = this._sortList({ sortBy, sortDirection });
+        const rowCount = sortedList.size + 1;
+        console.log(' sortedList constructor ', sortedList);
+        console.log(' rowCount  constructor ', rowCount);
 
-
-    const _sortList = useCallback(
-        ({ sortBy, sortDirection }) => {
-            const list = salaryData;
-            console.log('list _sortList ', list);
-            return list
-                .sortBy(item => item[sortBy])
-                .update(list =>
-                    sortDirection === SortDirection.DESC ? list.reverse() : list,
-            );
-        }
-    ); 
-
-    const sortedList = _sortList({ sortBy, sortDirection });
-    const rowCount = sortedList.size + 1;
-    console.log(' sortedList constructor ', sortedList);
-    console.log(' rowCount  constructor ', rowCount);
-
-    const [tableProps,setTableProps] = useState(
-        {
+        this.state = {
             disableHeader: false,
             headerHeight: 50,
             height: 270,
@@ -63,47 +51,70 @@ export default ({salaryData}) => {
             sortDirection,
             sortedList,
             useDynamicRowHeight: false,
-        }
-    );
+        };
 
-    const cache = new CellMeasurerCache({
-        defaultWidth: 100,
-        minWidth: 75,
-        fixedHeight: true
-    });
+        this._getRowHeight = this._getRowHeight.bind(this);
+        this._headerRenderer = this._headerRenderer.bind(this);
+        this._noRowsRenderer = this._noRowsRenderer.bind(this);
+        this._onScrollToRowChange = this._onScrollToRowChange.bind(this);
+        this._rowClassName = this._rowClassName.bind(this);
+        this._sort = this._sort.bind(this);
 
-    const _getDatum = useCallback(
-        (list, index) => {
-            const datum = list.get(index % list.size);
-            console.log(`  row data for index : ${index} is ${JSON.stringify(datum)} `);
-            return datum;
-        }
-    );
+        this.cache = new CellMeasurerCache({
+            defaultWidth: 100,
+            minWidth: 75,
+            fixedHeight: true
+        });
 
-    const _getRowHeight = useCallback(
-        ({ index }) => {
-            const list = salaryData;
-            return _getDatum(list, index).size;
-        }
-    )   
 
-    const _headerRenderer = useCallback(
-        ({ dataKey, sortBy, sortDirection, label }) => {
-            return (
-                <div>
-                    {label}
-                    {sortBy === dataKey && <SortIndicator sortDirection={sortDirection} />}
-                </div>
-            );
-        }
-    );
+        console.log(' constructor EXIT ');
+    }
 
-    const _noRowsRenderer = useCallback( () => {
+    _sortList({ sortBy, sortDirection }) {
+        const list = this.props.salaryData;
+        console.log('list _sortList ', list);
+
+        return list
+            .sortBy(item => item[sortBy])
+            .update(list =>
+                sortDirection === SortDirection.DESC ? list.reverse() : list,
+        );
+    }
+
+    _getRowHeight({ index }) {
+        const list = this.props.employees;
+
+        return this._getDatum(list, index).size;
+    }
+
+    _getDatum(list, index) {
+        const datum = list.get(index % list.size);
+        console.log(`  row data for index : ${index} is ${JSON.stringify(datum)} `);
+        return datum;
+    }
+
+    _headerRenderer({ dataKey, sortBy, sortDirection, label }) {
+        return (
+            <div>
+                {label}
+                {sortBy === dataKey && <SortIndicator sortDirection={sortDirection} />}
+            </div>
+        );
+    }
+
+    _isSortEnabled() {
+        const list = this.props.salaryData;
+        const { rowCount } = this.state;
+
+        return rowCount <= list.size;
+    }
+
+    _noRowsRenderer() {
         return <div className={styles.noRows}>No rows</div>;
-    });
+    }
 
-    const _onScrollToRowChangeFn = (tableProps,setTableProps) => (event) => {
-        const { rowCount } = tableProps;
+    _onScrollToRowChange(event) {
+        const { rowCount } = this.state;
         let scrollToIndex = Math.min(
             rowCount - 1,
             parseInt(event.target.value, 10),
@@ -113,55 +124,41 @@ export default ({salaryData}) => {
             scrollToIndex = undefined;
         }
 
-        setTableProps((prevState)=>{
-            return {
-                ...prevState,
-                scrollToIndex
-            }
-        });
+        this.setState({ scrollToIndex });
     }
 
-    const _rowClassName = useCallback(
-        ({ index }) => {
-            if (index < 0) {
-                return styles.headerRow;
-            } else {
-                return index % 2 === 0 ? styles.evenRow : styles.oddRow;
-            }
+    _rowClassName({ index }) {
+        if (index < 0) {
+            return styles.headerRow;
+        } else {
+            return index % 2 === 0 ? styles.evenRow : styles.oddRow;
         }
-    );
+    }
 
-    const _sort = useCallback(
-        ({ sortBy, sortDirection }) =>  {
-            const sortedList = _sortList({ sortBy, sortDirection });
-            this.setState({  });
-            setTableProps((prevState)=>{
-                return {
-                    ...prevState,
-                    sortBy, 
-                    sortDirection, 
-                    sortedList
-                }
-            } );
-        }
-    );
+    _sort({ sortBy, sortDirection }) {
+        const sortedList = this._sortList({ sortBy, sortDirection });
 
+        this.setState({ sortBy, sortDirection, sortedList });
+    }
 
-    const _cellRenderer = useCallback( (args) => {
+    _cellRenderer = (args) => {
         console.log(' args ', args);
         const { columnIndex, key, rowIndex, style, parent } = args;
         const columnProperty = columnMap[columnIndex];
         if (rowIndex === 0) {
             const label = columnProperty.label;
+			
+			
+
             return (
                 <CellMeasurer
-                    cache={cache}
+                    cache={this.cache}
                     columnIndex={columnIndex}
                     key={key}
                     parent={parent}
                     rowIndex={rowIndex}
                 >
-                    <div className={styles.Cell} key={key} style={{
+                    <div className={styles.Cell}  key={key} style={{
                         ...style,
                         height: 35,
                         whiteSpace: 'nowrap',
@@ -173,30 +170,24 @@ export default ({salaryData}) => {
             );
         } else {
             const dataKey = columnProperty.dataKey;
-            const rowData = _getDatum( tableProps.sortedList, rowIndex);
+            const rowData = this._getDatum(this.state.sortedList, rowIndex);
             console.log(' columnIndex ',columnIndex);
             return (
                 <CellMeasurer
-                    cache={cache}
+                    cache={this.cache}
                     columnIndex={columnIndex}
                     key={key}
                     parent={parent}
                     rowIndex={rowIndex}
                 >
-                    <div className={styles.Cell} key={key} style={{
+                    <div className={this._rowClassName({index:rowIndex})} key={key} style={{
                         ...style,
                         height: 35,
                         whiteSpace: 'nowrap',
                         padding: '2px'
                     }}>
                         {
-                            ( columnIndex !== 0 ) ? 
-                            rowData[dataKey] :
-                            (
-                            <Link to="/employee/modify" state={{id:rowData['_id']}}>
-                                {rowData[dataKey]}
-                            </Link>
-                            )
+                            rowData[dataKey]
                         }                        
                     </div>
                 </CellMeasurer>
@@ -205,25 +196,23 @@ export default ({salaryData}) => {
         }
 
     }
-    );
 
+    render() {
+        const {
+            height,
+            rowHeight,
+            rowCount,
+            sortedList,
+            useDynamicRowHeight,
+        } = this.state;
 
+        const rowGetter = ({ index }) => this._getDatum(sortedList, index);
 
-    const {
-        height,
-        rowHeight,                
-        useDynamicRowHeight,
-    } = tableProps;
-
-    const rowGetter = ({ index }) => _getDatum(sortedList, index);
-
-
-
-    return (
-        <Container className="bg-light border">
+        return (
+			<Container fluid>
             <div className={styles.employeeContainer}>
-                <AutoSizer disableHeight>
-                    {({ width }) => (
+                <AutoSizer>
+                    {({ height,width }) => (
                         <MultiGrid
                             fixedColumnCount={1}
                             fixedRowCount={1}
@@ -241,14 +230,20 @@ export default ({salaryData}) => {
                             width={width}
                             hideBottomLeftGridScrollbar
                             rowGetter={rowGetter}
-                            columnWidth={cache.columnWidth}
-                            deferredMeasurementCache={cache}
-                            cellRenderer={_cellRenderer}
+                            columnWidth={this.cache.columnWidth}
+                            deferredMeasurementCache={this.cache}
+                            cellRenderer={this._cellRenderer}
                         >
                         </MultiGrid>
                     )}
                 </AutoSizer>
             </div>
-        </Container>
-    );
+			</Container>
+
+        );
+    }
+
+
 }
+
+export default SalaryPreviewPanel;

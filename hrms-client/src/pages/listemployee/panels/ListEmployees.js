@@ -6,6 +6,7 @@ import styles from './Table.example.css';
 import { MultiGrid, AutoSizer, CellMeasurer, CellMeasurerCache } from 'react-virtualized';
 import { columnMap } from './ListEmployeesColumnMap';
 import { Link } from 'react-router-dom';
+import {Container} from "reactstrap";
 
 const STYLE = {
     border: '1px solid #ddd',
@@ -146,6 +147,8 @@ class ListEmployees extends React.PureComponent {
         const columnProperty = columnMap[columnIndex];
         if (rowIndex === 0) {
             const label = columnProperty.label;
+			
+			
 
             return (
                 <CellMeasurer
@@ -155,7 +158,7 @@ class ListEmployees extends React.PureComponent {
                     parent={parent}
                     rowIndex={rowIndex}
                 >
-                    <div className={styles.Cell} key={key} style={{
+                    <div className={styles.Cell}  key={key} style={{
                         ...style,
                         height: 35,
                         whiteSpace: 'nowrap',
@@ -177,7 +180,7 @@ class ListEmployees extends React.PureComponent {
                     parent={parent}
                     rowIndex={rowIndex}
                 >
-                    <div className={styles.Cell} key={key} style={{
+                    <div className={this._rowClassName({index:rowIndex})} key={key} style={{
                         ...style,
                         height: 35,
                         whiteSpace: 'nowrap',
@@ -212,9 +215,10 @@ class ListEmployees extends React.PureComponent {
         const rowGetter = ({ index }) => this._getDatum(sortedList, index);
 
         return (
+			<Container fluid>
             <div className={styles.employeeContainer}>
-                <AutoSizer disableHeight>
-                    {({ width }) => (
+                <AutoSizer>
+                    {({ height,width }) => (
                         <MultiGrid
                             fixedColumnCount={1}
                             fixedRowCount={1}
@@ -240,6 +244,7 @@ class ListEmployees extends React.PureComponent {
                     )}
                 </AutoSizer>
             </div>
+			</Container>
 
         );
     }

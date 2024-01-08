@@ -1,133 +1,171 @@
 import React, { useState } from "react";
 
-import {Card,CardHeader,ListGroup,ListGroupItem} from 'reactstrap';
+import { Card, CardHeader, ListGroup, ListGroupItem, Row, Col } from 'reactstrap';
 import { Formik, Form } from 'formik';
 
 import MyTextField from '../../../../components/common/html/MyTextField';
 import MyButton from '../../../../components/common/html/MyButton';
 
-export default () => {
-    const initialValues = {
-    };
+export default ({ onCalculate }) => {
+  const initialValues = {
+  };
 
-    return <Formik
+  return <Formik
     initialValues={initialValues}
-        /*validationSchema={schema}*/
-        onSubmit={ async (values, { setSubmitting }) => {
-            //const response = await saveEmployees(values);
-            setSubmitting(false);
-            //processResponse(response);
-        }}>
-        <Form>
-            <Card>
-            <CardHeader>
-            Enter the input fields to calculate salary 
+    /*validationSchema={schema}*/
+    onSubmit={async (values, { setSubmitting }) => {
+      // To-Do validate values 
+      onCalculate(values);
+      setSubmitting(false);
+      //processResponse(response);
+    }}>
+    <Form>
+      <Card>
+        <CardHeader>
+          Enter the input fields to calculate salary
             </CardHeader>
-            <ListGroup flush>
-            <ListGroupItem>
-            <MyTextField
+        <ListGroup flush>
+          <ListGroupItem>
+            <Row>
+              <Col xs="6">
+                <MyTextField
                   label="Days of attendance"
-                  name="employeeCode"
+                  name="daysofattendance"
                   type="text"
                   placeholder=""
-                  title="Enter Employee Code / Employee Id"
+                  title="Enter Days of attendance"
                 />
-                            <MyTextField
+              </Col>
+              <Col xs="6">
+                <MyTextField
                   label="Loss of pay days"
-                  name="employeeCode"
+                  name="lossofpaydays"
                   type="text"
                   placeholder=""
-                  title="Enter Employee Code / Employee Id"
+                  title="Enter Loss of pay days"
                 />
-                            <MyTextField
+              </Col>
+            </Row>
+          </ListGroupItem>
+          <ListGroupItem>
+            <Row>
+              <Col xs="6">
+                <MyTextField
                   label="Number of weekly off granted"
-                  name="employeeCode"
+                  name="numberofweeklyoffgranted"
                   type="text"
                   placeholder=""
-                  title="Enter Employee Code / Employee Id"
+                  title="Enter Number of weekly off granted"
                 />
-            </ListGroupItem>
-            <ListGroupItem>
-            <MyTextField
+              </Col><Col xs="6">
+                <MyTextField
                   label="Overtime wages"
-                  name="employeeCode"
+                  name="overtimewages"
                   type="text"
                   placeholder=""
-                  title="Enter Employee Code / Employee Id"
+                  title="Enter Overtime wages"
                 />
-                            <MyTextField
+              </Col>
+            </Row>
+          </ListGroupItem>
+          <ListGroupItem>
+            <Row>
+              <Col xs="6">
+                <MyTextField
                   label="Leave wages"
-                  name="employeeCode"
+                  name="leavewages"
                   type="text"
                   placeholder=""
-                  title="Enter Employee Code / Employee Id"
+                  title="Enter Leave wages"
                 />
-                            <MyTextField
+              </Col><Col xs="6">
+                <MyTextField
                   label="National & Festival Holidays wages"
-                  name="employeeCode"
+                  name="nationalFestivalHolidayswages"
                   type="text"
                   placeholder=""
-                  title="Enter Employee Code / Employee Id"
+                  title="Enter National & Festival Holidays wages"
                 />
-            </ListGroupItem>
-            <ListGroupItem>
-            <MyTextField
-                  label="Maternity Benefit"
-                  name="employeeCode"
-                  type="text"
-                  placeholder=""
-                  title="Enter Employee Code / Employee Id"
-                />
-                            <MyTextField
+              </Col>
+            </Row>
+          </ListGroupItem>
+
+          <ListGroupItem>
+            <Row><Col xs="6">
+              <MyTextField
+                label="Maternity Benefit"
+                name="maternityBenefit"
+                type="text"
+                placeholder=""
+                title="Enter Maternity Benefit"
+              />
+            </Col><Col xs="6">
+                <MyTextField
                   label="Advances"
-                  name="employeeCode"
+                  name="advances"
                   type="text"
                   placeholder=""
-                  title="Enter Employee Code / Employee Id"
+                  title="Enter Advances"
                 />
-                            <MyTextField
-                  label="Welfare Fund"
-                  name="employeeCode"
-                  type="text"
-                  placeholder=""
-                  title="Enter Employee Code / Employee Id"
-                />
-            </ListGroupItem>
-            <ListGroupItem>
-            <MyTextField
+              </Col>
+            </Row>
+          </ListGroupItem>
+          <ListGroupItem>
+            <Row><Col xs="6">
+              <MyTextField
+                label="Welfare Fund"
+                name="welfareFund"
+                type="text"
+                placeholder=""
+                title="Enter Welfare Fund"
+              />
+            </Col><Col xs="6">
+                <MyTextField
                   label="Professional Tax"
-                  name="employeeCode"
+                  name="professionalTax"
                   type="text"
                   placeholder=""
-                  title="Enter Employee Code / Employee Id"
+                  title="Enter Professional Tax"
                 />
-                            <MyTextField
-                  label="Deduction of Fine"
-                  name="employeeCode"
-                  type="text"
-                  placeholder=""
-                  title="Enter Employee Code / Employee Id"
-                />
-                            <MyTextField
+              </Col>
+            </Row>
+          </ListGroupItem>
+          <ListGroupItem>
+            <Row><Col xs="6">
+              <MyTextField
+                label="Deduction of Fine"
+                name="deductionofFine"
+                type="text"
+                placeholder=""
+                title="Enter Deduction of Fine"
+              />
+            </Col><Col xs="6">
+                <MyTextField
                   label="Deduction  for  Loss & Damages"
-                  name="employeeCode"
+                  name="deductionforLossDamages"
                   type="text"
                   placeholder=""
-                  title="Enter Employee Code / Employee Id"
+                  title="Enter Deduction  for  Loss & Damages"
                 />
-            </ListGroupItem>
-            <ListGroupItem>
-            <MyTextField
-                  label="Other Deduction"
-                  name="employeeCode"
-                  type="text"
-                  placeholder=""
-                  title="Enter Employee Code / Employee Id"
-                />
-                <MyButton type="submit" label="Submit" />
-            </ListGroupItem>                                                                                                                   
-            </ListGroup>
-            </Card>
-        </Form>    
-        </Formik>
+              </Col>
+            </Row>
+          </ListGroupItem>
+          <ListGroupItem>
+            <Row><Col xs="6">
+              <MyTextField
+                label="Other Deduction"
+                name="otherDeduction"
+                type="text"
+                placeholder=""
+                title="Enter Other Deduction"
+              />
+            </Col><Col xs="6">
+                <MyButton type="submit" label="Estimate" />
+              </Col>
+            </Row>
+          </ListGroupItem>
+        </ListGroup>
+      </Card>
+    </Form>
+  </Formik>
 }

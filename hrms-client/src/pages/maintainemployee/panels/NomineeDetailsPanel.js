@@ -10,14 +10,14 @@ const NomineeDetailsPanel = () => {
         <ListGroup>
             <ListGroupItem>
                 <MyTextField
-                    label="epfNominee"
+                    label="EPFNominee"
                     name="epfNominee"
                     type="text"
                     placeholder=""
                 />
 
                 <MyTextField
-                    label="epfNomineeRelation"
+                    label="EPFNomineeRelation"
                     name="epfNomineeRelation"
                     type="text"
                     placeholder=""
@@ -25,14 +25,14 @@ const NomineeDetailsPanel = () => {
             </ListGroupItem>
             <ListGroupItem>
                 <MyTextField
-                    label="esiNominee"
+                    label="ESINominee"
                     name="esiNominee"
                     type="text"
                     placeholder=""
                 />
 
                 <MyTextField
-                    label="esiNomineeRelation"
+                    label="ESINomineeRelation"
                     name="esiNomineeRelation"
                     type="text"
                     placeholder=""
@@ -40,14 +40,14 @@ const NomineeDetailsPanel = () => {
             </ListGroupItem>
             <ListGroupItem>
                 <MyTextField
-                    label="gpaIPNominee"
+                    label="GPAIPNominee"
                     name="gpaIPNominee"
                     type="text"
                     placeholder=""
                 />
 
                 <MyTextField
-                    label="gpaIPNomineeRelation"
+                    label="GPAIPNomineeRelation"
                     name="gpaIPNomineeRelation"
                     type="text"
                     placeholder=""
@@ -56,14 +56,14 @@ const NomineeDetailsPanel = () => {
             <ListGroupItem>
 
                 <MyTextField
-                    label="gratuityNominee"
+                    label="GratuityNominee"
                     name="gratuityNominee"
                     type="text"
                     placeholder=""
                 />
 
                 <MyTextField
-                    label="gratuityNomineeRelation"
+                    label="GratuityNomineeRelation"
                     name="gratuityNomineeRelation"
                     type="text"
                     placeholder=""

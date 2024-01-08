@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 
-import { Table } from 'reactstrap';
+import { Table , Container } from 'reactstrap';
 
 export const HistoryPanel = ({history}) => {
     if( !history ) return null ;
     return (
+		<Container fluid>
         <Table>
             <thead>
                 <tr>
                     <th>
-                        Version
+                        Payroll Version
                     </th>
                     <th>
                         Basic Pay
@@ -68,6 +69,7 @@ export const HistoryPanel = ({history}) => {
                 </th>
             </tfoot>
         </Table>
+		</Container>
     )
 }
 

@@ -10,4 +10,9 @@ import {
       key:'filterState',
       default:{}
   });
+
+  export const salaryState = atom({
+      key:'salaryState',
+      default:{}
+  })
  

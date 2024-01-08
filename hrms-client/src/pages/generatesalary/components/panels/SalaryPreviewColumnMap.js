@@ -5,12 +5,12 @@ export const columnMap = [
                 label: 'Employee Code '
         },
         {
-                dataKey: 'companyCode',
-                label: 'Company Code'
-        },
-        {
                 dataKey: 'employeeName',
                 label: 'Employee Name '
+        },        
+        {
+                dataKey: 'companyCode',
+                label: 'Company Code'
         },
         {
                 dataKey: 'designation',
@@ -26,171 +26,171 @@ export const columnMap = [
         },
         {
                 dataKey: 'ifscCode',
-                label: 'ifsc Code'
+                label: 'IFSC Code'
         },
         {
                 dataKey: 'accountNumber',
-                label: 'Account Number'
+                label: 'Bank Account Number'
         },
         {
-                dataKey: 'attendance',
+                dataKey: 'daysofattendance',
                 label: 'Days of attendance'
         },
         {
-                dataKey: 'lossOfPayDays',
+                dataKey: 'lossofpaydays',
                 label: 'Loss of pay days'
         },
         {
-                dataKey: 'weeklyOffGranted',
+                dataKey: 'numberofweeklyoffgranted',
                 label: 'Number of weekly off granted'
         },
         {
-                dataKey: 'leavesGranted',
+                dataKey: 'numberofLeavegranted',
                 label: 'Number of Leave granted'
         },
         {
-                dataKey: 'Basic'
+                dataKey: 'basicPay'
                 ,
                 label: 'Basic'
         },
         {
-                dataKey: 'DA'
+                dataKey: 'dearnessAllowance'
                 ,
                 label: 'DA'
         },
         {
-                dataKey: 'Actual Basic'
+                label : 'Actual Basic'
                 ,
-                label: 'ActualBasic'
+                dataKey: 'actualBasic'
         },
         {
-                dataKey: 'Actual DA'
+                label : 'Actual DA'
                 ,
-                label: 'ActualDA'
+                dataKey : 'actualDA'
         },
         {
-                dataKey: 'Gross Monthly Wages'
+                label : 'Gross Monthly Wages'
                 ,
-                label: 'GrossMonthlyWages'
+                dataKey : 'grossMonthlyWages'
         },
         {
-                dataKey: 'HRA'
+                dataKey: 'houseRentAllowance'
                 ,
                 label: 'HRA'
         },
         {
-                dataKey: 'city Compensation allowances'
+                dataKey: 'cityCompensationAllowance'
                 ,
-                label: 'cityCompensationallowances'
+                label: 'City Compensation allowances'
         },
         {
-                dataKey: 'Other Allowances'
+                dataKey: 'otherAllowances'
                 ,
-                label: 'OtherAllowances'
+                label: 'Other Allowances'
         },
         {
-                dataKey: 'Actual HRA'
+                dataKey: 'actualHRA'
                 ,
-                label: 'ActualHRA'
+                label: 'Actual HRA'
         },
         {
-                dataKey: 'Actual City Compensation allowances'
+                dataKey: 'actualCityCompensationallowances'
                 ,
-                label: 'ActualCityCompensationallowances'
+                label: 'Actual City Compensation Allowances'
         },
         {
-                dataKey: 'Overtime wages'
+                dataKey: 'overtimewages'
                 ,
-                label: 'Overtimewages'
+                label: 'Overtime Wages'
         },
         {
-                dataKey: 'Leave wages'
+                dataKey: 'leavewages'
                 ,
-                label: 'Leavewages'
+                label: 'Leave Wages'
         },
         {
-                dataKey: 'National & Festival Holidays wages'
+                dataKey: 'nationalFestivalHolidayswages'
                 ,
-                label: 'National&FestivalHolidayswages'
+                label: 'National & Festival Holidays Wages'
         },
         {
-                dataKey: 'Maternity Benefit'
+                dataKey: 'maternityBenefit'
                 ,
-                label: 'MaternityBenefit'
+                label: 'Maternity Benefit'
         },
         {
-                dataKey: 'Actual Other Allowances'
+                dataKey: 'actualOtherAllowances'
                 ,
-                label: 'ActualOtherAllowances'
+                label: 'Actual Other Allowances'
         },
         {
-                dataKey: 'Risk Allowances'
+                dataKey: 'riskAllowances'
                 ,
-                label: 'RiskAllowances'
+                label: 'Risk Allowances'
         },
         {
-                dataKey: 'Total Amount'
+                dataKey: 'totalAmount'
                 ,
-                label: 'TotalAmount'
+                label: 'Total Amount'
         },
         {
-                dataKey: 'Employees Provident Fund'
+                dataKey: 'employeesProvidentFund'
                 ,
-                label: 'EmployeesProvidentFund'
+                label: 'Employees Provident Fund'
         },
         {
-                dataKey: 'Employees State Insurance'
+                dataKey: 'employeesStateInsurance'
                 ,
-                label: 'EmployeesStateInsurance'
+                label: 'Employees State Insurance'
         },
         {
-                dataKey: 'Advances'
+                dataKey: 'advances'
                 ,
                 label: 'Advances'
         },
         {
-                dataKey: 'Welfare Fund'
+                dataKey: 'welfareFund'
                 ,
-                label: 'WelfareFund'
+                label: 'Welfare Fund'
         },
         {
-                dataKey: 'Professional Tax'
+                dataKey: 'professionalTax'
                 ,
-                label: 'ProfessionalTax'
+                label: 'Professional Tax'
         },
         {
-                dataKey: 'Deduction of Fine'
+                dataKey: 'deductionofFine'
                 ,
-                label: 'DeductionofFine'
+                label: 'Deduction of Fine'
         },
         {
-                dataKey: 'Deduction  for  Loss & Damages'
+                dataKey: 'deductionforLossDamages'
                 ,
-                label: 'DeductionforLoss&Damages'
+                label: 'Deduction for Loss & Damages'
         },
         {
-                dataKey: 'Other Deduction'
+                dataKey: 'otherDeduction'
                 ,
-                label: 'OtherDeduction'
+                label: 'Other Deduction'
         },
         {
-                dataKey: 'Total Deduction'
+                dataKey: 'totalDeduction'
                 ,
-                label: 'TotalDeduction'
+                label: 'Total Deduction'
         },
         {
-                dataKey: 'Net wages paid'
+                dataKey: 'netwagespaid'
                 ,
-                label: 'Netwagespaid'
+                label: 'Net wages paid'
         },
         {
-                dataKey: 'Mode of Payment'
+                dataKey: 'modeofPayment'
                 ,
-                label: 'ModeofPayment'
+                label: 'Mode of Payment'
         },
         {
-                dataKey: 'Date of Payment'
+                dataKey: 'dateofPayment'
                 ,
-                label: 'DateofPayment'
+                label: 'Date of Payment'
         },
 ];

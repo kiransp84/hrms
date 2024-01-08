@@ -57,7 +57,8 @@ const CreateEmployeePayrollForm = () => {
 
     return (
         <>
-          <h1>Create Employee</h1>
+		<Container fluid>
+          <h1>Create or Update Employee Payroll</h1>
           <Formik
             initialValues={initialValues}
             enableReinitialize={true}
@@ -76,8 +77,8 @@ const CreateEmployeePayrollForm = () => {
           >
             <Form>
               <Container fluid>
-                <Row>
-                  <Col xs="3">
+                <Row className="filterpanel">
+                  <Col xs="6">
                     <MyTextField
                       label="Employee Code"
                       name="employeeCode"
@@ -86,14 +87,15 @@ const CreateEmployeePayrollForm = () => {
                       title="Enter Employee Code / Employee Id"
                     />
                   </Col>
-                  <Col xs="3">
+                  <Col xs="6">
                     <MyButton type="button" label="List" onClick={fetchPayroll} />
+					&nbsp;
                     <MyButton type="button" label="Clear" onClick={clear} />
                   </Col>
                 </Row>   
 
-                <Row>
-                  <Col xs="3">
+                <Row className="detailspanel">
+                  <Col xs="6">
                     <MyTextField
                       label="Basic Pay"
                       name="basicPay"
@@ -103,7 +105,7 @@ const CreateEmployeePayrollForm = () => {
                       disabled={disableFields}
                     />
                   </Col>
-                  <Col xs="3">
+                  <Col xs="6">
                     <MyTextField
                         label="Dearness Allowance"
                         name="dearnessAllowance"
@@ -113,7 +115,10 @@ const CreateEmployeePayrollForm = () => {
                         disabled={disableFields}
                         />                    
                   </Col>
-                  <Col xs="3">
+                </Row>  
+
+				<Row className="detailspanel">
+                  <Col xs="6">
                     <MyTextField
                         label="House Rent Allowance"
                         name="houseRentAllowance"
@@ -123,7 +128,7 @@ const CreateEmployeePayrollForm = () => {
                         disabled={disableFields}
                         />                    
                   </Col>
-                  <Col xs="3">
+                  <Col xs="6">
                     <MyTextField
                         label="City Compensation Allowance"
                         name="cityCompensationAllowance"
@@ -132,11 +137,11 @@ const CreateEmployeePayrollForm = () => {
                         title="Enter City Compensation Allowance"
                         disabled={disableFields}
                         />                    
-                  </Col>
-                </Row>  
-
-                <Row>   
-                <Col xs="3">
+                  </Col>				
+				</Row>  
+				
+                <Row className="detailspanel">
+                <Col xs="6">
                     <MyTextField
                         label="Other Allowances"
                         name="otherAllowances"
@@ -146,7 +151,7 @@ const CreateEmployeePayrollForm = () => {
                         disabled={disableFields}
                         />                    
                   </Col>
-                  <Col xs="3">
+                  <Col xs="6">
                     <MyTextField
                         label="Risk Allowances"
                         name="riskAllowances"
@@ -156,14 +161,22 @@ const CreateEmployeePayrollForm = () => {
                         disabled={disableFields}
                         />                    
                   </Col>
-                </Row>                               
+                </Row>   
+				<Row className="detailspanel">   
+					<Col xs="6">
+					<MyButton type="submit" label="Save"  />
+					</Col>
+				</Row>
+
               </Container>
-              <MyButton type="submit" label="Save"  />
+              
             </Form>
           </Formik>
           {message? <AlertPanel message={message} /> : null  }      
-          <HistoryPanel history={payrollDetails.history} /> 
-
+          
+		  <HistoryPanel history={payrollDetails.history} /> 
+		  
+		  </Container>
           </>);
 }
 

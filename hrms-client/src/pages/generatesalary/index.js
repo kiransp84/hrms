@@ -1,10 +1,10 @@
 import React , {useState} from 'react';
 import { Formik, Form } from 'formik';
-
+import {
+    RecoilRoot
+  } from 'recoil';
 import MyTextField from '../../components/common/html/MyTextField';
 import MyButton from '../../components/common/html/MyButton';
-import MySelectField from '../../components/common/html/MySelectField';
-
 import { calculateActual } from './formulas';
 import DetailsContainer from './components/containers/DetailsContainer';
 
@@ -13,11 +13,9 @@ const initialValuesDef = {
     actualDA: ''
 }
 
-
 const GenerateSalary = () => {
-    return <DetailsContainer />
+    return <RecoilRoot><DetailsContainer /></RecoilRoot>
 }
-
 
 const GenerateSalaryTest = () => {
 
@@ -34,16 +32,14 @@ const GenerateSalaryTest = () => {
         ...{actualBasicPay}
     }
 
-    //return <div>{` calculateActual : ${ calculateActual(3100,10,'DEC',2023) }  `}</div>
+
 
     return (
         <Formik
             enableReinitialize={true}
             initialValues={initialValues}
             onSubmit={async (values, { setSubmitting }) => {
-                //const response = await saveEmployees(values);
                 setSubmitting(false);
-                //processResponse(response);
             }}
         >
             <Form>

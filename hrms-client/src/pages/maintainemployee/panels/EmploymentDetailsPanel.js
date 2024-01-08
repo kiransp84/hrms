@@ -8,7 +8,7 @@ import MySelectField from '../../../components/common/html/MySelectField';
 const EmploymentDetailsPanel = () => {
     return (
         <>
-            <Row>
+            <Row className="detailspanel">
                 <Col xs="4">
                     <MySelectField label="Designation" name="designation">
                         <option value="">Select a Designation</option>

@@ -4,6 +4,7 @@ import React from 'react';
 import '!style-loader!css-loader!bootstrap/dist/css/bootstrap.min.css';
 import '!style-loader!css-loader!./resources/styles/base.css';
 import '!style-loader!css-loader!./resources/styles/common.css';
+import '!style-loader!css-loader!./resources/styles/components.css';
 
 import App from "./App";
 

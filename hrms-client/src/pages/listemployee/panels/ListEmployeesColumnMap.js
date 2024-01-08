@@ -54,7 +54,7 @@ export const columnMap = [
 },
 {
         dataKey: 'ifscCode',
-        label: 'ifsc Code'
+        label: 'IFSC Code'
 },
 {
         dataKey: 'accountNumber',
@@ -62,7 +62,7 @@ export const columnMap = [
 },
 {
         dataKey: 'pan',
-        label: 'pan Number'
+        label: 'PAN Number'
 },
 {
         dataKey: 'aadhaar',
@@ -70,62 +70,62 @@ export const columnMap = [
 },
 {
         dataKey: 'uan',
-        label: 'Uan Number'
+        label: 'UAN Number'
 },
 {
         dataKey: 'epfNumber',
-        label: 'epf Number'
+        label: 'EPF Number'
 },
 {
         dataKey: 'esiNumber',
-        label: 'esi Number'
+        label: 'ESI Number'
 },
 {
         dataKey: 'welfareFundNumber',
-        label: 'welfareFundNumber'
+        label: 'Welfare Fund Number'
 },
 {
         dataKey: 'epfNominee',
-        label: 'epfNominee'
+        label: 'EPF Nominee'
 },
 {
         dataKey: 'epfNomineeRelation',
-        label: 'epfNomineeRelation'
+        label: 'EPF Nominee Relation'
 },
 {
         dataKey: 'esiNominee',
-        label: 'esiNominee'
+        label: 'ESI Nominee'
 },
 {
         dataKey: 'esiNomineeRelation',
-        label: 'esiNomineeRelation'
+        label: 'ESI Nominee Relation'
 },
 {
         dataKey: 'gpaIPNominee',
-        label: 'gpaIPNominee'
+        label: 'GPA IP Nominee'
 },
 {
         dataKey: 'gpaIPNomineeRelation',
-        label: 'gpaIPNomineeRelation'
+        label: 'GPA IP Nominee Relation'
 },
 {
         dataKey: 'gratuityNominee',
-        label: 'gratuityNominee'
+        label: 'Gratuity Nominee'
 },
 {
         dataKey: 'gratuityNomineeRelation',
-        label: 'gratuityNomineeRelation'
+        label: 'Gratuity Nominee Relation'
 },
 {
         dataKey: 'lastWorkingDate',
-        label: 'lastWorkingDate'
+        label: 'Last Working Date'
 },
 {
         dataKey: 'dateOfReleaving',
-        label: 'dateOfReleaving'
+        label: 'Date Of Releaving'
 },
 {
         dataKey: 'remarks',
-        label: 'remarks'
+        label: 'Remarks'
 }
 ];

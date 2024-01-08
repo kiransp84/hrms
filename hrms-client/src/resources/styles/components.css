@@ -1,0 +1,11 @@
+.filterpanel {
+	padding: 1px;
+    margin: 6px;
+    border: 1px red solid;
+    background-color: palegoldenrod;
+}
+
+.detailspanel {
+	padding: 1px;
+    margin: 6px;
+}

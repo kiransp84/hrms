@@ -109,8 +109,9 @@ const CreateEmployeeForm = ({employeeData = {}}) => {
       >
         <Form>
           <Container fluid>
+		    <Container fluid className="filterpanel">
             <Row>
-              <Col xs="3">
+              <Col xs="4">
                 <MyTextField
                   label="Employee Code"
                   name="employeeCode"
@@ -120,7 +121,7 @@ const CreateEmployeeForm = ({employeeData = {}}) => {
                 />
 
               </Col>
-              <Col xs="3">
+              <Col xs="4">
                 <MyTextField
                   label="Name"
                   name="employeeName"
@@ -135,12 +136,16 @@ const CreateEmployeeForm = ({employeeData = {}}) => {
                   }
                 </MySelectField>
               </Col>              
-              <Col xs="2">
-                <MyButton type="submit" label="Submit" />
-              </Col>
+
             </Row>
+			<Row>
+			  <Col xs="4">
+                <MyButton type="submit" label="Search" />
+              </Col>
+			</Row>
+			</Container>
             <Row>
-              <Col xs="6">
+              <Col xs="12">
                 <Nav tabs>
 
                   <NavItem>

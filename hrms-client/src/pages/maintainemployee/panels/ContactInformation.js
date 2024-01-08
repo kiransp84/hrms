@@ -7,7 +7,7 @@ import MyTextField from '../../../components/common/html/MyTextField';
 
 const ContactInformation = () => {
     return (
-        <Row>
+        <Row className="detailspanel">
             <Col xs="6">
                 <MyTextField
                     label="Contact Number"
