@@ -9,5 +9,5 @@ export const getMonthIndex = (monthThreeDigitCode) => {
 }
 
 export const calculateActual = ( fullAmount, eligibleDays , forMonth , year ) => {   
-    return ( fullAmount / getDaysInMonth(year,forMonth)  ) * eligibleDays  
+    return Math.round( (Number(fullAmount) / getDaysInMonth(year,forMonth)) * Number(eligibleDays) );
 }

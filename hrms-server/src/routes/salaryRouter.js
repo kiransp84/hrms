@@ -60,7 +60,8 @@ router.post('/fetchSalaryForMonth', async (req, res) => {
             houseRentAllowance:activepayroll.houseRentAllowance,
             cityCompensationAllowance:activepayroll.cityCompensationAllowance,
             otherAllowances:activepayroll.otherAllowances,
-            riskAllowances:activepayroll.riskAllowances
+            riskAllowances:activepayroll.riskAllowances,
+            modeOfPayment:activepayroll.modeOfPayment
         },
         salaryDetails
     };

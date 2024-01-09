@@ -39,7 +39,12 @@ const employeePayrollSchema = new Schema({
     riskAllowances:{
         type: Number,
         required: true,
-    }    
+    },
+    modeOfPayment:{
+        type: String,
+        required: true,
+        enum:['Bank','Cash']
+    }   
 });
 employeePayrollSchema.pre('findOneAndUpdate', async function(next) {
     const docToUpdate = await this.model.findOne(this.getQuery());
@@ -56,6 +61,7 @@ employeePayrollSchema.pre('findOneAndUpdate', async function(next) {
         employeeModel.otherAllowances=docToUpdate.otherAllowances;
         employeeModel.riskAllowances=docToUpdate.riskAllowances;
         employeeModel.version = docToUpdate.version;
+        employeeModel.modeOfPayment = docToUpdate.modeOfPayment;
 
     const newVersion = docToUpdate.version  + 1 ;
     console.log(' new version ', newVersion );

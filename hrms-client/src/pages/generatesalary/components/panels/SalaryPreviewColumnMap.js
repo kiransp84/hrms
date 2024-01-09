@@ -184,7 +184,7 @@ export const columnMap = [
                 label: 'Net wages paid'
         },
         {
-                dataKey: 'modeofPayment'
+                dataKey: 'modeOfPayment'
                 ,
                 label: 'Mode of Payment'
         },

@@ -35,7 +35,12 @@ const employeePayrollHistorySchema = new Schema({
     riskAllowances:{
         type: Number,
         required: true,
-    }    
+    },
+    modeOfPayment:{
+        type: String,
+        required: true,
+        enum:['Bank','Cash']
+    }       
 });
 
 

@@ -6,6 +6,7 @@ import { Formik, Form } from 'formik';
 import MyTextField from '../../../../components/common/html/MyTextField';
 import MyButton from '../../../../components/common/html/MyButton';
 
+
 export default ({ onCalculate }) => {
   const initialValues = {
   };
@@ -160,10 +161,23 @@ export default ({ onCalculate }) => {
                 title="Enter Other Deduction"
               />
             </Col><Col xs="6">
-                <MyButton type="submit" label="Estimate" />
+            <MyTextField
+                label="Date of Payment"
+                name="dateofPayment"
+                type="date"
+                placeholder=""
+                title="Enter Date of Payment"
+              />                
               </Col>
             </Row>
           </ListGroupItem>
+          <ListGroupItem>
+            <Row>
+              <Col xs="6">
+                <MyButton type="submit" label="Estimate" />
+              </Col>
+            </Row>
+          </ListGroupItem>          
         </ListGroup>
       </Card>
     </Form>

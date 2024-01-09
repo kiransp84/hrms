@@ -29,7 +29,10 @@ export const HistoryPanel = ({history}) => {
                     </th>
                     <th>
                         Risk Allowances
-                    </th>                    
+                    </th>  
+                    <th>
+                        Mode of Payment
+                    </th>                                             
                 </tr>
             </thead>
             <tbody>
@@ -57,7 +60,10 @@ export const HistoryPanel = ({history}) => {
                                 </td>
                                 <td>
                                     {item.riskAllowances}
-                                </td>                                
+                                </td>          
+                                <td>
+                                    {item.modeOfPayment}
+                                </td>                                                              
                             </tr>
                         )                        
                     )
