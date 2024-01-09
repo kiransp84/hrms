@@ -6,7 +6,6 @@ import { calculateActual } from '../pages/generatesalary/formulas';
 export const fetchSalaryForMonth = ({ employeeCode, salaryMonth, salaryYear }) => {
 
     if (!employeeCode || !salaryMonth || !salaryYear) {
-        alert(' Enter EmployeeCode , SalaryMonth and SalaryYear ');
         return;
     }
 

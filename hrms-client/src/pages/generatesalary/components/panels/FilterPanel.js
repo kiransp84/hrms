@@ -3,10 +3,15 @@ import { Container, Form, FormGroup, Label, Input, Button, Row, Col } from 'reac
 import {
     useRecoilState,
 } from 'recoil';
+
+import {AlertPanel} from '../../../../components/common/alerts/AlertPanel';
+
 import { filterPanelState } from '../../recoil';
 
 const months = ['', 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 const years = [-1, 0, 1, 2, 3, 4, 5];
+
+const isNotEmpty = (value) => value && `${value}`.length > 0 
 
 export default ({ currentMonth, currentYear, onList }) => {
 
@@ -16,16 +21,22 @@ export default ({ currentMonth, currentYear, onList }) => {
     const [employeeCode, setEmployeeCode] = useState('');
     const [salaryMonth, setSalaryMonth] = useState(months[currentMonth + 1]);
     const [salaryYear, setSalaryYear] = useState(currentYear);
+    const [message, setMessage] = useState(null);
+
+    
     const onClickView = () => {
-        console.log(employeeCode, salaryMonth, salaryYear);
-        const isValid = true;
+        const isValid = isNotEmpty(employeeCode) && isNotEmpty(salaryMonth) && isNotEmpty(salaryYear) ;        
         if (isValid) {
             // server call to do 2 things 
             // validate employee and return the salary 
             onList({ employeeCode, salaryMonth, salaryYear });
             // store in recoil state 
             setFilterState({ employeeCode, salaryMonth, salaryYear });
+            setMessage(null);
+        }else {
+            setMessage("Enter EmployeeId , SalaryMonth , Salary Year ");
         }
+
     }
 
     return (
@@ -100,6 +111,13 @@ export default ({ currentMonth, currentYear, onList }) => {
                         <Button type="button" onClick={onClickView}>
                             View
                         </Button>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs="12">
+                        {
+                            message ? <AlertPanel message={message} /> : null 
+                        }
                     </Col>
                 </Row>
             </Form>

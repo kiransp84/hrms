@@ -6,6 +6,7 @@ import { Formik, Form } from 'formik';
 import MyTextField from '../../../../components/common/html/MyTextField';
 import MyButton from '../../../../components/common/html/MyButton';
 
+import schema from '../../../../schema/salaryMaster'
 
 export default ({ onCalculate }) => {
   const initialValues = {
@@ -13,7 +14,7 @@ export default ({ onCalculate }) => {
 
   return <Formik
     initialValues={initialValues}
-    /*validationSchema={schema}*/
+    validationSchema={schema}
     onSubmit={async (values, { setSubmitting }) => {
       // To-Do validate values 
       onCalculate(values);
