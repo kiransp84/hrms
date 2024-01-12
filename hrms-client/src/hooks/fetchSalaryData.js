@@ -32,6 +32,25 @@ const copyValueAsNumber = (target, source, keys) => {
     }
 }
 
+export const saveSalary = ({results},{salaryMonth,salaryYear}) => {
+    const {salaryDetails,payrollDetails,employeeDetails} =results;
+    const data ={
+        salaryMonth,
+        salaryYear,
+        ...salaryDetails ,
+        ...payrollDetails,
+        ...employeeDetails
+    }
+    return axios({
+        method: 'post',
+        url: `${SERVER}/bff/salary/saveSalaryForMonth`,
+        responseType: 'json',
+        data
+    }).then(function (response) {
+        console.log(' Got list from server ', response.data);
+        return response.data;
+    });
+}
 
 export const estimateSalary = (salaryData, {salaryMonth,salaryYear}, values) => {
     /*console.log(' salaryData ',salaryData);
@@ -41,8 +60,9 @@ export const estimateSalary = (salaryData, {salaryMonth,salaryYear}, values) => 
     let salaryProps = {};
     copyValueAsNumber(salaryProps, values, ['daysofattendance', 'lossofpaydays', 'numberofweeklyoffgranted', 'overtimewages', 'leavewages', 'nationalFestivalHolidayswages', 'maternityBenefit',
         'advances', 'welfareFund', 'professionalTax', 'deductionofFine', 
-        'deductionforLossDamages', 'otherDeduction','modeOfPayment']);
+        'deductionforLossDamages', 'otherDeduction','modeofPayment','numberofLeavegranted']);
 
+        
     salaryProps['dateofPayment'] = values['dateofPayment'];
     salaryProps['actualBasic'] = calculateActual(payrollDetails.basicPay, salaryProps['daysofattendance'], salaryMonth , salaryYear );
     salaryProps['actualDA'] = calculateActual(payrollDetails.dearnessAllowance, salaryProps['daysofattendance'], salaryMonth , salaryYear );

@@ -1,12 +1,15 @@
-import React from 'react';
+import React ,{useState} from 'react';
 
 import {
     useSetRecoilState,
     useRecoilValue,
-    useResetRecoilState
+    useResetRecoilState,
+    useRecoilState
   } from 'recoil';
 
-import {fetchSalaryForMonth,estimateSalary} from '../../../../hooks/fetchSalaryData';
+  import {AlertPanel} from '../../../../components/common/alerts/AlertPanel';
+
+import {fetchSalaryForMonth,estimateSalary,saveSalary} from '../../../../hooks/fetchSalaryData';
 
 import {salaryState,filterPanelState} from '../../recoil';
 
@@ -17,6 +20,9 @@ export default () => {
     const salaryStateValue = useRecoilValue(salaryState);
     const filterPanelStateValue = useRecoilValue(filterPanelState);
     const reset = useResetRecoilState(salaryState);
+    const resetFilter = useResetRecoilState(filterPanelState);
+    const resetSalary = useResetRecoilState(salaryState);
+    const [message,setMessage] = useState(null);
 
     const fetchSalaryCallFn = async (args)=>{
        const response = await fetchSalaryForMonth(args);
@@ -29,9 +35,23 @@ export default () => {
         setSalaryState(estimateSalary(salaryStateValue,filterPanelStateValue,values));
     }
 
+    const saveSalaryFn = async () => {
+        const response = await saveSalary(salaryStateValue, filterPanelStateValue);
+        if(response.statusCode === 'OK') {
+                setMessage(response.message);
+                resetSalary();
+                reset();
+                resetFilter();
+        }
+    }
+
     return (
-        <DetailsPanel 
-        fetchSalaryCallFn={fetchSalaryCallFn} 
-        estimateSalaryFn={estimateSalaryFn} />
+        <>
+            <DetailsPanel 
+            fetchSalaryCallFn={fetchSalaryCallFn} 
+            estimateSalaryFn={estimateSalaryFn} 
+            saveSalaryFn={saveSalaryFn}/>
+            {message ? <AlertPanel  message={message} /> : null  }
+        </>
     )
 }

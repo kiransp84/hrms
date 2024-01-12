@@ -7,7 +7,7 @@ import InputPanel from './InputPanel';
 
 import SalaryPreviewContainer from '../containers/SalaryPreviewContainer';
 
-const DetailsPanel = ({fetchSalaryCallFn,estimateSalaryFn}) => {
+const DetailsPanel = ({fetchSalaryCallFn,estimateSalaryFn,saveSalaryFn}) => {
     const currentMonth = new Date().getMonth(); 
     const currentYear = new Date().getFullYear();
     return (
@@ -19,7 +19,7 @@ const DetailsPanel = ({fetchSalaryCallFn,estimateSalaryFn}) => {
             </Row>
             <Row>
                 <Col className="bg-light border">
-                    <InputPanel onCalculate={estimateSalaryFn} />
+                    <InputPanel onCalculate={estimateSalaryFn} onSave={saveSalaryFn} />
                 </Col>
             </Row>
             <Row>

@@ -6,13 +6,22 @@ import { Formik, Form } from 'formik';
 import MyTextField from '../../../../components/common/html/MyTextField';
 import MyButton from '../../../../components/common/html/MyButton';
 
+import FooterPanel from '../panels/FooterPanel';
 import schema from '../../../../schema/salaryMaster'
 
-export default ({ onCalculate }) => {
+import {useRecoilValue} from 'recoil';
+import {salaryState} from '../../recoil'; 
+export default ({ onCalculate , onSave }) => {
+
+  const {results={}} =  useRecoilValue(salaryState);
+
+  const {salaryDetails={}} = results;
   const initialValues = {
+    ...salaryDetails
   };
 
   return <Formik
+    enableReinitialize={true}
     initialValues={initialValues}
     validationSchema={schema}
     onSubmit={async (values, { setSubmitting }) => {
@@ -49,6 +58,21 @@ export default ({ onCalculate }) => {
               </Col>
             </Row>
           </ListGroupItem>
+
+          <ListGroupItem>
+            <Row>
+              <Col xs="6">
+                <MyTextField
+                  label="Number of Leaves Granted"
+                  name="numberofLeavegranted"
+                  type="text"
+                  placeholder=""
+                  title="Enter Number of Leaves Granted"
+                />
+              </Col>
+            </Row>
+          </ListGroupItem>          
+          
           <ListGroupItem>
             <Row>
               <Col xs="6">
@@ -176,6 +200,9 @@ export default ({ onCalculate }) => {
             <Row>
               <Col xs="6">
                 <MyButton type="submit" label="Estimate" />
+              </Col>
+              <Col xs="6">
+                <FooterPanel onSave={onSave} />
               </Col>
             </Row>
           </ListGroupItem>          

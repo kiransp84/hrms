@@ -10,12 +10,13 @@ const salarySchema = new Schema({
         required: true,
         immutable: true 
     },
-    month:{
+    salaryMonth:{
         type: String,
         required: true,
-        enum:['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC']
+        enum:['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'],
+        immutable: true 
     },
-    year:{
+    salaryYear:{
         type: Number,
         required: true,
         immutable: true 
@@ -27,135 +28,113 @@ const salarySchema = new Schema({
     },        
     daysofattendance:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     lossofpaydays:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     numberofweeklyoffgranted:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     numberofLeavegranted:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     actualBasic:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     actualDA:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     grossMonthlyWages:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     actualHRA:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     actualCityCompensationallowances:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     overtimewages:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     leavewages:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     nationalFestivalHolidayswages:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     maternityBenefit:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     actualOtherAllowances:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     riskAllowances:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },    
     totalAmount:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     employeesProvidentFund:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     employeesStateInsurance:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     advances:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     welfareFund:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     professionalTax:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     deductionofFine:{
         type: Number,
-        required: true,
-        immutable: true 
+        required: true
     },
     deductionforLossDamages:{
         type: Number,
         required: true,
-        immutable: true 
+        
     },
     otherDeduction:{
         type: Number,
         required: true,
-        immutable: true 
+        
     },
     totalDeduction:{
         type: Number,
         required: true,
-        immutable: true 
+        
     },
     netwagespaid:{
         type: Number,
         required: true,
-        immutable: true 
+        
     },
-    modeofPayment:{
+    modeOfPayment:{
         type: String,
         required: true,
         enum:['Bank','Cash']
@@ -163,6 +142,11 @@ const salarySchema = new Schema({
     dateofPayment:{
         type: Date,
         required: true  
+    },
+    status:{
+        type: String,
+        default:'DRAFT',
+        enum:['DRAFT','FINAL']
     }
 });
 
