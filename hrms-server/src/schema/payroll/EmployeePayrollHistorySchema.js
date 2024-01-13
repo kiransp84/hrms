@@ -43,7 +43,6 @@ const employeePayrollHistorySchema = new Schema({
     }       
 });
 
-
 const EmployeePayrollHistoryModel = mongoose.model('employeepayrollhistory', employeePayrollHistorySchema );
 module.exports = EmployeePayrollHistoryModel;
 

@@ -29,14 +29,11 @@ const STYLE_TOP_RIGHT_GRID = {
 //employees
 class ListEmployees extends React.PureComponent {
     constructor(props, context) {
-        console.log(' Inside constructor ');
         super(props, context);
-        const sortBy = 'employeeCode';
+		const sortBy = 'companyCode'; 
         const sortDirection = SortDirection.ASC;
         const sortedList = this._sortList({ sortBy, sortDirection });
         const rowCount = sortedList.size + 1;
-        console.log(' sortedList constructor ', sortedList);
-        console.log(' rowCount  constructor ', rowCount);
 
         this.state = {
             disableHeader: false,
@@ -65,20 +62,17 @@ class ListEmployees extends React.PureComponent {
             minWidth: 75,
             fixedHeight: true
         });
-
-
-        console.log(' constructor EXIT ');
     }
 
     _sortList({ sortBy, sortDirection }) {
         const list = this.props.employees;
-        console.log('list _sortList ', list);
-
         return list
             .sortBy(item => item[sortBy])
             .update(list =>
                 sortDirection === SortDirection.DESC ? list.reverse() : list,
         );
+		
+		return list;
     }
 
     _getRowHeight({ index }) {
@@ -88,8 +82,7 @@ class ListEmployees extends React.PureComponent {
     }
 
     _getDatum(list, index) {
-        const datum = list.get(index % list.size);
-        console.log(`  row data for index : ${index} is ${JSON.stringify(datum)} `);
+		const datum = list.get(index-1);
         return datum;
     }
 
@@ -142,7 +135,6 @@ class ListEmployees extends React.PureComponent {
     }
 
     _cellRenderer = (args) => {
-        console.log(' args ', args);
         const { columnIndex, key, rowIndex, style, parent } = args;
         const columnProperty = columnMap[columnIndex];
         if (rowIndex === 0) {
@@ -171,7 +163,6 @@ class ListEmployees extends React.PureComponent {
         } else {
             const dataKey = columnProperty.dataKey;
             const rowData = this._getDatum(this.state.sortedList, rowIndex);
-            console.log(' columnIndex ',columnIndex);
             return (
                 <CellMeasurer
                     cache={this.cache}

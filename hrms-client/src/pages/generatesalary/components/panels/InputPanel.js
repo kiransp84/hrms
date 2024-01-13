@@ -17,6 +17,21 @@ export default ({ onCalculate , onSave }) => {
 
   const {salaryDetails={}} = results;
   const initialValues = {
+    daysofattendance:'0',
+    lossofpaydays:'0',
+    numberofLeavegranted:'0',
+    numberofweeklyoffgranted:'0',
+    overtimewages:'0',
+    leavewages:'0',
+    nationalFestivalHolidayswages:'0',
+    maternityBenefit:'0',
+    advances:'0',
+    welfareFund:'0',
+    professionalTax:'0',
+    deductionofFine:'0',
+    deductionforLossDamages:'0',
+    otherDeduction:'0',
+    dateofPayment:'0',
     ...salaryDetails
   };
 

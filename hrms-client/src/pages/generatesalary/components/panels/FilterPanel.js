@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { Container, Form, FormGroup, Label, Input, Button, Row, Col } from 'reactstrap';
 import {
     useRecoilState,
+    useResetRecoilState
 } from 'recoil';
 
 import {AlertPanel} from '../../../../components/common/alerts/AlertPanel';
 
-import { filterPanelState } from '../../recoil';
+import { filterPanelState , salaryState } from '../../recoil';
 
 const months = ['', 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 const years = [-1, 0, 1, 2, 3, 4, 5];
@@ -23,6 +24,9 @@ export default ({ currentMonth, currentYear, onList }) => {
     const [salaryYear, setSalaryYear] = useState(currentYear);
     const [message, setMessage] = useState(null);
 
+    const resetFilter = useResetRecoilState(filterPanelState);
+    const resetSalary = useResetRecoilState(salaryState);
+
     
     const onClickView = () => {
         const isValid = isNotEmpty(employeeCode) && isNotEmpty(salaryMonth) && isNotEmpty(salaryYear) ;        
@@ -37,6 +41,11 @@ export default ({ currentMonth, currentYear, onList }) => {
             setMessage("Enter EmployeeId , SalaryMonth , Salary Year ");
         }
 
+    }
+
+    const onClickClear = () => {
+        resetSalary();
+        resetFilter();
     }
 
     return (
@@ -111,6 +120,9 @@ export default ({ currentMonth, currentYear, onList }) => {
                         <Button type="button" onClick={onClickView}>
                             View
                         </Button>
+                        <Button type="button" onClick={onClickClear}>
+                            Clear
+                        </Button>                        
                     </Col>
                 </Row>
                 <Row>

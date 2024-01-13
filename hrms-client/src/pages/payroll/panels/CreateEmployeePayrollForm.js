@@ -65,7 +65,7 @@ const CreateEmployeePayrollForm = () => {
           initialValues={initialValues}
           enableReinitialize={true}
           validationSchema={schema}
-          onSubmit={async (values, { setSubmitting }) => {
+          onSubmit={async (values, { setSubmitting , resetForm}) => {
             const { statusCode, results, message } = await savePayrollMaster(values);
             setSubmitting(false);
             //processResponse(response);
@@ -75,6 +75,12 @@ const CreateEmployeePayrollForm = () => {
             if (message) {
               setMessage(message);
             }
+
+            resetForm({ values :{
+              ...initialValuesDef
+            }});
+
+            setPayrollDetails({});
           }}
         >
           <Form>
@@ -181,7 +187,7 @@ const CreateEmployeePayrollForm = () => {
 
           </Form>
         </Formik>
-        {message ? <AlertPanel message={message} /> : null}
+        {message ? <AlertPanel message={message} time={new Date().getMilliseconds()}/> : null}
 
         <HistoryPanel history={payrollDetails.history} />
 

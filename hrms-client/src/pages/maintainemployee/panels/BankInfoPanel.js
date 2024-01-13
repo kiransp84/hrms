@@ -23,7 +23,7 @@ const BankInfoPanel = () => {
 					<MyTextField
 						label="IFSC Code"
 						name="ifscCode"
-						type="email"
+						type="text"
 						placeholder=""
 					/>
 				</Col>

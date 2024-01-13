@@ -107,6 +107,7 @@ router.post('/save', async (req, res) => {
     employeePayrollModel.cityCompensationAllowance = req.body.cityCompensationAllowance;
     employeePayrollModel.otherAllowances = req.body.otherAllowances;
     employeePayrollModel.riskAllowances = req.body.riskAllowances;
+    employeePayrollModel.modeOfPayment = req.body.modeOfPayment;
 
     await employeePayrollModel.save(); 
 

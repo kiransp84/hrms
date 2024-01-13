@@ -19,8 +19,7 @@ export const useFetchEmployees = () => {
             responseType: 'json'
         })
             .then(function (response) {
-                console.log(' Got list from server ', response.data);
-                if (response.data && response.data.statusCode === 'OK') {
+                if (response.data && response.data.statusCode === 'OK') {									
                     setEmployees(Immutable.List(response.data.results));
                 }
                 /*const mockResponse = mockSingleResponse;
@@ -28,7 +27,6 @@ export const useFetchEmployees = () => {
                 setEmployees(mockResponse);*/
             });
     }, []);
-    console.log('employees useFetchEmployees ', employees);
     return employees;
 }
 
@@ -49,7 +47,6 @@ export const usefindOneEmployee = (id) => {
             }
         })
             .then(function (response) {
-                console.log(' Got data from server ', response.data);
                 setLoading(false);
                 if (response.data && response.data.statusCode === 'OK'
                     && response.data.results[0]) {

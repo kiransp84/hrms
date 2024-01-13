@@ -28,19 +28,34 @@ import {COMPANIES} from '../../../contants';
 
 const initialValuesDef = {
   companyCode:'',
-  firstName: '',
-  lastName: '',
-  offemail: '',
-  acceptedTerms: false, // added for our checkbox
-  designation: '', // added for our select
-  employeeCode: '',
-  jobLocation: '',
-  dob: '',
-  addressofficial: '',
-  addresspersonal: '',
-  phoneofficialone: '',
-  phonePersonal: '',
-  aadhaar:''
+  employeeCode:'',
+  employeeName: '',
+  contactNumber:'',
+  address:'',
+  designation:'',
+  dateOfJoining:'',
+  status:'',
+  lastWorkingDate:'',
+  dateOfReleaving:'',
+  remarks:'',
+  guardian:'',
+  gender:'',
+  dateOfBirth:'',
+  maritalStatus:'',
+  pan:'',
+  aadhaar:'',
+  uan:'',
+  epfNumber:'',
+  esiNumber:'',
+  welfareFundNumber:'',
+  epfNominee:'',
+  epfNomineeRelation:'',
+  esiNominee:'',
+  esiNomineeRelation:'',
+  gpaIPNominee:'',
+  gpaIPNomineeRelation:'',
+  gratuityNominee:'',
+  gratuityNomineeRelation:'',
 };
 
 // And now we can use these
@@ -101,10 +116,15 @@ const CreateEmployeeForm = ({employeeData = {}}) => {
       <Formik
         initialValues={initialValues}
         validationSchema={schema}
-        onSubmit={ async (values, { setSubmitting }) => {
+        onSubmit={ async (values, { setSubmitting , resetForm }) => {
           const response = await saveEmployees(values);
           setSubmitting(false);
           processResponse(response);
+          resetForm({
+            values:{
+              ...initialValuesDef
+            }
+          });
         }}
       >
         <Form>
@@ -131,16 +151,21 @@ const CreateEmployeeForm = ({employeeData = {}}) => {
               </Col>
               <Col xs="4">
                 <MySelectField label="Company" name="companyCode">
+                [
                   {
+                    <option value="">Select a Company</option>
+                  },
+                  {                    
                     COMPANIES.split(",").map(company=> <option value={company}>{company}</option>)
                   }
+                ]          
                 </MySelectField>
               </Col>              
 
             </Row>
 			<Row>
 			  <Col xs="4">
-                <MyButton type="submit" label="Search" />
+                <MyButton type="submit" label="Save" />
               </Col>
 			</Row>
 			</Container>
