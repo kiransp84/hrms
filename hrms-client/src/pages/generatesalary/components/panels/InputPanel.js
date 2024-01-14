@@ -15,7 +15,7 @@ export default ({ onCalculate , onSave }) => {
 
   const {results={}} =  useRecoilValue(salaryState);
 
-  const {salaryDetails={}} = results;
+  const {salaryDetails={}} = results ? results : {} ;
   const initialValues = {
     daysofattendance:'0',
     lossofpaydays:'0',

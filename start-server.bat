@@ -1,3 +1,3 @@
 cd /d hrms-server
 
-npm run dev
+npm run dev > server.log
