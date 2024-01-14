@@ -1,15 +1,16 @@
 const express = require('express')
 const router = express.Router()
-
+const {List} = require('immutable');
 const EmployeesModel = require('../schema/employee/EmployeeSchema');
 const EmployeePayrollModel = require('../schema/payroll/EmployeePayrollSchema');
 const SalaryModel = require("../schema/salary/SalarySchema");
 const assign = require('lodash.assign');
 
-const {fetchEmployeeCodes} = require('./employeeDao');
+const {fetchEmployees} = require('./employeeDao');
 const {fetchAllSalary,finalize} = require('./salaryDao');
+const {finalizeCompanyPayroll,fetchProcessStatus} = require('./companyDao');
 
-const {findMissingOnes} = require('./utils');
+const {findMissingOnes,populateEmployeeDetails,populateActivePayrollDetails} = require('./utils');
 
 
 const copyPasteAttributes = (source={},destination) => {
@@ -163,7 +164,9 @@ router.post('/fetchAllSalary' , async (req,res) => {
         return;
     }
 
-    const employeesCodes = await fetchEmployeeCodes({companyCode,status:'Active'});
+    const employees = await fetchEmployees({companyCode,status:'Active'});
+    const employeesCodes = employees ? employees.map( item => item['employeeCode']) : List([]);
+
     if(!employeesCodes || employeesCodes.size === 0  ) {
         res.send({
             statusCode:'NOK',
@@ -186,9 +189,13 @@ router.post('/fetchAllSalary' , async (req,res) => {
             message:`Salary is not processed for below employees ${missingOnes.join(" , ")}`
         });
     }else {
+        const allsalaryDataChanged1 = populateEmployeeDetails(allsalaryData,employees);
+
+        const allsalaryDataChanged2 = await populateActivePayrollDetails(allsalaryDataChanged1);
+
         res.send({
             statusCode:'OK',
-            results:allsalaryData,            
+            results:allsalaryDataChanged2,            
             message:'Salary is processed for the company please click on Acknowledge button to generate Acknowledgement Slip'
         });
     }
@@ -198,21 +205,45 @@ router.post('/fetchAllSalary' , async (req,res) => {
 });
 
 router.post('/finalize' , async (req,res) => {
+    const {salaryData} = req.body;
+    if( !salaryData && salaryData.length === 0 ) {
+        res.send(null);
+        return;
+    }
+    try {
+        const response = await finalizeCompanyPayroll(salaryData);
+        res.send(
+            {
+                statusCode:'OK',
+                results:null,            
+                message:'Salary Acknowledgement is processed for the company'
+            }
+        );
+    }catch(err){
+        console.log(err);
+        res.send(
+            {
+                statusCode:'NOK',
+                results:null,            
+                message:'Salary Acknowledgement failed due to error'
+            }
+        );
+    }
+});
+
+router.post('/fetchProcessStatus' , async (req,res) => {
     const {companyCode, salaryMonth, salaryYear} = req.body;
     if( !companyCode || !salaryMonth || !salaryYear ) {
         res.send(null);
         return;
     }
-    const allsalaryData = await fetchAllSalary({companyCode, salaryMonth, salaryYear});
-    const promiseArray = allsalaryData.map(data => finalize(data));
-    console.log(promiseArray);
-    const response = await Promise.all(promiseArray);
-    console.log(response);
+
+    const status = await fetchProcessStatus({companyCode, salaryMonth, salaryYear});
+
     res.send(
         {
             statusCode:'OK',
-            results:null,            
-            message:'Salary is processed for the company. The Acknowledgement slip is being generated please wait'
+            results:status,            
         }
     );
 
