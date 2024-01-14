@@ -57,7 +57,7 @@ router.post('/save', async (req, res, next) => {
   }
 })
 
-router.get('/listEmployees', async (req, res, next) => {
+router.get('/listEmployees', async (req, res, next) => {  
   const results = await Employees.find().lean();
   const transformedResults = results.map( result => {
     console.log('id -- ',result.id);
@@ -146,6 +146,7 @@ router.get('/findOne', async(req,res) => {
 
   handleResponse(result,res)
 });
+
 
 
 

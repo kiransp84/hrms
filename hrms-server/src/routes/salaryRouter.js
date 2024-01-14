@@ -6,6 +6,12 @@ const EmployeePayrollModel = require('../schema/payroll/EmployeePayrollSchema');
 const SalaryModel = require("../schema/salary/SalarySchema");
 const assign = require('lodash.assign');
 
+const {fetchEmployeeCodes} = require('./employeeDao');
+const {fetchAllSalary,finalize} = require('./salaryDao');
+
+const {findMissingOnes} = require('./utils');
+
+
 const copyPasteAttributes = (source={},destination) => {
     destination = assign(destination,source);  
 }
@@ -149,6 +155,68 @@ router.post('/fetchSalaryForMonth', async (req, res) => {
 
 });
 
+router.post('/fetchAllSalary' , async (req,res) => {
 
+    const {companyCode, salaryMonth, salaryYear} = req.body;
+    if( !companyCode || !salaryMonth || !salaryYear ) {
+        res.send(null);
+        return;
+    }
+
+    const employeesCodes = await fetchEmployeeCodes({companyCode,status:'Active'});
+    if(!employeesCodes || employeesCodes.size === 0  ) {
+        res.send({
+            statusCode:'NOK',
+            results:null,
+            message:"No employees are found in the company"
+        });
+        return;
+    }
+    
+    const allsalaryData = await fetchAllSalary({companyCode, salaryMonth, salaryYear});
+
+    const salariedEmployeeCodes = allsalaryData ? allsalaryData.map( (item) => item['employeeCode'] ) : [];
+
+    const missingOnes = findMissingOnes( {srcArray : employeesCodes , targetArray : salariedEmployeeCodes } )
+
+    if( missingOnes ) {
+        res.send({
+            statusCode:'NOK',
+            results:null,
+            message:`Salary is not processed for below employees ${missingOnes.join(" , ")}`
+        });
+    }else {
+        res.send({
+            statusCode:'OK',
+            results:allsalaryData,            
+            message:'Salary is processed for the company please click on Acknowledge button to generate Acknowledgement Slip'
+        });
+    }
+
+    return;
+
+});
+
+router.post('/finalize' , async (req,res) => {
+    const {companyCode, salaryMonth, salaryYear} = req.body;
+    if( !companyCode || !salaryMonth || !salaryYear ) {
+        res.send(null);
+        return;
+    }
+    const allsalaryData = await fetchAllSalary({companyCode, salaryMonth, salaryYear});
+    const promiseArray = allsalaryData.map(data => finalize(data));
+    console.log(promiseArray);
+    const response = await Promise.all(promiseArray);
+    console.log(response);
+    res.send(
+        {
+            statusCode:'OK',
+            results:null,            
+            message:'Salary is processed for the company. The Acknowledgement slip is being generated please wait'
+        }
+    );
+
+
+});
 
 module.exports = router;
