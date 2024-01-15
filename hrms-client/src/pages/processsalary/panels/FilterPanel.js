@@ -5,18 +5,18 @@ import {
     useResetRecoilState
 } from 'recoil';
 
-import {AlertPanel} from '../../../components/common/alerts/AlertPanel';
+import { AlertPanel } from '../../../components/common/alerts/AlertPanel';
 
 const months = ['', 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 const years = [-1, 0, 1, 2, 3, 4, 5];
 
-const isNotEmpty = (value) => value && `${value}`.length > 0 
+const isNotEmpty = (value) => value && `${value}`.length > 0
 
-import {COMPANIES} from '../../../contants';
+import { COMPANIES } from '../../../contants';
 
 export default ({ currentMonth, currentYear, onSearch }) => {
 
-    
+
 
     const [companyCode, setCompanyCode] = useState('');
     const [salaryMonth, setSalaryMonth] = useState(months[currentMonth + 1]);
@@ -24,12 +24,12 @@ export default ({ currentMonth, currentYear, onSearch }) => {
     const [message, setMessage] = useState(null);
 
 
-    
+
     const onClickView = () => {
-        const isValid = isNotEmpty(companyCode) && isNotEmpty(salaryMonth) && isNotEmpty(salaryYear) ;        
+        const isValid = isNotEmpty(companyCode) && isNotEmpty(salaryMonth) && isNotEmpty(salaryYear);
         if (isValid) {
-            onSearch({companyCode,salaryMonth,salaryYear});
-        }else {
+            onSearch({ companyCode, salaryMonth, salaryYear });
+        } else {
             setMessage("Enter EmployeeId , SalaryMonth , Salary Year ");
         }
     }
@@ -38,27 +38,31 @@ export default ({ currentMonth, currentYear, onSearch }) => {
     }
 
     return (
-        <Container fluid>
+        <Container fluid className="filterpanel">
             <Form>
                 <Row>
-                    <Col xs="4">
+                    <Col xs="2">
                         <FormGroup>
-                            <Label for="exampleEmail">
+                            <Label for="companyCode">
                                 Company Code
-                </Label>
-                        <select label="Company" name="companyCode" onChange={(e) => { setCompanyCode(e.target.value) }} >
-                        [
-                        {
-                            <option value="">Select a Company</option>
-                        },
-                        {                    
-                            COMPANIES.split(",").map(company=> <option value={company}>{company}</option>)
-                        }
-                        ]          
-                        </select>
+                            </Label>
+                            <Input
+                             label="Company" 
+                             name="companyCode" 
+                             type="select"
+                             onChange={(e) => { setCompanyCode(e.target.value) }} >
+                                [
+                                    {
+                                        <option value="">Select a Company</option>
+                                    },
+                                    {
+                                        COMPANIES.split(",").map(company => <option value={company}>{company}</option>)
+                                    }
+                                ]
+                        </Input>
                         </FormGroup>
                     </Col>
-                    <Col xs="4">
+                    <Col xs="2">
                         <FormGroup>
                             <Label for="currentMonth">
                                 Month
@@ -81,7 +85,7 @@ export default ({ currentMonth, currentYear, onSearch }) => {
                             </Input>
                         </FormGroup>
                     </Col>
-                    <Col xs="4">
+                    <Col xs="2">
                         <FormGroup>
                             <Label for="currentYear">
                                 Year
@@ -114,13 +118,13 @@ export default ({ currentMonth, currentYear, onSearch }) => {
                         </Button>
                         <Button type="button" onClick={onClickClear}>
                             Clear
-                        </Button>                        
+                        </Button>
                     </Col>
                 </Row>
                 <Row>
                     <Col xs="12">
                         {
-                            message ? <AlertPanel message={message} /> : null 
+                            message ? <AlertPanel message={message} /> : null
                         }
                     </Col>
                 </Row>
