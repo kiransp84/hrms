@@ -42,7 +42,7 @@ router.post('/saveSalaryForMonth', async (req,res) => {
             res.send({
                 statusCode: 'OK',
                 results: null,
-                message: `Employee Salary Updated For Employee ${document.employeeCode} For ${document.salaryMonth}-${document.salaryYear} With Status as ${document.status}`
+                message: `Employee Salary Updated For Employee ${document.employeeCode} For ${document.salaryMonth}-${document.salaryYear} With Status as ${req.body.status}`
             });
 
             return;
