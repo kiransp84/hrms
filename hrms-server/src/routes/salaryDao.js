@@ -6,7 +6,7 @@ const fetchAllSalary = async ({companyCode, salaryMonth, salaryYear}) => {
     const query = SalaryModel.find();
     query.setOptions({ lean : true });
     query.where('companyCode').equals(companyCode);
-    query.and([{ salaryMonth : salaryMonth }, { salaryYear : salaryYear } ]);
+    query.and([{ salaryMonth : salaryMonth }, { salaryYear : salaryYear } , { status : "FINAL" }]);
     const results = await query.exec();
     return List(results);
 }

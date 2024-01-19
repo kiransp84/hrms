@@ -46,6 +46,7 @@ export default ({ currentMonth, currentYear, onList }) => {
     const onClickClear = () => {
         resetSalary();
         resetFilter();
+        setEmployeeCode('');
     }
 
     return (
@@ -63,6 +64,8 @@ export default ({ currentMonth, currentYear, onList }) => {
                                 placeholder=""
                                 type="text"
                                 onChange={(e) => { setEmployeeCode(e.target.value) }}
+                                autoComplete ="off"
+                                value={employeeCode}
                             />
                         </FormGroup>
                     </Col>

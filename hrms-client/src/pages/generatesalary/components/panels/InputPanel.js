@@ -11,7 +11,7 @@ import schema from '../../../../schema/salaryMaster'
 
 import {useRecoilValue} from 'recoil';
 import {salaryState} from '../../recoil'; 
-export default ({ onCalculate , onSave }) => {
+export default ({ onCalculate , onSave , onFinalize}) => {
 
   const {results={}} =  useRecoilValue(salaryState);
 
@@ -31,7 +31,7 @@ export default ({ onCalculate , onSave }) => {
     deductionofFine:'0',
     deductionforLossDamages:'0',
     otherDeduction:'0',
-    dateofPayment:'0',
+    dateofPayment:new Date().toISOString(),
     ...salaryDetails
   };
 
@@ -47,8 +47,9 @@ export default ({ onCalculate , onSave }) => {
     }}>
     <Form>
       <Card>
-        <CardHeader>
-          Enter the input fields to calculate salary
+            <CardHeader>
+              <pre>Enter the attendance information for the month and Click on Estimate Salary button to (re)calculate salary</pre>
+              <pre>Click on "Save as Draft" or "Finalize" after calculation</pre>
             </CardHeader>
         <ListGroup flush>
           <ListGroupItem>
@@ -214,10 +215,8 @@ export default ({ onCalculate , onSave }) => {
           <ListGroupItem>
             <Row>
               <Col xs="6">
-                <MyButton type="submit" label="Estimate" />
-              </Col>
-              <Col xs="6">
-                <FooterPanel onSave={onSave} />
+                <MyButton type="submit" label="Estimate Salary" />&nbsp;
+                <FooterPanel onSave={onSave} onFinalize={onFinalize} />
               </Col>
             </Row>
           </ListGroupItem>          

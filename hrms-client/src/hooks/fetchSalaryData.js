@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-import { SERVER } from '../contants';
 import { calculateActual } from '../pages/generatesalary/formulas';
 
 export const fetchSalaryForMonth = ({ employeeCode, salaryMonth, salaryYear }) => {
@@ -16,7 +15,7 @@ export const fetchSalaryForMonth = ({ employeeCode, salaryMonth, salaryYear }) =
 
     return axios({
         method: 'post',
-        url: `${SERVER}/bff/salary/fetchSalaryForMonth`,
+        url: `/bff/salary/fetchSalaryForMonth`,
         responseType: 'json',
         data: { employeeCode, salaryMonth, salaryYear }
     }).then(function (response) {
@@ -32,18 +31,26 @@ const copyValueAsNumber = (target, source, keys) => {
     }
 }
 
-export const saveSalary = ({results},{salaryMonth,salaryYear}) => {
+export const saveSalary = ({results},{salaryMonth,salaryYear},status="DRAFT") => {
+
+    if(!results) {
+        console.log(' saveSalary : No input selected by the user ');
+        return {};
+    }
+
     const {salaryDetails,payrollDetails,employeeDetails} =results;
+    
     const data ={
         salaryMonth,
         salaryYear,
         ...salaryDetails ,
         ...payrollDetails,
-        ...employeeDetails
+        ...employeeDetails,
+        status 
     }
     return axios({
         method: 'post',
-        url: `${SERVER}/bff/salary/saveSalaryForMonth`,
+        url: `/bff/salary/saveSalaryForMonth`,
         responseType: 'json',
         data
     }).then(function (response) {
@@ -53,10 +60,22 @@ export const saveSalary = ({results},{salaryMonth,salaryYear}) => {
 }
 
 export const estimateSalary = (salaryData, {salaryMonth,salaryYear}, values) => {
+
     /*console.log(' salaryData ',salaryData);
     console.log(' filterData ',filterData);
     console.log(' values ',values);*/
-    const {results:{payrollDetails}} = salaryData;
+    const { results : { payrollDetails} = {} } = salaryData;
+
+    //preserve status as such
+    let status ;
+    if(salaryData.results){
+        if(salaryData.results.salaryDetails){
+            if( salaryData.results.salaryDetails.status ) {
+                status = salaryData.results.salaryDetails.status;
+            }
+        }
+    }
+    
     let salaryProps = {};
     copyValueAsNumber(salaryProps, values, ['daysofattendance', 'lossofpaydays', 'numberofweeklyoffgranted', 'overtimewages', 'leavewages', 'nationalFestivalHolidayswages', 'maternityBenefit',
         'advances', 'welfareFund', 'professionalTax', 'deductionofFine', 
@@ -82,6 +101,7 @@ export const estimateSalary = (salaryData, {salaryMonth,salaryYear}, values) => 
     salaryProps['deductionofFine'] +  salaryProps['professionalTax'] + salaryProps['welfareFund'] + salaryProps['advances'] )  ;
 
     salaryProps['netwagespaid'] = Math.round(salaryProps['totalAmount']  - salaryProps['totalDeduction'] );
+    salaryProps['status'] = status;
 
 
     return {

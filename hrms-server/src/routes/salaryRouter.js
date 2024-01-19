@@ -8,7 +8,6 @@ const assign = require('lodash.assign');
 
 const {fetchEmployees} = require('./employeeDao');
 const {fetchAllSalary,finalize} = require('./salaryDao');
-const {finalizeCompanyPayroll,fetchProcessStatus} = require('./companyDao');
 
 const {findMissingOnes,populateEmployeeDetails,populateActivePayrollDetails} = require('./utils');
 
@@ -114,6 +113,12 @@ router.post('/fetchSalaryForMonth', async (req, res) => {
     }
 
     let salaryDetails = await SalaryModel.findOne( {employeeCode, salaryMonth, salaryYear} ).lean();
+
+    if( salaryDetails ) {    
+        const formattedDate = salaryDetails.dateofPayment.toISOString().split('T')[0];
+        Object.assign(salaryDetails , { dateofPayment : formattedDate } );    
+      }  
+
     let showCreationMessage = false;
     if (!salaryDetails) {
         console.log(' Salary Not Saved ...Creation Mode Assumed ');
@@ -156,7 +161,7 @@ router.post('/fetchSalaryForMonth', async (req, res) => {
 
 });
 
-router.post('/fetchAllSalary' , async (req,res) => {
+router.post('/fetchAllFinalizedSalary' , async (req,res) => {
 
     const {companyCode, salaryMonth, salaryYear} = req.body;
     if( !companyCode || !salaryMonth || !salaryYear ) {
@@ -204,50 +209,5 @@ router.post('/fetchAllSalary' , async (req,res) => {
 
 });
 
-router.post('/finalize' , async (req,res) => {
-    const {salaryData} = req.body;
-    if( !salaryData && salaryData.length === 0 ) {
-        res.send(null);
-        return;
-    }
-    try {
-        const response = await finalizeCompanyPayroll(salaryData);
-        res.send(
-            {
-                statusCode:'OK',
-                results:null,            
-                message:'Salary Acknowledgement is processed for the company'
-            }
-        );
-    }catch(err){
-        console.log(err);
-        res.send(
-            {
-                statusCode:'NOK',
-                results:null,            
-                message:'Salary Acknowledgement failed due to error'
-            }
-        );
-    }
-});
-
-router.post('/fetchProcessStatus' , async (req,res) => {
-    const {companyCode, salaryMonth, salaryYear} = req.body;
-    if( !companyCode || !salaryMonth || !salaryYear ) {
-        res.send(null);
-        return;
-    }
-
-    const status = await fetchProcessStatus({companyCode, salaryMonth, salaryYear});
-
-    res.send(
-        {
-            statusCode:'OK',
-            results:status,            
-        }
-    );
-
-
-});
 
 module.exports = router;

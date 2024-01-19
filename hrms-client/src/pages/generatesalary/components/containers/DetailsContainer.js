@@ -31,11 +31,31 @@ export default () => {
     }
 
     const estimateSalaryFn = (values) => {
+
+        const { results : { payrollDetails} = {} } = salaryStateValue;
+
+        if(!payrollDetails) {
+            alert(' estimateSalary : No input selected by the user ');
+            return;
+        }
+        //due to a bug in formik
+        if(values.dateofPayment.length !== 10 ) {
+            alert(' estimateSalary : No date of payment selected by the user ');
+            return;
+        }
+
         reset();
         setSalaryState(estimateSalary(salaryStateValue,filterPanelStateValue,values));
     }
 
     const saveSalaryFn = async () => {
+        const { results : { salaryDetails} = {} } = salaryStateValue;
+        if(salaryDetails.dateofPayment.length !== 10 ) {
+            alert(' estimateSalary : No date of payment selected by the user ');
+            return;
+        }
+
+
         const response = await saveSalary(salaryStateValue, filterPanelStateValue);
         if(response.statusCode === 'OK') {
                 setMessage(response.message);
@@ -45,12 +65,25 @@ export default () => {
         }
     }
 
+    
+    const finalizeSalaryFn = async () => {
+        const response = await saveSalary(salaryStateValue, filterPanelStateValue,"FINAL");
+        if(response.statusCode === 'OK') {
+                setMessage(response.message);
+                resetSalary();
+                reset();
+                resetFilter();
+        }
+    }    
+
     return (
         <>
             <DetailsPanel 
             fetchSalaryCallFn={fetchSalaryCallFn} 
             estimateSalaryFn={estimateSalaryFn} 
-            saveSalaryFn={saveSalaryFn}/>
+            saveSalaryFn={saveSalaryFn}
+            finalizeSalaryFn={finalizeSalaryFn}
+            />
             {message ? <AlertPanel  message={message} /> : null  }
         </>
     )

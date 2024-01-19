@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import {SERVER} from '../contants';
+//import {SERVER} from '../contants';
 
 export const fetchPayrollMaster = (employeeCode) => {
 
@@ -9,7 +9,7 @@ export const fetchPayrollMaster = (employeeCode) => {
 
     return axios({
         method: 'get',
-        url: `${SERVER}/bff/payrollmaster/fetch?employeeCode=${employeeCode}`,
+        url: `/bff/payrollmaster/fetch?employeeCode=${employeeCode}`,
         responseType: 'json'
     })
     .then(function (response) {
@@ -27,7 +27,7 @@ export const savePayrollMaster = (values) => {
     console.log(' data sent to the server ',values);
     return axios({
         method: 'post',
-        url: `${SERVER}/bff/payrollmaster/save`,
+        url: `/bff/payrollmaster/save`,
         responseType: 'json',
         data:values
     })

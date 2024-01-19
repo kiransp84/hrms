@@ -8,7 +8,7 @@ import {
   } from 'recoil';
   import {AlertPanel} from '../../../components/common/alerts/AlertPanel';
 
-import {fetchAllSalaryForCompany} from '../../../hooks/processSalary';
+import {fetchAllFinalizedSalaryForCompany} from '../../../hooks/processSalary';
 
 import FilterPanel  from '../panels/FilterPanel';
 import SalaryPreviewPanel  from '../panels/SalaryPreviewPanel';
@@ -22,7 +22,7 @@ export default () => {
     const [companyData,setCompanyData] = useRecoilState(companyState);
     const onSearchFn = useCallback(
         async (arg)=>{
-            const response = await fetchAllSalaryForCompany(arg);
+            const response = await fetchAllFinalizedSalaryForCompany(arg);
             setCompanyData(response);
         }
         ,

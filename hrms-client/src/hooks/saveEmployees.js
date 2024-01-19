@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-import {SERVER} from '../contants';
+
 
 export const saveEmployees = (formData) => {
     console.log(' formData to send to server ',formData);
     return axios({
         method: 'post',
-        url: SERVER+'/bff/employees/save',  
+        url: '/bff/employees/save',  
         responseType: 'json',
         data:formData
       })

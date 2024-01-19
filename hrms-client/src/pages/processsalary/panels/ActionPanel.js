@@ -1,6 +1,6 @@
 import React , {useState,useEffect} from 'react';
 
-import {finalize,fetchProcessStatus} from '../../../hooks/processSalary';
+
 
 
 
@@ -16,29 +16,12 @@ export default () => {
     const [isEnabled,setEnabled] = useState(false);
     const [message,setMessage] = useState(false);
 
-    const finalizeFn = async () => {
-        console.log('before finalize');
-        console.log(companyData.results);
-        const {statusCode,results,message} = await finalize(companyData.results);        
-        setMessage(message);                
+    const exportFn = async () => {
+        alert('Export Excel Not Implemented');              
     }
 
-    useEffect(()=>{
-        async function fetch() {
-            const {results} = await fetchProcessStatus( 
-                {
-                    companyCode : companyData.results[0].companyCode , 
-                    salaryMonth : companyData.results[0].salaryMonth , 
-                    salaryYear : companyData.results[0].salaryYear
-                }        
-            );
-            setEnabled(!results);
-        }
-        fetch();
-    },[companyData]);
-
    return (<>
-   <button type="button" disabled={!isEnabled} onClick={finalizeFn}>Finalize</button>
+   <button type="button" disabled={!isEnabled} onClick={exportFn}>Export As Excel Report</button>
    {message ? <AlertPanel message={message} /> : null }
    </>)
 }

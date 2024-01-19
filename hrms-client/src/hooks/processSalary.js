@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-import { SERVER } from '../contants';
 
-export const fetchAllSalaryForCompany = ({ companyCode, salaryMonth, salaryYear }) => {
+export const fetchAllFinalizedSalaryForCompany = ({ companyCode, salaryMonth, salaryYear }) => {
 
     if (!companyCode || !salaryMonth || !salaryYear) {
         return;
@@ -15,7 +14,7 @@ export const fetchAllSalaryForCompany = ({ companyCode, salaryMonth, salaryYear 
 
     return axios({
         method: 'post',
-        url: `${SERVER}/bff/salary/fetchAllSalary`,
+        url: `/bff/salary/fetchAllFinalizedSalary`,
         responseType: 'json',
         data: { companyCode, salaryMonth, salaryYear }
     }).then(function (response) {
@@ -25,17 +24,7 @@ export const fetchAllSalaryForCompany = ({ companyCode, salaryMonth, salaryYear 
 
 }
 
-export const finalize = (salaryList) => {
-    return axios({
-        method: 'post',
-        url: `${SERVER}/bff/salary/finalize`,
-        responseType: 'json',
-        data: {salaryData:salaryList}
-    }).then(function (response) {
-        console.log(' Got list from server ', response.data);
-        return response.data;
-    });
-}
+
 
 
 export const fetchProcessStatus = ({ companyCode, salaryMonth, salaryYear }) => {
@@ -44,7 +33,7 @@ export const fetchProcessStatus = ({ companyCode, salaryMonth, salaryYear }) => 
     }
     return axios({
         method: 'post',
-        url: `${SERVER}/bff/salary/fetchProcessStatus`,
+        url: `/bff/salary/fetchProcessStatus`,
         responseType: 'json',
         data: { companyCode, salaryMonth, salaryYear }
     }).then(function (response) {
