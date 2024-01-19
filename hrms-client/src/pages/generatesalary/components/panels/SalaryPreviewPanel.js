@@ -1,248 +1,201 @@
 
-import React from 'react';
-import SortDirection from './SortDirection';
-import SortIndicator from './SortIndicator';
-import styles from './SalaryPreview.css';
-import { MultiGrid, AutoSizer, CellMeasurer, CellMeasurerCache } from 'react-virtualized';
-import { columnMap } from './SalaryPreviewColumnMap';
-import { Link } from 'react-router-dom';
-import {Container} from "reactstrap";
+import React, { useState } from 'react';
 
-const STYLE = {
-    border: '1px solid #ddd',
-};
-const STYLE_BOTTOM_LEFT_GRID = {
-    borderRight: '2px solid #aaa',
-    backgroundColor: '#f7f7f7',
-};
-const STYLE_TOP_LEFT_GRID = {
-    borderBottom: '2px solid #aaa',
-    borderRight: '2px solid #aaa',
-    fontWeight: 'bold',
-};
-const STYLE_TOP_RIGHT_GRID = {
-    borderBottom: '2px solid #aaa',
-    fontWeight: 'bold',
-};
+import {
+    Accordion,
+    AccordionBody,
+    AccordionHeader,
+    AccordionItem,
+    CardHeader, ListGroup, ListGroupItem, Row, Col, Label
+} from 'reactstrap';
 
+const SalaryPreviewPanel = ({ salaryData }) => {
 
-//employees
-class SalaryPreviewPanel extends React.PureComponent {
-    constructor(props, context) {
-        console.log(' Inside constructor ');
-        super(props, context);
-        const sortBy = 'employeeCode';
-        const sortDirection = SortDirection.ASC;
-        const sortedList = this._sortList({ sortBy, sortDirection });
-        const rowCount = sortedList.size + 1;
-        console.log(' sortedList constructor ', sortedList);
-        console.log(' rowCount  constructor ', rowCount);
+    const [open, setOpen] = useState('5');
 
-        this.state = {
-            disableHeader: false,
-            headerHeight: 50,
-            height: 270,
-            hideIndexRow: true, // changed to true for now 
-            overscanRowCount: 10,
-            rowHeight: 40,
-            rowCount: rowCount,
-            scrollToIndex: undefined,
-            sortBy,
-            sortDirection,
-            sortedList,
-            useDynamicRowHeight: false,
-        };
-
-        this._getRowHeight = this._getRowHeight.bind(this);
-        this._headerRenderer = this._headerRenderer.bind(this);
-        this._noRowsRenderer = this._noRowsRenderer.bind(this);
-        this._onScrollToRowChange = this._onScrollToRowChange.bind(this);
-        this._rowClassName = this._rowClassName.bind(this);
-        this._sort = this._sort.bind(this);
-
-        this.cache = new CellMeasurerCache({
-            defaultWidth: 100,
-            minWidth: 75,
-            fixedHeight: true
-        });
-
-
-        console.log(' constructor EXIT ');
-    }
-
-    _sortList({ sortBy, sortDirection }) {
-        const list = this.props.salaryData;
-        console.log('list _sortList ', list);
-
-        return list
-            .sortBy(item => item[sortBy])
-            .update(list =>
-                sortDirection === SortDirection.DESC ? list.reverse() : list,
-        );
-    }
-
-    _getRowHeight({ index }) {
-        const list = this.props.employees;
-
-        return this._getDatum(list, index).size;
-    }
-
-    _getDatum(list, index) {
-        const datum = list.get(index % list.size);
-        console.log(`  row data for index : ${index} is ${JSON.stringify(datum)} `);
-        return datum;
-    }
-
-    _headerRenderer({ dataKey, sortBy, sortDirection, label }) {
-        return (
-            <div>
-                {label}
-                {sortBy === dataKey && <SortIndicator sortDirection={sortDirection} />}
-            </div>
-        );
-    }
-
-    _isSortEnabled() {
-        const list = this.props.salaryData;
-        const { rowCount } = this.state;
-
-        return rowCount <= list.size;
-    }
-
-    _noRowsRenderer() {
-        return <div className={styles.noRows}>No rows</div>;
-    }
-
-    _onScrollToRowChange(event) {
-        const { rowCount } = this.state;
-        let scrollToIndex = Math.min(
-            rowCount - 1,
-            parseInt(event.target.value, 10),
-        );
-
-        if (isNaN(scrollToIndex)) {
-            scrollToIndex = undefined;
-        }
-
-        this.setState({ scrollToIndex });
-    }
-
-    _rowClassName({ index }) {
-        if (index < 0) {
-            return styles.headerRow;
+    const toggle = (id) => {
+        if (open === id) {
+            setOpen();
         } else {
-            return index % 2 === 0 ? styles.evenRow : styles.oddRow;
+            setOpen(id);
         }
-    }
+    };
 
-    _sort({ sortBy, sortDirection }) {
-        const sortedList = this._sortList({ sortBy, sortDirection });
+const createItem = (key, value, indicator ) => (<ListGroupItem>
+        <Row>
+            <Col xs="6">
+                <Label>{key}</Label>
+            </Col>
+            <Col xs="6">
+                <Label>
+                    {value}
+                </Label>
+            </Col>
+        </Row>
+    </ListGroupItem>)
 
-        this.setState({ sortBy, sortDirection, sortedList });
-    }
+const createItem2 = (key1, value1 , key2 , value2 , indicator ) => (<ListGroupItem>
+    <Row>
+        <Col xs="2">
+            <Label>{key1}</Label>
+        </Col>
+        <Col xs="2">
+            <Label>
+                {value1}
+            </Label>
+        </Col>
+        <Col xs="2">
+            <Label>{key2}</Label>
+        </Col>
+        <Col xs="2">
+            <Label>
+                {value2}
+            </Label>
+        </Col>        
+        <Col xs="1">
+            <Label>
+                {indicator}
+            </Label>
+        </Col>                     
+    </Row>
+</ListGroupItem>)    
 
-    _cellRenderer = (args) => {
-        console.log(' args ', args);
-        const { columnIndex, key, rowIndex, style, parent } = args;
-        const columnProperty = columnMap[columnIndex];
-        if (rowIndex === 0) {
-            const label = columnProperty.label;
-			
-			
+const createItem3 = (key, value, indicator ) => (<ListGroupItem>
+    <Row>
+        <Col xs="4">
+            <Label>{key}</Label>
+        </Col>
+        <Col xs="4">
+            <Label>
+                {value}
+            </Label>
+        </Col>
+        <Col xs="4">
+            <Label>
+                {indicator}
+            </Label>
+        </Col>
+    </Row>
+</ListGroupItem>)
 
-            return (
-                <CellMeasurer
-                    cache={this.cache}
-                    columnIndex={columnIndex}
-                    key={key}
-                    parent={parent}
-                    rowIndex={rowIndex}
-                >
-                    <div className={styles.Cell}  key={key} style={{
-                        ...style,
-                        height: 35,
-                        whiteSpace: 'nowrap',
-                        padding: '2px'
-                    }}>
-                        {label}
-                    </div>
-                </CellMeasurer>
-            );
-        } else {
-            const dataKey = columnProperty.dataKey;
-            const rowData = this._getDatum(this.state.sortedList, rowIndex);
-            console.log(' columnIndex ',columnIndex);
-            return (
-                <CellMeasurer
-                    cache={this.cache}
-                    columnIndex={columnIndex}
-                    key={key}
-                    parent={parent}
-                    rowIndex={rowIndex}
-                >
-                    <div className={this._rowClassName({index:rowIndex})} key={key} style={{
-                        ...style,
-                        height: 35,
-                        whiteSpace: 'nowrap',
-                        padding: '2px'
-                    }}>
+    return salaryData.map(salaryRecord => (<div>
+        <Accordion open={open} toggle={toggle}>
+            <AccordionItem>
+                <AccordionHeader targetId="1">Employee Details</AccordionHeader>
+                <AccordionBody accordionId="1">
+                    <ListGroup flush>
                         {
-                            rowData[dataKey]
-                        }                        
-                    </div>
-                </CellMeasurer>
+                            [
+                                createItem('Employee code', salaryRecord.employeeCode),
+                                createItem('Employee name', salaryRecord.employeeName),
+                                createItem('Designation', salaryRecord.designation),
+                                createItem('Date of joining', salaryRecord.dateOfJoining),
+                                createItem('Bank Name', salaryRecord.bankName),
+                                createItem('IFSC Code', salaryRecord.ifscCode),
+                                createItem('Bank Account Number', salaryRecord.accountNumber),
+                            ]
+                        }
+                    </ListGroup>
+                </AccordionBody>
+            </AccordionItem>
+            <AccordionItem>
+                <AccordionHeader targetId="2">Attendance Details</AccordionHeader>
+                <AccordionBody accordionId="2">
+                    <ListGroup flush>
+                        {
+                            [
+                                createItem('Days of attendance', salaryRecord.daysofattendance),
+                                createItem('Loss of pay days', salaryRecord.lossofpaydays),
+                                createItem('Number of weekly off granted', salaryRecord.numberofweeklyoffgranted),
+                                createItem('Number of Leave granted', salaryRecord.numberofLeavegranted)
+                            ]
+                        }
+                    </ListGroup>
+                </AccordionBody>
+            </AccordionItem>
+            <AccordionItem>
+                <AccordionHeader targetId="3">Income Details </AccordionHeader>
+                <AccordionBody accordionId="3">
+                    <ListGroup flush>
+                    {
+                            [
+                                createItem2(
+                                    'Basic Pay', salaryRecord.basicPay,
+                                    'Actual Basic ', salaryRecord.actualBasic,
+                                    '(A)'
+                                ),
+                                createItem2(
+                                    'DA', salaryRecord.dearnessAllowance,
+                                    'Actual DA', salaryRecord.actualDA,
+                                    '(B)'
+                                ),
+                                createItem3('Gross Monthly Wages', salaryRecord.grossMonthlyWages,'(C=A+B)'),
+                                createItem2(
+                                    'HRA', salaryRecord.houseRentAllowance,
+                                    'Actual HRA', salaryRecord.actualHRA,
+                                    '(D)'
+                                ),                                                           
+                                createItem2(
+                                    'City Compensation allowances', salaryRecord.cityCompensationAllowance,
+                                    'Actual City Compensation Allowances', salaryRecord.actualCityCompensationallowances,
+                                    '(E)'
+                                ),      
+                                createItem2(
+                                    'Other allowances', salaryRecord.otherAllowances,
+                                    'Actual Other Allowances', salaryRecord.actualOtherAllowances,
+                                    '(F)'
+                                ),   
+                                createItem3('Overtime wages', salaryRecord.overtimewages,'(G)'),
+                                createItem3('Leave wages', salaryRecord.leavewages,'(H)'),
+                                createItem3('National & Festival Holidays wages', salaryRecord.nationalFestivalHolidayswages,'(I)'),
+                                createItem3('Maternity Benefit', salaryRecord.maternityBenefit,'(J)'),
+                                createItem3('Risk Allowances', salaryRecord.riskAllowances,'(Not Used)'),
+                                createItem3('Total Amount', salaryRecord.totalAmount,'(C+D+E+F+G+H+I+J)'),                                  
+                            ]
+                        }
+                    </ListGroup>
+                </AccordionBody>
+            </AccordionItem>
+            <AccordionItem>
+                <AccordionHeader targetId="4">Deductions</AccordionHeader>
+                <AccordionBody accordionId="4">
+                    <ListGroup flush>
+                    {
+                            [
 
-            );
-        }
+                                createItem3('employeesProvidentFund', salaryRecord.employeesProvidentFund,'(K)'),
+                                createItem3('employeesStateInsurance', salaryRecord.employeesStateInsurance,'(L)'),
+                                createItem3('advances', salaryRecord.advances,'(M)'),
+                                createItem3('welfareFund', salaryRecord.welfareFund,'(N)'),
+                                createItem3('professionalTax', salaryRecord.professionalTax,'(O)'),
+                                createItem3('deductionofFine', salaryRecord.deductionofFine,'(P)'),
+                                createItem3('deductionforLossDamages', salaryRecord.deductionforLossDamages,'(Q)'),
+                                createItem3('otherDeduction', salaryRecord.otherDeduction,'(R)'),
+                                createItem3('totalDeduction', salaryRecord.totalDeduction,'(S = K+L+M+N+O+P+Q+R)'),
+                            ]
+                        }
+                    </ListGroup>
+                </AccordionBody>
+            </AccordionItem>            
+            <AccordionItem>
+                <AccordionHeader targetId="5">Net Salary</AccordionHeader>
+                <AccordionBody accordionId="5">
+                    <ListGroup flush>
+                    {
+                            [
 
-    }
-
-    render() {
-        const {
-            height,
-            rowHeight,
-            rowCount,
-            sortedList,
-            useDynamicRowHeight,
-        } = this.state;
-
-        const rowGetter = ({ index }) => this._getDatum(sortedList, index);
-
-        return (
-			<Container fluid>
-            <div className={styles.employeeContainer}>
-                <AutoSizer>
-                    {({ height,width }) => (
-                        <MultiGrid
-                            fixedColumnCount={1}
-                            fixedRowCount={1}
-                            scrollToColumn={0}
-                            scrollToRow={0}
-                            columnCount={columnMap.length}
-                            enableFixedColumnScroll
-                            height={height}
-                            rowHeight={useDynamicRowHeight ? this._getRowHeight : rowHeight}
-                            rowCount={rowCount}
-                            style={STYLE}
-                            styleBottomLeftGrid={STYLE_BOTTOM_LEFT_GRID}
-                            styleTopLeftGrid={STYLE_TOP_LEFT_GRID}
-                            styleTopRightGrid={STYLE_TOP_RIGHT_GRID}
-                            width={width}
-                            hideBottomLeftGridScrollbar
-                            rowGetter={rowGetter}
-                            columnWidth={this.cache.columnWidth}
-                            deferredMeasurementCache={this.cache}
-                            cellRenderer={this._cellRenderer}
-                        >
-                        </MultiGrid>
-                    )}
-                </AutoSizer>
-            </div>
-			</Container>
-
-        );
-    }
-
+                                createItem3('Net wages paid', salaryRecord.netwagespaid,'(Total Income - Total Deductions)'),
+                                createItem('Mode of Payment', salaryRecord.modeOfPayment),
+                                createItem('Date of Payment', salaryRecord.dateofPayment)
+                            ]
+                        }
+                    </ListGroup>
+                </AccordionBody>
+            </AccordionItem>               
+        </Accordion>
+    </div>
+    )
+    )
 
 }
 
