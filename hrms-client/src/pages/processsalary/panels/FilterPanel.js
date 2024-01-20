@@ -12,7 +12,8 @@ const years = [-1, 0, 1, 2, 3, 4, 5];
 
 const isNotEmpty = (value) => value && `${value}`.length > 0
 
-import { COMPANIES } from '../../../contants';
+import MasterTypeSelect from '../../../components/common/mastertype/MasterTypeSelect';
+
 
 export default ({ currentMonth, currentYear, onSearch }) => {
 
@@ -42,25 +43,7 @@ export default ({ currentMonth, currentYear, onSearch }) => {
             <Form>
                 <Row>
                     <Col xs="2">
-                        <FormGroup>
-                            <Label for="companyCode">
-                                Company Code
-                            </Label>
-                            <Input
-                             label="Company" 
-                             name="companyCode" 
-                             type="select"
-                             onChange={(e) => { setCompanyCode(e.target.value) }} >
-                                [
-                                    {
-                                        <option value="">Select a Company</option>
-                                    },
-                                    {
-                                        COMPANIES.split(",").map(company => <option value={company}>{company}</option>)
-                                    }
-                                ]
-                        </Input>
-                        </FormGroup>
+                        <MasterTypeSelect  label="Company" name="companyCode"  masterType="companies" noFormik setterFn={setCompanyCode} />
                     </Col>
                     <Col xs="2">
                         <FormGroup>

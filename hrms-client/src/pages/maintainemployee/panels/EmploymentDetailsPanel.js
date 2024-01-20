@@ -4,17 +4,14 @@ import {
 } from 'reactstrap';
 import MyTextField from '../../../components/common/html/MyTextField';
 import MySelectField from '../../../components/common/html/MySelectField';
+import MasterTypeSelect from '../../../components/common/mastertype/MasterTypeSelect';
 
 const EmploymentDetailsPanel = () => {
     return (
         <>
             <Row className="detailspanel">
                 <Col xs="4">
-                    <MySelectField label="Designation" name="designation">
-                        <option value="">Select a Designation</option>
-                        <option value="Software Engineer">Software Engineer</option>
-                        <option value="Tester">Tester</option>
-                    </MySelectField>
+                    <MasterTypeSelect label="Designation" name="designation" masterType="designations"/>
                 </Col>
 
                 <Col xs="4">

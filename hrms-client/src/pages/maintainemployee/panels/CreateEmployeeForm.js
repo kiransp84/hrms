@@ -10,7 +10,7 @@ import schema from '../../../schema/employee';
 
 import MyTextField from '../../../components/common/html/MyTextField';
 import MyButton from '../../../components/common/html/MyButton';
-import MySelectField from '../../../components/common/html/MySelectField';
+
 
 import ContactPanel from './ContactInformation';
 import EmploymentDetailsPanel from './EmploymentDetailsPanel';
@@ -23,7 +23,7 @@ import {saveEmployees} from '../../../hooks/saveEmployees';
 
 import {AlertPanel} from "../../../components/common/alerts/AlertPanel";
 
-import {COMPANIES} from '../../../contants';
+import MasterTypeSelect from '../../../components/common/mastertype/MasterTypeSelect';
 
 
 const initialValuesDef = {
@@ -150,16 +150,7 @@ const CreateEmployeeForm = ({employeeData = {}}) => {
                 />
               </Col>
               <Col xs="4">
-                <MySelectField label="Company" name="companyCode">
-                [
-                  {
-                    <option value="">Select a Company</option>
-                  },
-                  {                    
-                    COMPANIES.split(",").map(company=> <option value={company}>{company}</option>)
-                  }
-                ]          
-                </MySelectField>
+                <MasterTypeSelect masterType="companies" label="Company" name="companyCode" />
               </Col>              
 
             </Row>

@@ -6,8 +6,8 @@ const EmployeePayrollModel = require('../schema/payroll/EmployeePayrollSchema');
 const SalaryModel = require("../schema/salary/SalarySchema");
 const assign = require('lodash.assign');
 
-const {fetchEmployees} = require('./employeeDao');
-const {fetchAllSalary,finalize} = require('./salaryDao');
+const {fetchEmployees} = require('../dao/employeeDao');
+const {fetchAllSalary} = require('../dao/salaryDao');
 
 const {findMissingOnes,populateEmployeeDetails,populateActivePayrollDetails} = require('./utils');
 

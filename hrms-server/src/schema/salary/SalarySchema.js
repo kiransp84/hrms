@@ -2,8 +2,6 @@ require('../../environment')();
 const mongoose = require('mongoose');
 const  {Schema} = mongoose ;
 
-const companies = process.env.COMPANIES;
-
 const salarySchema = new Schema({
     employeeCode:{
         type: String,
@@ -23,8 +21,7 @@ const salarySchema = new Schema({
     },
     companyCode:{
         type: String,
-        required: true,
-        enum:companies.split(",")
+        required: true
     },        
     daysofattendance:{
         type: Number,

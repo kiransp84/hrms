@@ -11,12 +11,6 @@ const fetchAllSalary = async ({companyCode, salaryMonth, salaryYear}) => {
     return List(results);
 }
 
-const finalize = ({_id}) => {
-    console.log(_id);
-    return SalaryModel.findByIdAndUpdate(_id,{ status : 'DRAFT' }).exec();
-}
-
 module.exports = {
-    fetchAllSalary,
-    finalize
+    fetchAllSalary
 }

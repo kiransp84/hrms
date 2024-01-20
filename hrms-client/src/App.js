@@ -13,6 +13,8 @@ import CreatePayroll from './pages/payroll';
 import GenerateSalary from './pages/generatesalary';
 import ProcessSalary from './pages/processsalary';
 
+import Master from './pages/master';
+
 import Menu from './components/Menu'
 
 /*
@@ -34,6 +36,11 @@ const CommonHeader = () => (
             <Link to="/">Home</Link>
             </NavLink>
         </NavItem>
+        <NavItem>
+            <NavLink>
+            <Link to="/masters/create" target="_blank">Maintain Masters</Link>
+            </NavLink>
+        </NavItem>         
         <NavItem>
             <NavLink>
             <Link to="/employee/create" target="_blank" >Create Employee</Link>
@@ -71,6 +78,10 @@ const router = createHashRouter([
         path: "/",
         element: <Menu />,
     },
+    {
+        path: "/masters/create",
+        element: <WrappedComponent><Master /></WrappedComponent>,
+    },    
     {
         path: "/employee/create",
         element: <WrappedComponent><CreateEmployeeForm /></WrappedComponent>,

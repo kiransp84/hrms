@@ -5,6 +5,9 @@ import {Link} from 'react-router-dom';
 export default () => (
     <ul>
         <li>
+            <Link to="/masters/create">Masters</Link>
+        </li>           
+        <li>
             <Link to="/employee/create">Create Employee</Link>
         </li>
         <li>

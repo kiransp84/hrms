@@ -2,6 +2,7 @@
 const employeeRouter = require('./employeeRouter.js');
 const payrollRouter = require('./payrollRouter');
 const salaryRouter = require('./salaryRouter');
+const masterRouter = require('./masterRouter');
 
 const BASE_PATH = "/bff";
 
@@ -15,5 +16,6 @@ module.exports = (app) => {
 	app.use(`${BASE_PATH}/employees` , employeeRouter );
 	app.use(`${BASE_PATH}/payrollmaster` , payrollRouter );
 	app.use(`${BASE_PATH}/salary` , salaryRouter );
+	app.use(`${BASE_PATH}/masters` , masterRouter );
 	
 }

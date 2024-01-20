@@ -24,7 +24,6 @@ const employee = Yup.object({
   dateOfBirth: Yup.date()
     .required("Date of Birth(dd-MM-YYYY)"),
   designation: Yup.string()
-    .oneOf(['Software Engineer', 'Tester'], "Invalid Job Type")
     .required("Designation is mandatory"),
   dateOfJoining: Yup.date()
     .required("Joining Date Required"),

@@ -4,7 +4,6 @@ const { Schema } = mongoose;
 
 //By default, Mongoose adds an _id property to your schemas.
 //instanceof mongoose.Types.ObjectId; 
-const companies = process.env.COMPANIES;
 
 const employeeSchema = new Schema({
     employeeCode:{
@@ -14,8 +13,7 @@ const employeeSchema = new Schema({
     },
     companyCode:{
         type: String,
-        required: true,
-        enum:companies.split(",")
+        required: true
     },
     employeeName:{
         type: String,
