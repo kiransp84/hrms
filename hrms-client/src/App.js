@@ -33,37 +33,37 @@ const CommonHeader = () => (
     <Nav>
         <NavItem>
             <NavLink>
-            <Link to="/">Home</Link>
+            <Link to="/" className="hrms-menu-link">Home</Link>
             </NavLink>
         </NavItem>
         <NavItem>
             <NavLink>
-            <Link to="/masters/create" target="_blank">Maintain Masters</Link>
+            <Link to="/masters/create" target="_blank" className="hrms-menu-link" >Maintain Masters</Link>
             </NavLink>
         </NavItem>         
         <NavItem>
             <NavLink>
-            <Link to="/employee/create" target="_blank" >Create Employee</Link>
+            <Link to="/employee/create" target="_blank" className="hrms-menu-link" >Create Employee</Link>
             </NavLink>
         </NavItem>
         <NavItem>
             <NavLink>
-            <Link to="/employee/list" target="_blank" >List Employees</Link>
+            <Link to="/employee/list" target="_blank" className="hrms-menu-link" >List Employees</Link>
             </NavLink>
         </NavItem>        
         <NavItem>
             <NavLink>
-            <Link to="/employee/payroll" target="_blank">Create Payroll</Link>
+            <Link to="/employee/payroll" target="_blank" className="hrms-menu-link">Create Payroll</Link>
             </NavLink>
         </NavItem>
         <NavItem>
             <NavLink>
-            <Link to="/employee/generatesalary" target="_blank">GenerateSalary</Link>
+            <Link to="/employee/generatesalary" target="_blank" className="hrms-menu-link" >GenerateSalary</Link>
             </NavLink>
         </NavItem>
         <NavItem>
             <NavLink>
-            <Link to="/employee/processSalary" target="_blank">Process Salary</Link>
+            <Link to="/employee/processSalary" target="_blank" className="hrms-menu-link">Process Salary</Link>
             </NavLink>
         </NavItem>        
     </Nav>
