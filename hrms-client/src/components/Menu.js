@@ -21,6 +21,9 @@ export default () => (
         </li>   
         <li>
             <Link to="/employee/processSalary">Process Salary</Link>
-        </li>                      
+        </li>       
+        <li>
+            <Link to="/general/reports">Reports</Link>
+        </li>                         
     </ul>
 )

@@ -12,6 +12,20 @@ require('./routes')(app);
 // database connnectivity 
 initConnection();
 
+(
+  ()=>{
+    const filePath = require('path').resolve( process.env.basePath , 'reports');
+    const fs = require('fs');    
+    try {
+      if (!fs.existsSync(filePath)) {
+        fs.mkdirSync(filePath);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+)();
+
 // If the Node process ends, close the Mongoose connection
 process.on('SIGINT', async () => {
   console.log('Shutting down the server Closing all db connections');

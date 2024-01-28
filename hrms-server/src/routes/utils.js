@@ -20,7 +20,9 @@ const populateEmployeeDetails = (salaryData, employeeList) => {
         'dateOfJoining',
         'bankName',
         'ifscCode',
-        'accountNumber'
+        'accountNumber',
+        'uan',
+        'esiNumber'
       ])
       
 

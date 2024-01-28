@@ -14,20 +14,9 @@ import GenerateSalary from './pages/generatesalary';
 import ProcessSalary from './pages/processsalary';
 
 import Master from './pages/master';
+import Reports from './pages/reports';
 
 import Menu from './components/Menu'
-
-/*
-const CommonHeaderOld = () => {
-    return <>
-        <Link to="/">Home</Link>
-        <Link to="/employee/create" target="_blank" >Create Employee</Link>
-        <Link to="/employee/list" target="_blank">List Employees</Link>
-        <Link to="/employee/payroll" target="_blank">Create Payroll</Link>
-        <Link to="/employee/generatesalary" target="_blank">GenerateSalary</Link>
-        <Link to="/employee/processSalary" target="_blank">Process Salary</Link>
-    </>
-}*/
 
 const CommonHeader = () => (
     <Nav>
@@ -65,7 +54,12 @@ const CommonHeader = () => (
             <NavLink>
             <Link to="/employee/processSalary" target="_blank" className="hrms-menu-link">Process Salary</Link>
             </NavLink>
-        </NavItem>        
+        </NavItem>    
+        <NavItem>
+            <NavLink>
+            <Link to="/general/reports" target="_blank" className="hrms-menu-link">Reports</Link>
+            </NavLink>
+        </NavItem>                
     </Nav>
 );
 
@@ -106,6 +100,11 @@ const router = createHashRouter([
         path: "/employee/processSalary",
         element: <WrappedComponent><ProcessSalary /></WrappedComponent>,
     },
+    {
+        path: "/general/reports",
+        element: <WrappedComponent><Reports /></WrappedComponent>,
+    },
+    
 ]);
 
 export default function App() {

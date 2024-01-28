@@ -2,11 +2,11 @@
 export const columnMap = [
         {
                 dataKey: 'employeeCode',
-                label: 'Employee Code '
+                label: 'Employee Code'
         },
         {
                 dataKey: 'employeeName',
-                label: 'Employee Name '
+                label: 'Employee Name'
         },        
         {
                 dataKey: 'companyCode',
