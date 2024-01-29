@@ -1,5 +1,7 @@
 export const getDaysInMonth = (forYear, forMonth ) => {
-    return new Date(forYear, getMonthIndex(forMonth), 0).getDate();
+    //return 30 always 
+    //return new Date(forYear, getMonthIndex(forMonth), 0).getDate();
+    return 30;
 }
 
 export const getMonthIndex = (monthThreeDigitCode) => {
