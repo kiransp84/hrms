@@ -14,11 +14,11 @@ initConnection();
 
 (
   ()=>{
-    const filePath = require('path').resolve( process.env.basePath , 'reports');
+    const filePath = require('path').resolve( process.cwd() , 'temp','reports');
     const fs = require('fs');    
     try {
       if (!fs.existsSync(filePath)) {
-        fs.mkdirSync(filePath);
+        fs.mkdirSync(filePath,{recursive:true});
       }
     } catch (err) {
       console.error(err);

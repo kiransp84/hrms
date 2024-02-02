@@ -4,18 +4,50 @@ const router = express.Router()
 const { fetchAllFinalizedSalaryForReport } = require('../dao/salaryDao');
 const { performExport, exportSpecial } = require('../utils/export/Exporter');
 const salaryAckRptConfig = require('../schema/reports/SalaryAckRptConfig');
+const salarySheetRptConfig = require('../schema/reports/SalarySheetRptConfig');
 const { createCustomCell} = require('../utils/export/ColumnCreator');
 
-router.get(`/salaryAckRpt`, async (req, res) => {
+router.post(`/salarySheet`, async (req,res) => {
 
     // to-do remove hardcoding and do input validation 
-    const { companyCode = 'IBS', salaryMonth = 'JAN', salaryYear = 2024 } = req.body;
+    const { companyCode , salaryMonth , salaryYear  } = req.body;
+
+    // data collection use dao 
+    const salaryArray = await fetchAllFinalizedSalaryForReport({ companyCode, salaryMonth, salaryYear });
+    // data formatting 
+    // data exporting 
+    const fileName = 'Report.xlsx';
+    const filePath = performExport(salaryArray, salarySheetRptConfig,
+        {
+            sheetName: 'Salary Sheet',
+            fileName,
+            reportTitle: `Wages/Salary for the Month ${salaryMonth} ${salaryYear}`,
+            titleRange: "A1:AO1"
+        });
+    console.log(filePath);
+    // data transmission 
+    res.download(
+        filePath,
+        fileName, // Remember to include file extension
+        (err) => {
+            if (err) {
+                res.send({
+                    error: err,
+                    msg: "Problem downloading the file"
+                })
+            }
+        });    
+})
+
+router.post(`/salaryAckRpt`, async (req, res) => {
+
+    // to-do remove hardcoding and do input validation 
+    const { companyCode , salaryMonth , salaryYear  } = req.body;
 
     // data collection use dao 
     const salaryArray = await fetchAllFinalizedSalaryForReport({ companyCode, salaryMonth, salaryYear });
 
     // data formatting 
-
     // data exporting 
     const fileName = 'Report.xlsx';
     const filePath = performExport(salaryArray, salaryAckRptConfig,
@@ -38,14 +70,13 @@ router.get(`/salaryAckRpt`, async (req, res) => {
                 })
             }
         });
+
 });
 
 
-router.get("/payslip", async (req, res) => {
+router.post("/payslip", async (req, res) => {
     // to-do remove hardcoding and do input validation 
-    const { companyCode = 'IBS', salaryMonth = 'JAN', salaryYear = 2024 } = req.body;
-    // comes from internally 
-    const employeeCode = "E-100";
+    const { companyCode , salaryMonth , salaryYear  } = req.body;
 
     // data collection use dao 
     const salaryArray = await fetchAllFinalizedSalaryForReport({ companyCode, salaryMonth, salaryYear });

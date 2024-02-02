@@ -32,7 +32,7 @@ export default () => {
         const download = async () => {
             try {
                 const response = await axios({
-                  url:'/bff/reports/salaryAckRpt',
+                  url:'/bff/reports/salarySheet',
                   method: 'GET',
                   responseType: 'blob',
                 });

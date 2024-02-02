@@ -1,5 +1,6 @@
 module.exports = {
     columnMeta: [
+
         {
             datAttribute: 'employeeCode',
             headCell: 'Employee Code',
@@ -32,64 +33,8 @@ module.exports = {
             }
         },
         {
-            datAttribute: 'dateOfJoining',
-            headCell: 'Date Of Joining',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
-        {
-            datAttribute: 'bankName',
-            headCell: 'Bank Name',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
-        {
-            datAttribute: 'ifscCode',
-            headCell: 'IFSC Code',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
-        {
-            datAttribute: 'accountNumber',
-            headCell: 'Bank Account Number',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
-        {
             datAttribute: 'daysofattendance',
-            headCell: 'Days of attendance',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
-        {
-            datAttribute: 'lossofpaydays',
-            headCell: 'Loss of pay days',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
-        {
-            datAttribute: 'numberofweeklyoffgranted',
-            headCell: 'Number of weekly off granted',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
-        {
-            datAttribute: 'numberofLeavegranted',
-            headCell: 'Number of Leave granted',
+            headCell: 'Attendance',
             dataType:'string',
             style:{
                 font: { bold: true, color: { rgb: "#0a0a0a" } }
@@ -114,33 +59,6 @@ module.exports = {
             }
         },
         {
-            headCell: 'Actual Basic'
-            ,
-            datAttribute: 'actualBasic',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
-        {
-            headCell: 'Actual DA'
-            ,
-            datAttribute: 'actualDA',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
-        {
-            headCell: 'Gross Monthly Wages'
-            ,
-            datAttribute: 'grossMonthlyWages',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
-        {
             datAttribute: 'houseRentAllowance'
             ,
             headCell: 'HRA',
@@ -152,79 +70,16 @@ module.exports = {
         {
             datAttribute: 'cityCompensationAllowance'
             ,
-            headCell: 'City Compensation allowances',
+            headCell: 'CCA',
             dataType:'string',
             style:{
                 font: { bold: true, color: { rgb: "#0a0a0a" } }
             }
-        },
+        },                        
         {
             datAttribute: 'otherAllowances'
             ,
             headCell: 'Other Allowances',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
-        {
-            datAttribute: 'actualHRA'
-            ,
-            headCell: 'Actual HRA',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
-        {
-            datAttribute: 'actualCityCompensationallowances'
-            ,
-            headCell: 'Actual City Compensation Allowances',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
-        {
-            datAttribute: 'overtimewages'
-            ,
-            headCell: 'Overtime Wages',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
-        {
-            datAttribute: 'leavewages'
-            ,
-            headCell: 'Leave Wages',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
-        {
-            datAttribute: 'nationalFestivalHolidayswages'
-            ,
-            headCell: 'National & Festival Holidays Wages',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
-        {
-            datAttribute: 'maternityBenefit'
-            ,
-            headCell: 'Maternity Benefit',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
-        {
-            datAttribute: 'actualOtherAllowances'
-            ,
-            headCell: 'Actual Other Allowances',
             dataType:'string',
             style:{
                 font: { bold: true, color: { rgb: "#0a0a0a" } }
@@ -242,16 +97,16 @@ module.exports = {
         {
             datAttribute: 'totalAmount'
             ,
-            headCell: 'Total Amount',
+            headCell: 'Gross Amount',
             dataType:'string',
             style:{
                 font: { bold: true, color: { rgb: "#0a0a0a" } }
             }
-        },
+        },  
         {
             datAttribute: 'employeesProvidentFund'
             ,
-            headCell: 'Employees Provident Fund',
+            headCell: 'PF',
             dataType:'string',
             style:{
                 font: { bold: true, color: { rgb: "#0a0a0a" } }
@@ -260,7 +115,16 @@ module.exports = {
         {
             datAttribute: 'employeesStateInsurance'
             ,
-            headCell: 'Employees State Insurance',
+            headCell: 'ESI',
+            dataType:'string',
+            style:{
+                font: { bold: true, color: { rgb: "#0a0a0a" } }
+            }
+        },
+        {
+            datAttribute: 'welfareFund'
+            ,
+            headCell: 'LWF',
             dataType:'string',
             style:{
                 font: { bold: true, color: { rgb: "#0a0a0a" } }
@@ -276,41 +140,14 @@ module.exports = {
             }
         },
         {
-            datAttribute: 'welfareFund'
-            ,
-            headCell: 'Welfare Fund',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
-        {
             datAttribute: 'professionalTax'
             ,
-            headCell: 'Professional Tax',
+            headCell: 'PT',
             dataType:'string',
             style:{
                 font: { bold: true, color: { rgb: "#0a0a0a" } }
             }
-        },
-        {
-            datAttribute: 'deductionofFine'
-            ,
-            headCell: 'Deduction of Fine',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
-        {
-            datAttribute: 'deductionforLossDamages'
-            ,
-            headCell: 'Deduction for Loss & Damages',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
+        },               
         {
             datAttribute: 'otherDeduction'
             ,
@@ -332,29 +169,20 @@ module.exports = {
         {
             datAttribute: 'netwagespaid'
             ,
-            headCell: 'Net wages paid',
+            headCell: 'Net Amount',
             dataType:'string',
             style:{
                 font: { bold: true, color: { rgb: "#0a0a0a" } }
             }
         },
         {
-            datAttribute: 'modeOfPayment'
+            datAttribute: 'signature'
             ,
-            headCell: 'Mode of Payment',
+            headCell: 'Signature',
             dataType:'string',
             style:{
                 font: { bold: true, color: { rgb: "#0a0a0a" } }
             }
-        },
-        {
-            datAttribute: 'dateofPayment'
-            ,
-            headCell: 'Date of Payment',
-            dataType:'string',
-            style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
-            }
-        },
+        }
     ]
 }

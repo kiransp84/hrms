@@ -14,7 +14,7 @@ import GenerateSalary from './pages/generatesalary';
 import ProcessSalary from './pages/processsalary';
 
 import Master from './pages/master';
-import Reports from './pages/reports';
+//import Reports from './pages/reports';
 
 import Menu from './components/Menu'
 
@@ -22,44 +22,39 @@ const CommonHeader = () => (
     <Nav>
         <NavItem>
             <NavLink>
-            <Link to="/" className="hrms-menu-link">Home</Link>
+            <Link to="/" className="hrms-menu-link" title="Back to Home">Home</Link>
             </NavLink>
         </NavItem>
         <NavItem>
             <NavLink>
-            <Link to="/masters/create" target="_blank" className="hrms-menu-link" >Maintain Masters</Link>
+            <Link to="/masters/create" target="_blank" className="hrms-menu-link" title="Maintain Designation and Company " >Maintain Masters</Link>
             </NavLink>
         </NavItem>         
         <NavItem>
             <NavLink>
-            <Link to="/employee/create" target="_blank" className="hrms-menu-link" >Create Employee</Link>
+            <Link to="/employee/create" target="_blank" className="hrms-menu-link" title="Create an Employee" >Create Employee</Link>
             </NavLink>
         </NavItem>
         <NavItem>
             <NavLink>
-            <Link to="/employee/list" target="_blank" className="hrms-menu-link" >List Employees</Link>
+            <Link to="/employee/list" target="_blank" className="hrms-menu-link" title="View or Modify Employees" >List Employees</Link>
             </NavLink>
         </NavItem>        
         <NavItem>
             <NavLink>
-            <Link to="/employee/payroll" target="_blank" className="hrms-menu-link">Create Payroll</Link>
+            <Link to="/employee/payroll" target="_blank" className="hrms-menu-link" title="Manage payscale of an Employee" >Create Payroll</Link>
             </NavLink>
         </NavItem>
         <NavItem>
             <NavLink>
-            <Link to="/employee/generatesalary" target="_blank" className="hrms-menu-link" >GenerateSalary</Link>
+            <Link to="/employee/generatesalary" target="_blank" className="hrms-menu-link" title="Edit Attendamce Data and Generate Salary of an Employee" >GenerateSalary</Link>
             </NavLink>
         </NavItem>
         <NavItem>
             <NavLink>
-            <Link to="/employee/processSalary" target="_blank" className="hrms-menu-link">Process Salary</Link>
+            <Link to="/employee/processSalary" target="_blank" className="hrms-menu-link" title="Generate Various Reports against a Company" >Process Salary</Link>
             </NavLink>
-        </NavItem>    
-        <NavItem>
-            <NavLink>
-            <Link to="/general/reports" target="_blank" className="hrms-menu-link">Reports</Link>
-            </NavLink>
-        </NavItem>                
+        </NavItem>                  
     </Nav>
 );
 
@@ -100,10 +95,10 @@ const router = createHashRouter([
         path: "/employee/processSalary",
         element: <WrappedComponent><ProcessSalary /></WrappedComponent>,
     },
-    {
+    /*{
         path: "/general/reports",
         element: <WrappedComponent><Reports /></WrappedComponent>,
-    },
+    },*/
     
 ]);
 

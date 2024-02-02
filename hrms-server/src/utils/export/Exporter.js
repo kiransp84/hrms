@@ -52,7 +52,7 @@ const exportSpecial = (
     })
 
     // STEP 4: Write Excel file to directory 
-    const fullFilePath = path.resolve( process.env.basePath , folderName , fileNameFn() );
+    const fullFilePath = path.resolve( process.cwd() , 'temp' , folderName , fileNameFn() );
     XLSX.writeFile(wb, fullFilePath , {cellStyles: true} );
 
     // STEP 5 : return path to caller 
@@ -93,7 +93,7 @@ const performExport = ( rows =[[]] , config = {} , {
     XLSX.utils.book_append_sheet(wb, ws, sheetName );
 
     // STEP 4: Write Excel file to directory 
-    const fullFilePath = path.resolve( process.env.basePath , folderName , fileName );
+    const fullFilePath = path.resolve( process.cwd() , "temp" , folderName , fileName );
     XLSX.writeFile(wb, fullFilePath , {cellStyles: true} );
 
     // STEP 5 : return path to caller 

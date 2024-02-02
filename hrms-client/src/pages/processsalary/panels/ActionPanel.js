@@ -1,8 +1,6 @@
 import React , {useState,useEffect} from 'react';
 
-
-
-
+import {Button} from 'reactstrap';
 
 import {
     useRecoilValue, useRecoilState,
@@ -10,18 +8,53 @@ import {
 
 import {companyState} from '../recoil';  
 import { AlertPanel } from '../../../components/common/alerts/AlertPanel';
+import { generateExcelReport } from '../../../hooks/reportActions';
+import {ExportLink} from '../../../components/common/exportLink';
 
+
+const actionMap = {
+    salack:'salaryAckRpt',
+    salsheet:'salarySheet',
+    payslp:'payslip'
+}
 export default () => {
-    const companyData = useRecoilValue(companyState);
-    const [isEnabled,setEnabled] = useState(false);
+    //report filter criteria 
+    const {results:[{companyCode,salaryMonth,salaryYear}]} = useRecoilValue(companyState);
+    const [isEnabled,setEnabled] = useState(true);
     const [message,setMessage] = useState(false);
+    
+    const [response,setResponse] = useState(null);
+    const [errors,setErrors] = useState(null);
 
-    const exportFn = async () => {
-        alert('Export Excel Not Implemented');              
+    const processErrors = () => {
+        setMessage("Failed");
     }
 
-   return (<>
-   <button type="button" disabled={!isEnabled} onClick={exportFn}>Export As Excel Report</button>
+    const exportFn = async ({target:{dataset}}) => {
+        
+        setEnabled(false);
+        setResponse(null);
+        setMessage("Generation in progress");
+
+        await generateExcelReport(
+            'reports/'+actionMap[dataset['business']],
+            {companyCode,salaryMonth,salaryYear},
+            setResponse,
+            processErrors
+        );
+        setMessage("Download Success");
+        setEnabled(true);
+    }
+
+   return (<div>
+   <Button color="primary" disabled={!isEnabled} onClick={exportFn} data-business="salack">Generate Salary Acknowledgement</Button>
+   {' '}
+   <Button color="success" disabled={!isEnabled} onClick={exportFn} data-business="salsheet">Generate Salary Sheet</Button>
+   {' '}
+   <Button color="info" disabled={!isEnabled} onClick={exportFn} data-business="payslp">Generate PaySlips</Button>
+    {' '}
    {message ? <AlertPanel message={message} /> : null }
-   </>)
+   {' '}
+   {response ? <ExportLink response={response} fileName="report" fileExt="xlsx" linkName="Click to Download" /> : null }
+   </div>)
 }
