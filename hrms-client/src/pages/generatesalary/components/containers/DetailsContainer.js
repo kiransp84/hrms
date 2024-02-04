@@ -84,7 +84,7 @@ export default () => {
             saveSalaryFn={saveSalaryFn}
             finalizeSalaryFn={finalizeSalaryFn}
             />
-            {message ? <AlertPanel  message={message} /> : null  }
+            {message ? <AlertPanel  message={message}    onDismiss = {() => setMessage(null)} /> : null  }
         </>
     )
 }

@@ -4,15 +4,16 @@ import {
     Alert
 } from 'reactstrap';
 
-export const AlertPanel = (props) => {
+export const AlertPanel = ({message,onDismiss}) => {
     const [visible, setVisible] = useState(true);
   
-    const onDismiss = () => setVisible(false);
+    //const onDismiss = () => setVisible(false);
   
-    return (
+    return message ? (
       <Alert color="info" isOpen={visible} toggle={onDismiss}>
-        {props.message}
+        {message}
       </Alert>
-    );
+    ):
+    null ;
 }
   

@@ -131,7 +131,7 @@ export default ({ currentMonth, currentYear, onList }) => {
                 <Row>
                     <Col xs="12">
                         {
-                            message ? <AlertPanel message={message} /> : null 
+                            message ? <AlertPanel message={message}  onDismiss = {() => setMessage(null)} /> : null 
                         }
                     </Col>
                 </Row>

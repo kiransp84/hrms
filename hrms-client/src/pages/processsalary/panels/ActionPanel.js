@@ -53,7 +53,7 @@ export default () => {
    {' '}
    <Button color="info" disabled={!isEnabled} onClick={exportFn} data-business="payslp">Generate PaySlips</Button>
     {' '}
-   {message ? <AlertPanel message={message} /> : null }
+   {message ? <AlertPanel message={message}  onDismiss = {() => setMessage(null)} /> : null }
    {' '}
    {response ? <ExportLink response={response} fileName="report" fileExt="xlsx" linkName="Click to Download" /> : null }
    </div>)

@@ -28,7 +28,7 @@ export default () => {
     return (<>
         <FilterPanel fetchDetails={fetchDetails} clearDetails={clear} />
         {shouldDisplay ? (<><DetailsPanel masterType={filter}  afterSaveFn={afterSaveFn} /></>) : null }
-        {message ? (<AlertPanel message={message} />) : null }
+        {message ? (<AlertPanel message={message} onDismiss = {() => setMessage(null)} />) : null }
         </>
     );
 }

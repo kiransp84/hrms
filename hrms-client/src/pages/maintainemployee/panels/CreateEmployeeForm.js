@@ -208,7 +208,7 @@ const CreateEmployeeForm = ({employeeData = {}}) => {
           </Container>
         </Form>
       </Formik>
-      {message? <AlertPanel message={message} /> : null  }      
+      {message? <AlertPanel message={message}  onDismiss = {() => setMessage(null)} /> : null  }      
     </>
   );
 }

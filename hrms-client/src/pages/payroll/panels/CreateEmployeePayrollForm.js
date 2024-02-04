@@ -187,7 +187,7 @@ const CreateEmployeePayrollForm = () => {
 
           </Form>
         </Formik>
-        {message ? <AlertPanel message={message} time={new Date().getMilliseconds()}/> : null}
+        {message ? <AlertPanel message={message}   onDismiss = {() => setMessage(null)} /> : null}
 
         <HistoryPanel history={payrollDetails.history} />
 
