@@ -5,6 +5,7 @@ import {List} from 'immutable';
 import {
     useRecoilState,
     useRecoilValue,
+    useResetRecoilState
   } from 'recoil';
   import {AlertPanel} from '../../../components/common/alerts/AlertPanel';
 
@@ -20,8 +21,10 @@ export default () => {
     const currentMonth = new Date().getMonth(); 
     const currentYear = new Date().getFullYear();
     const [companyData,setCompanyData] = useRecoilState(companyState);
+    const resetCompanyData = useResetRecoilState(companyState);
     const onSearchFn = useCallback(
         async (arg)=>{
+            resetCompanyData();
             const response = await fetchAllFinalizedSalaryForCompany(arg);
             setCompanyData(response);
         }
