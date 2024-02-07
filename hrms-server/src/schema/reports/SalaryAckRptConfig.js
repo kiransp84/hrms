@@ -1,3 +1,15 @@
+const BORDER_STYLE = 'thin';
+const COLOR_STYLE = { rgb: "#0a0a0a" };
+
+const commonStyle = {
+    font: { bold: false, color: { rgb: "#0a0a0a" } } , alignment : { wrapText : true },
+    border:{
+        top:{ style: BORDER_STYLE, color: COLOR_STYLE },
+        bottom:{ style: BORDER_STYLE, color: COLOR_STYLE },
+        left:{ style: BORDER_STYLE, color: COLOR_STYLE },
+        right : { style: BORDER_STYLE, color: COLOR_STYLE }
+    }
+}
 module.exports = {
     columnMeta: [
 
@@ -6,14 +18,14 @@ module.exports = {
             headCell: 'Employee Code',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },
         {
             datAttribute: 'employeeName',
             headCell: 'Employee Name',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },
         {
@@ -21,7 +33,7 @@ module.exports = {
             headCell: 'Company Code',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },
         {
@@ -29,7 +41,7 @@ module.exports = {
             headCell: 'Designation',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },
         {
@@ -37,7 +49,7 @@ module.exports = {
             headCell: 'Attendance',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },
         {
@@ -46,7 +58,7 @@ module.exports = {
             headCell: 'Basic',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },
         {
@@ -55,7 +67,7 @@ module.exports = {
             headCell: 'DA',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },
         {
@@ -64,7 +76,7 @@ module.exports = {
             headCell: 'HRA',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },
         {
@@ -73,7 +85,7 @@ module.exports = {
             headCell: 'CCA',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },                        
         {
@@ -82,7 +94,7 @@ module.exports = {
             headCell: 'Other Allowances',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },
         {
@@ -91,7 +103,7 @@ module.exports = {
             headCell: 'Risk Allowances',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },
         {
@@ -100,7 +112,7 @@ module.exports = {
             headCell: 'Gross Amount',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },  
         {
@@ -109,7 +121,7 @@ module.exports = {
             headCell: 'PF',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },
         {
@@ -118,7 +130,7 @@ module.exports = {
             headCell: 'ESI',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },
         {
@@ -127,7 +139,7 @@ module.exports = {
             headCell: 'LWF',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },
         {
@@ -136,7 +148,7 @@ module.exports = {
             headCell: 'Advances',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },
         {
@@ -145,7 +157,7 @@ module.exports = {
             headCell: 'PT',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },               
         {
@@ -154,7 +166,7 @@ module.exports = {
             headCell: 'Other Deduction',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },
         {
@@ -163,7 +175,7 @@ module.exports = {
             headCell: 'Total Deduction',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },
         {
@@ -172,7 +184,7 @@ module.exports = {
             headCell: 'Net Amount',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         },
         {
@@ -181,7 +193,7 @@ module.exports = {
             headCell: 'Signature',
             dataType:'string',
             style:{
-                font: { bold: true, color: { rgb: "#0a0a0a" } }
+                ...commonStyle
             }
         }
     ]

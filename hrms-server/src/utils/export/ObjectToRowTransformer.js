@@ -2,7 +2,7 @@
  *  row = { key1 : value1 , key2 : value2 , .. }
  *  config = { columnMeta : [ {} , {} ] }
  */
-const {createColumn,createColumnHeader} = require('./ColumnCreator');
+const {createColumn,createColumnHeader,createEmptyColumn} = require('./ColumnCreator');
 
 const transform = (row,config) => {
     return config.columnMeta.map(
@@ -21,7 +21,21 @@ const transformHeader = (config) => {
     )
 }
 
+const fetchColumnCount = (config) => {
+    return config.columnMeta.length;
+}
+
+const addEmptyRow = (config) => {
+    return config.columnMeta.map(
+        (meta) => {
+            return createEmptyColumn(meta.headCell)
+        }
+    )
+}
+
 module.exports = {
     transform,
-    transformHeader
+    transformHeader,
+    addEmptyRow,
+    fetchColumnCount
 }

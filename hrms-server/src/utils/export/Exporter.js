@@ -2,7 +2,8 @@ const path = require("path");
 const XLSX = require("xlsx-js-style");
 require('../../environment')();
 
-const {transform,transformHeader} = require('./ObjectToRowTransformer');
+const {transform,transformHeader,addEmptyRow,fetchColumnCount} = require('./ObjectToRowTransformer');
+const {createCustomCell} = require('./ColumnCreator');
 
 const exportSpecial = (
     {
@@ -44,6 +45,22 @@ const exportSpecial = (
                 );
         }
 
+        const fixedColumnWidths = (columnCount,fixed) => {
+        let widths = [];
+        for( col = 0 ; col <= columnCount ; col++ ) {
+            widths.push(
+                {
+                   wch : fixed 
+                }
+            )
+        }
+        return widths;
+        }
+
+        ws['!cols'] = fixedColumnWidths(3,40);
+
+
+
         XLSX.utils.book_append_sheet(wb, ws, sheetNameFn(row) );
 
 
@@ -63,8 +80,7 @@ const performExport = ( rows =[[]] , config = {} , {
     sheetName = '',
     folderName = 'reports',
     fileName = '' ,
-    reportTitle = '',
-    titleRange
+    reportTitle = ''
 }
 ) => {
 
@@ -78,16 +94,62 @@ const performExport = ( rows =[[]] , config = {} , {
     // STEP 3: Create worksheet with rows; Add worksheet to workbook
 
     const rowsWithHeader = [
-        [reportTitle],
+        [
+            createCustomCell( reportTitle ,{ font: { bold: true, color: { rgb: "#0a0a0a" } , sz: 24 } , alignment: { vertical: "center" , horizontal : "center" }  } )
+        ],
         transformHeader(config),
-        ...rowsTransform
+        addEmptyRow(config),
+        addEmptyRow(config),
+        addEmptyRow(config),
+        ...rowsTransform,
+        addEmptyRow(config)
     ]
     const ws = XLSX.utils.aoa_to_sheet(rowsWithHeader);
-    if(titleRange) {
+    //            {s:{ r:0 },e:{r:1}},
+    /*if(titleRange) {
         ws["!merges"] = [
-            XLSX.utils.decode_range(titleRange),  
+
+            
+            XLSX.utils.decode_range(titleRange)
         ];
+    }*/
+    const rowMerge = (startRowIndex,endRowIndex,columnStartIndex,columnEndIndex) => {
+        let mergeList = [];
+        for( col = columnStartIndex ; col <= columnEndIndex ; col++ ) {
+            mergeList.push(
+                {
+                    s :{r : startRowIndex , c : col },
+                    e :{r : endRowIndex , c : col  }
+                }
+            )
+        }
+        return mergeList;
     }
+
+    /*const fixedColumnWidths = (columnCount,fixed) => {
+        let widths = [];
+        for( col = 0 ; col <= columnCount ; col++ ) {
+            widths.push(
+                {
+                   wch : fixed 
+                }
+            )
+        }
+        return widths;
+    }*/
+
+    const columnCount = fetchColumnCount(config);
+    ws["!merges"] = [
+        //...rowMerge(1,4,0,40),
+        ...rowMerge(1,4,0,columnCount-1),
+        {
+            s :{r : 0 , c : 0 },
+            e :{r : 0 , c : columnCount-1  }
+        }
+    ];
+
+    //ws['!cols'] = fixedColumnWidths(41,40);
+
 
 
     XLSX.utils.book_append_sheet(wb, ws, sheetName );

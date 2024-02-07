@@ -14,13 +14,32 @@ const createColumn = (identifier='',sourceObject={},columnMeta={}) => {
     return rowObject;
 }
 
+const BORDER_STYLE = 'thin';
+const COLOR_STYLE = { rgb: "#0a0a0a" };
+const commonStyle = {
+    font: { bold: true, color: { rgb: "#0a0a0a" } , sz : 10 } , alignment : { horizontal : "center" , vertical : "center" , wrapText : true  } ,
+    border:{
+        top:{ style: BORDER_STYLE, color: COLOR_STYLE },
+        bottom:{ style: BORDER_STYLE, color: COLOR_STYLE },
+        left:{ style: BORDER_STYLE, color: COLOR_STYLE },
+        right : { style: BORDER_STYLE, color: COLOR_STYLE }
+    }
+}
+
 const createColumnHeader = (label) => {
     let rowObject = {};
     createValue(rowObject,label);
     createType(rowObject,{dataType:'string'});
-    createStyle(rowObject,{});
+    createStyle(rowObject,{ style : {  ...commonStyle } });
     return rowObject;
 }
+
+const createEmptyColumn = (label) => {
+    let rowObject = {};
+    return rowObject;
+}
+
+
 
 const createCustomCell = (value, style = { font: { bold: true, color: { rgb: "#0a0a0a" } }  }) => {
     return {
@@ -45,5 +64,6 @@ const createStyle = (excelRow,columnMeta) => {
 module.exports = {
     createColumn,
     createColumnHeader,
-    createCustomCell
+    createCustomCell,
+    createEmptyColumn
 }

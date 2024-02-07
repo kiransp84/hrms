@@ -60,10 +60,25 @@ const populateActivePayrollDetails = (salaryData) => {
   return Promise.all(promiseArray);
 }
 
-
+const computeSummary = (rows,columnNames = []) => {
+  console.log(rows);
+  const summary = {};
+  columnNames.forEach(
+    col => {
+      let initialValue = 0 ; 
+      const sum = rows.map((row) => row[col]).reduce(
+        ( accum , current  )  => accum + current , 
+        initialValue 
+      );
+      summary[col]=sum;
+    }
+  );
+  return summary;
+}
 
 module.exports = {
   findMissingOnes,
   populateEmployeeDetails,
-  populateActivePayrollDetails
+  populateActivePayrollDetails,
+  computeSummary
 }
