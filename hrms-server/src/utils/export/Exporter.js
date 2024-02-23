@@ -76,6 +76,42 @@ const exportSpecial = (
     return fullFilePath;
 }
 
+const performSimpleExport = ( rows =[[]] , config = {} , {
+    sheetName = '',
+    folderName = 'reports',
+    fileName = '' ,
+    reportTitle = ''
+}
+) => {
+
+    // STEP 1: Create a new workbook
+    const wb = XLSX.utils.book_new();
+
+    // STEP 2: Create data rows and styles
+    const rowsTransform = rows.map(row=>transform(row,config)) 
+    //console.log(' rowsTransform before feeding ', rowsTransform );
+
+    // STEP 3: Create worksheet with rows; Add worksheet to workbook
+
+    const rowsWithHeader = [
+        transformHeader(config),
+        ...rowsTransform,
+        addEmptyRow(config)
+    ];
+
+    const ws = XLSX.utils.aoa_to_sheet(rowsWithHeader);
+
+    XLSX.utils.book_append_sheet(wb, ws, sheetName );
+
+    // STEP 4: Write Excel file to directory 
+    const fullFilePath = path.resolve( process.cwd() , "temp" , folderName , fileName );
+    XLSX.writeFile(wb, fullFilePath , {cellStyles: true} );
+
+    // STEP 5 : return path to caller 
+    return fullFilePath;
+
+}
+
 const performExport = ( rows =[[]] , config = {} , {
     sheetName = '',
     folderName = 'reports',
@@ -165,5 +201,6 @@ const performExport = ( rows =[[]] , config = {} , {
 
 module.exports = {
     performExport,
-    exportSpecial
+    exportSpecial,
+    performSimpleExport
 };

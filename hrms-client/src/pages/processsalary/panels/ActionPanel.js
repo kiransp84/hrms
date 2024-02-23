@@ -15,7 +15,8 @@ import {ExportLink} from '../../../components/common/exportLink';
 const actionMap = {
     salack:'salaryAckRpt',
     salsheet:'salarySheet',
-    payslp:'payslip'
+    payslp:'payslip',
+    epf:'monthlyPFSheet'
 }
 export default () => {
     //report filter criteria 
@@ -52,6 +53,8 @@ export default () => {
    <Button color="success" disabled={!isEnabled} onClick={exportFn} data-business="salsheet">Generate Salary Sheet</Button>
    {' '}
    <Button color="info" disabled={!isEnabled} onClick={exportFn} data-business="payslp">Generate PaySlips</Button>
+    {' '}
+   <Button color="primary" disabled={!isEnabled} onClick={exportFn} data-business="epf">EPF Report</Button>
     {' '}
    {message ? <AlertPanel message={message}  onDismiss = {() => setMessage(null)} /> : null }
    {' '}

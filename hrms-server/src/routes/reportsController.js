@@ -2,11 +2,76 @@ const express = require('express')
 const router = express.Router()
 
 const { fetchAllFinalizedSalaryForReport } = require('../dao/salaryDao');
-const { performExport, exportSpecial } = require('../utils/export/Exporter');
+const { performExport, exportSpecial , performSimpleExport } = require('../utils/export/Exporter');
 const salaryAckRptConfig = require('../schema/reports/SalaryAckRptConfig');
 const salarySheetRptConfig = require('../schema/reports/SalarySheetRptConfig');
+const pfSheetRptConfig = require('../schema/reports/PFSheetRptConfig');
 const { createCustomCell } = require('../utils/export/ColumnCreator');
 const { computeSummary } = require('./utils');
+
+router.post(`/monthlyPFSheet`, async (req, res) => {
+    const { companyCode, salaryMonth, salaryYear } = req.body;
+    // data collection use dao 
+    const salaryArray = await fetchAllFinalizedSalaryForReport({ companyCode, salaryMonth, salaryYear });
+
+    const epfContribRemitted = (basicPlusDa ) => {
+        if( basicPlusDa >= 15000 ) {
+            return Math.round(( 12 * 15000 ) / 100) ;
+        }else {
+            return Math.round(( 12 * Number(basicPlusDa) ) / 100) ;
+        }
+    }
+
+    const epsContribRemitted = (basicPlusDa ) => {
+        if( basicPlusDa >= 15000 ) {
+            return Math.round(( 8.33 * 15000 ) / 100) ;
+        }else {
+            return Math.round(( 8.33 * Number(basicPlusDa) ) / 100)  ;
+        }
+    }
+
+    const pfArray = salaryArray.map( salary => {
+        return {
+            uan: salary.uan,
+            memberName : salary.employeeName,
+            grossWages : salary.actualBasic + salary.actualDA,
+            epfWages : salary.actualBasic + salary.actualDA,
+            epsWages : salary.actualBasic + salary.actualDA,
+            edliWages : salary.actualBasic + salary.actualDA,
+            epfContribRemitted : epfContribRemitted(salary.actualBasic + salary.actualDA),
+            epsContribRemitted : epsContribRemitted(salary.actualBasic + salary.actualDA),
+            epfepsDiffRemitted : epfContribRemitted(salary.actualBasic + salary.actualDA) - epsContribRemitted(salary.actualBasic + salary.actualDA) ,
+            ncpDays:0,
+            refundAdvances:0
+        }
+    });
+
+    // data formatting 
+    // data exporting 
+    const fileName = 'Report.xlsx';
+    const filePath = performSimpleExport(pfArray, pfSheetRptConfig,
+        {
+            sheetName: 'EPF',
+            fileName
+        });
+    console.log(filePath);
+    // data transmission 
+    res.download(
+        filePath,
+        fileName, // Remember to include file extension
+        (err) => {
+            if (err) {
+                res.send({
+                    error: err,
+                    msg: "Problem downloading the file"
+                })
+            }
+        });
+
+    
+
+
+});
 
 router.post(`/salarySheet`, async (req, res) => {
 
