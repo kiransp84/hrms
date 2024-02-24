@@ -16,7 +16,8 @@ const actionMap = {
     salack:'salaryAckRpt',
     salsheet:'salarySheet',
     payslp:'payslip',
-    epf:'monthlyPFSheet'
+    epf:'monthlyPFSheet',
+    esi:'monthlyESISheet'
 }
 export default () => {
     //report filter criteria 
@@ -56,6 +57,8 @@ export default () => {
     {' '}
    <Button color="primary" disabled={!isEnabled} onClick={exportFn} data-business="epf">EPF Report</Button>
     {' '}
+    <Button color="success" disabled={!isEnabled} onClick={exportFn} data-business="esi">ESI Report</Button>
+    {' '}    
    {message ? <AlertPanel message={message}  onDismiss = {() => setMessage(null)} /> : null }
    {' '}
    {response ? <ExportLink response={response} fileName="report" fileExt="xlsx" linkName="Click to Download" /> : null }

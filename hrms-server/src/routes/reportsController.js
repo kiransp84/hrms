@@ -6,8 +6,54 @@ const { performExport, exportSpecial , performSimpleExport } = require('../utils
 const salaryAckRptConfig = require('../schema/reports/SalaryAckRptConfig');
 const salarySheetRptConfig = require('../schema/reports/SalarySheetRptConfig');
 const pfSheetRptConfig = require('../schema/reports/PFSheetRptConfig');
+const esiSheetRptConfig= require('../schema/reports/ESISheetRptConfig');
 const { createCustomCell } = require('../utils/export/ColumnCreator');
 const { computeSummary } = require('./utils');
+
+
+router.post(`/monthlyESISheet`, async (req, res) => {
+    const { companyCode, salaryMonth, salaryYear } = req.body;
+    // data collection use dao 
+    const salaryArray = await fetchAllFinalizedSalaryForReport({ companyCode, salaryMonth, salaryYear });
+
+    const esiArray = salaryArray.map( salary => {
+        console.log('salary.lastWorkingDate',salary.lastWorkingDate);
+        return {
+            ipNumber : salary.esiNumber,
+            ipName : salary.employeeName,
+            attendance  : salary.daysofattendance,
+            grossWages : salary.actualBasic + salary.actualDA,
+            reasonCodeForZeroWD : '',
+            lastWorkingDate : salary.lastWorkingDate
+        }
+    });
+
+    // data formatting 
+    // data exporting 
+    const fileName = 'Report.xlsx';
+    const filePath = performSimpleExport(esiArray, esiSheetRptConfig,
+        {
+            sheetName: 'ESI',
+            fileName
+        });
+    console.log(filePath);
+    // data transmission 
+    res.download(
+        filePath,
+        fileName, // Remember to include file extension
+        (err) => {
+            if (err) {
+                res.send({
+                    error: err,
+                    msg: "Problem downloading the file"
+                })
+            }
+        });
+
+    
+
+
+});
 
 router.post(`/monthlyPFSheet`, async (req, res) => {
     const { companyCode, salaryMonth, salaryYear } = req.body;

@@ -20,7 +20,7 @@ export default () => (
             <Link to="/employee/generatesalary" title="Edit Attendamce Data and Generate Salary of an Employee">Generate Salary</Link>
         </li>   
         <li>
-            <Link to="/employee/processSalary" title="Generate Various Reports against a Company">Process Salary</Link>
+            <Link to="/employee/processSalary" title="Generate Various Reports against a Company">Reports</Link>
         </li>       
         {/*<li>
             <Link to="/general/reports">Reports</Link>

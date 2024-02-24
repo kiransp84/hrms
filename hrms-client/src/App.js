@@ -52,7 +52,7 @@ const CommonHeader = () => (
         </NavItem>
         <NavItem>
             <NavLink>
-            <Link to="/employee/processSalary" target="_blank" className="hrms-menu-link" title="Generate Various Reports against a Company" >Process Salary</Link>
+            <Link to="/employee/processSalary" target="_blank" className="hrms-menu-link" title="Generate Various Reports against a Company" >Reports</Link>
             </NavLink>
         </NavItem>                  
     </Nav>

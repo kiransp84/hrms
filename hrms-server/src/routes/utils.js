@@ -22,7 +22,8 @@ const populateEmployeeDetails = (salaryData, employeeList) => {
         'ifscCode',
         'accountNumber',
         'uan',
-        'esiNumber'
+        'esiNumber',
+        'lastWorkingDate'
       ])
       
 
@@ -34,6 +35,13 @@ const populateEmployeeDetails = (salaryData, employeeList) => {
     if( salary.dateofPayment ) {    
       const formattedDate = salary.dateofPayment.toISOString().split('T')[0];
       Object.assign(salary , { dateofPayment : formattedDate } );    
+    }
+
+    if( salary.lastWorkingDate ) {    
+      const formattedDate = salary.lastWorkingDate.toISOString().split('T')[0];
+      Object.assign(salary , { lastWorkingDate : formattedDate } );    
+    }  else {
+      Object.assign(salary , { lastWorkingDate : '' } );    
     }
 
       return salary;
