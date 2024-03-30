@@ -17,7 +17,8 @@ const actionMap = {
     salsheet:'salarySheet',
     payslp:'payslip',
     epf:'monthlyPFSheet',
-    esi:'monthlyESISheet'
+    esi:'monthlyESISheet',
+    bankReport:'bankReport'
 }
 export default () => {
     //report filter criteria 
@@ -59,6 +60,8 @@ export default () => {
     {' '}
     <Button color="success" disabled={!isEnabled} onClick={exportFn} data-business="esi">ESI Report</Button>
     {' '}    
+    <Button color="info" disabled={!isEnabled} onClick={exportFn} data-business="bankReport">Bank Report</Button>
+    {' '}  
    {message ? <AlertPanel message={message}  onDismiss = {() => setMessage(null)} /> : null }
    {' '}
    {response ? <ExportLink response={response} fileName="report" fileExt="xlsx" linkName="Click to Download" /> : null }

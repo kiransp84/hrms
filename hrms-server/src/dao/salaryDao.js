@@ -26,8 +26,61 @@ const fetchAllFinalizedSalaryForReport = async ({companyCode, salaryMonth, salar
 }
 
 
+const fetchBankReport = async ({companyCode, salaryMonth, salaryYear}) => {
+
+    console.log('fetchBankReport ENTRY');
+
+    const aggregate = SalaryModel.aggregate()
+    .lookup({
+        from:"employees",
+        localField:"employeeCode",
+        foreignField:"employeeCode",
+        as:"details"
+    }).match({
+        companyCode,
+        salaryMonth,
+        salaryYear
+    });
+
+    const results = await aggregate.exec();
+    //console.log(JSON.stringify(results));
+
+    const trimmed = results.map(
+        (result,serialNumber) => ({
+            serialNumber,
+            employeeName:result.details[0].employeeName,
+            accountNumber: result.details[0].accountNumber,
+            bankName:result.details[0].bankName,
+            ifscCode:result.details[0].ifscCode,
+            netAmount:result.netwagespaid
+        })
+    );
+    //console.log(JSON.stringify(trimmed));
+    // group by done in node js layer 
+    let toMap = trimmed.reduce(
+        (acc, obj ) => {
+            if( acc.get(obj.bankName) ) {
+                    //console.log(' existing bank >>> ');
+                    acc.set( obj.bankName , [ ...acc.get(obj.bankName) , obj  ]);
+                    return acc;
+            } else {
+                    //console.log(' new bank >>> ');
+                    acc.set( obj.bankName , [ obj ]);
+                    return acc;
+            }
+    
+        },
+        new Map()
+    );
+    
+    console.log(toMap);
+
+    return toMap;
+}
+
 
 module.exports = {
     fetchAllSalary,
-    fetchAllFinalizedSalaryForReport
+    fetchAllFinalizedSalaryForReport,
+    fetchBankReport
 }

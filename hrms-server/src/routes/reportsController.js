@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-const { fetchAllFinalizedSalaryForReport } = require('../dao/salaryDao');
+const { fetchAllFinalizedSalaryForReport ,fetchBankReport } = require('../dao/salaryDao');
 const { performExport, exportSpecial , performSimpleExport } = require('../utils/export/Exporter');
+const {bankReportExport } = require('../utils/export/BankReportExporter');
 const salaryAckRptConfig = require('../schema/reports/SalaryAckRptConfig');
 const salarySheetRptConfig = require('../schema/reports/SalarySheetRptConfig');
 const pfSheetRptConfig = require('../schema/reports/PFSheetRptConfig');
@@ -10,6 +11,34 @@ const esiSheetRptConfig= require('../schema/reports/ESISheetRptConfig');
 const { createCustomCell } = require('../utils/export/ColumnCreator');
 const { computeSummary } = require('./utils');
 
+router.post('/bankReport', async (req,res) => {
+    console.log('reportsController ENTRY');
+    const { companyCode, salaryMonth, salaryYear } = req.body;
+    const allBanks = await fetchBankReport({companyCode,salaryMonth,salaryYear});
+    const filePath = bankReportExport(
+        {
+            bankDetailsMap : allBanks,
+            companyName:companyCode,
+            salaryMonth,
+            salaryYear
+        }
+    );
+    console.log(' filePath in reportsController ',filePath);
+    const fileName = 'Bank-Report.xlsx';
+    
+        // data transmission 
+        res.download(
+            filePath,
+            fileName, // Remember to include file extension
+            (err) => {
+                if (err) {
+                    res.send({
+                        error: err,
+                        msg: "Problem downloading the file"
+                    })
+                }
+            });
+});
 
 router.post(`/monthlyESISheet`, async (req, res) => {
     const { companyCode, salaryMonth, salaryYear } = req.body;
